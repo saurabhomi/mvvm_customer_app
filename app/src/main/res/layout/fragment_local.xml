@@ -1,0 +1,293 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.ecocustomerapp.ui.fragments.main.local.LocalViewModel" />
+
+        <variable
+            name="booking"
+            type="com.ecocustomerapp.data.model.api.BookingRequest" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_local_entity"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_13"
+                android:layout_marginEnd="@dimen/dp_13"
+                app:cardCornerRadius="@dimen/dp_10">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/edt_entity"
+                        style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_50"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="@string/select_entity"
+                        android:importantForAutofill="no"
+                        android:maxLines="1"
+                        android:paddingHorizontal="@dimen/dp_10"
+                        android:paddingStart="@dimen/dp_20"
+                        android:singleLine="true"
+                        android:text="@={booking.entity}"
+                        android:textColor="@color/txt_color"
+                        android:textColorHint="@color/hint_color"
+                        android:textSize="@dimen/sp_11"
+                        app:drawableEndCompat="@drawable/ic_arrow_down"
+                        app:drawableTint="@color/hint_color"
+                        app:font="@{`lite`}" />
+
+                    <Spinner
+                        android:id="@+id/spinner_entity"
+                        style="@style/edit_text_body"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/transparent"
+                        android:spinnerMode="dropdown" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_19"
+                android:layout_marginEnd="@dimen/dp_13"
+                app:cardCornerRadius="@dimen/dp_10">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/edt_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_50"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="@string/select_city"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:text="@={booking.city}"
+                        android:layout_weight="1"
+                        android:paddingHorizontal="@dimen/dp_10"
+                        android:paddingStart="@dimen/dp_20"
+                        android:singleLine="true"
+                        android:textColor="@color/txt_color"
+                        android:textColorHint="@color/hint_color"
+                        android:textSize="@dimen/sp_11"
+                        app:font="@{`lite`}" />
+                    <ImageView
+                        android:id="@+id/img_clear"
+                        android:layout_width="@dimen/dp_16"
+                        android:layout_height="@dimen/dp_16"
+                        android:onClick="@{()->viewModel.clearText()}"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:layout_marginEnd="@dimen/dp_10"
+                        android:contentDescription="@string/logo"
+                        app:tint="@color/txt_color"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_cancel" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_package"
+                android:layout_marginTop="@dimen/dp_19"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_13"
+                android:layout_marginEnd="@dimen/dp_13"
+                app:cardCornerRadius="@dimen/dp_10">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/txt_package"
+                        style="@style/Widget.AppCompat.Light.AutoCompleteTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_50"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="@string/select_package"
+                        android:importantForAutofill="no"
+                        android:maxLines="1"
+                        android:paddingHorizontal="@dimen/dp_10"
+                        android:paddingStart="@dimen/dp_20"
+                        android:singleLine="true"
+                        android:text="@={booking.localPackage}"
+                        android:textColor="@color/txt_color"
+                        android:textColorHint="@color/hint_color"
+                        android:textSize="@dimen/sp_11"
+                        android:visibility="visible"
+                        app:drawableEndCompat="@drawable/ic_arrow_down"
+                        app:drawableTint="@color/hint_color"
+                        app:font="@{`lite`}" />
+
+                    <Spinner
+                        android:id="@+id/spinner_package"
+                        style="@style/edit_text_body"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/transparent"
+                        android:spinnerMode="dropdown" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_19"
+                android:visibility="gone"
+                android:layout_marginEnd="@dimen/dp_13"
+                app:cardCornerRadius="@dimen/dp_10">
+
+
+                <EditText
+                    android:id="@+id/edt_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="@string/pickup_address_drop_address"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:inputType="textCapWords"
+                    android:maxLines="1"
+                    android:text="@={booking.originAddress}"
+                    android:paddingHorizontal="@dimen/dp_10"
+                    android:paddingStart="@dimen/dp_20"
+                    android:singleLine="true"
+                    android:textColor="@color/txt_color"
+                    android:textColorHint="@color/hint_color"
+                    android:textSize="@dimen/sp_11"
+                    app:font="@{`lite`}" />
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_13"
+                    android:layout_marginTop="@dimen/dp_19"
+                    android:layout_marginEnd="@dimen/dp_13"
+                    android:layout_marginBottom="@dimen/dp_27"
+                    android:layout_weight="1"
+                    android:onClick="@{()->viewModel.dateTimePicker()}"
+                    app:cardCornerRadius="@dimen/dp_10">
+
+
+                    <TextView
+                        android:id="@+id/txt_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_50"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="@string/date"
+                        android:importantForAutofill="no"
+                        android:maxLines="1"
+                        android:text="@={booking.date}"
+                        android:onClick="@{()->viewModel.dateTimePicker()}"
+                        android:paddingHorizontal="@dimen/dp_10"
+                        android:paddingStart="@dimen/dp_20"
+                        android:singleLine="true"
+                        android:textColor="@color/txt_color"
+                        android:textColorHint="@color/hint_color"
+                        android:textSize="@dimen/sp_11"
+                        app:font="@{`lite`}" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_13"
+                    android:layout_marginTop="@dimen/dp_19"
+                    android:layout_marginEnd="@dimen/dp_13"
+                    android:layout_marginBottom="@dimen/dp_27"
+                    android:layout_weight="1"
+                    android:onClick="@{()->viewModel.dateTimePicker()}"
+                    app:cardCornerRadius="@dimen/dp_10">
+
+
+                    <TextView
+                        android:id="@+id/txt_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_50"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="@string/time"
+                        android:importantForAutofill="no"
+                        android:maxLines="1"
+                        android:text="@={booking.time}"
+                        android:onClick="@{()->viewModel.dateTimePicker()}"
+                        android:paddingHorizontal="@dimen/dp_10"
+                        android:paddingStart="@dimen/dp_20"
+                        android:singleLine="true"
+                        android:textColor="@color/txt_color"
+                        android:textColorHint="@color/hint_color"
+                        android:textSize="@dimen/sp_11"
+                        app:font="@{`lite`}" />
+                </androidx.cardview.widget.CardView>
+
+
+            </LinearLayout>
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_43"
+                android:layout_marginStart="@dimen/dp_26"
+                android:layout_marginEnd="@dimen/dp_26"
+                android:layout_marginBottom="@dimen/dp_20"
+                android:background="@drawable/btn_bg"
+                android:hapticFeedbackEnabled="true"
+                android:onClick="@{()->viewModel.selectCar()}"
+                android:padding="@dimen/dp_8"
+                android:text="@string/search"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="normal"
+                app:font="@{`medium`}" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</layout>

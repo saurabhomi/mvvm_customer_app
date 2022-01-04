@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "732154657847",
+    "project_id": "eco-customer-app-bec39",
+    "storage_bucket": "eco-customer-app-bec39.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:732154657847:android:d5f7f64b175654cf0753b2",
+        "android_client_info": {
+          "package_name": "com.ecocustomerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "732154657847-6de5op0sf40ithscetkeh8c3v6v4tmgc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGvt0LjaUbOByMQYu609ivQVS5E29edNI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "732154657847-6de5op0sf40ithscetkeh8c3v6v4tmgc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

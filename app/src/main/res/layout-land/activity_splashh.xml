@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.ecocustomerapp.ui.splash.SplashActivity">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ecocustomerapp.ui.splash.SplashViewModel" />
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/ll_layout"
+        android:layout_width="match_parent"
+        android:background="@drawable/splash_bg"
+        android:layout_height="match_parent">
+       <ImageView
+           android:layout_centerInParent="true"
+           android:layout_width="wrap_content"
+           android:src="@drawable/logo"
+           android:layout_height="wrap_content"
+           android:contentDescription="@string/logo"/>
+    </RelativeLayout>
+
+</layout>

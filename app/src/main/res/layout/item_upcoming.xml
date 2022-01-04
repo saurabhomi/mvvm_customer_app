@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.ecocustomerapp.ui.fragments.bookings.BookingsItemViewModel" />
+
+    </data>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_5"
+        android:background="@color/white"
+        android:onClick="@{() -> viewModel.onItemClick()}"
+        android:orientation="vertical"
+        app:cardCornerRadius="@dimen/dp_10"
+        app:cardElevation="4dp">
+
+        <TextView
+            android:id="@+id/txt_watermark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:rotation="-45"
+            android:text="@string/canceled"
+            android:textColor="@color/shadow"
+            android:textSize="45sp"
+            android:textStyle="bold"
+            android:visibility="@{viewModel.status.equals(`Cancelled`) ? View.VISIBLE : View.GONE}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:weightSum="3">
+
+                <TextView
+                    style="@style/text_view_body"
+                    android:layout_width="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/pickup" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text=":" />
+
+                <TextView
+                    style="@style/text_view_body"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="@{viewModel.pickup}" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:weightSum="3">
+
+                <TextView
+                    style="@style/text_view_body"
+                    android:layout_width="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/drop" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text=":" />
+
+                <TextView
+                    style="@style/text_view_body"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="@{viewModel.destination}" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:weightSum="3">
+
+                <TextView
+                    style="@style/text_view_body"
+                    android:layout_width="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/date_time" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text=":" />
+
+                <TextView
+                    style="@style/text_view_body"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="@{viewModel.date_time}" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:weightSum="3">
+
+                <TextView
+                    style="@style/text_view_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_weight="2"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/duty_type" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|center_vertical"
+                    android:text=":" />
+
+                <TextView
+                    style="@style/text_view_body"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="start|center_vertical"
+                    android:text="@{viewModel.duty_type}" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:weightSum="3">
+
+                <TextView
+                    style="@style/text_view_body"
+                    android:layout_width="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/booking_number" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text=":" />
+
+                <TextView
+                    style="@style/text_view_body"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="@{viewModel.booking_no}" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:weightSum="3">
+
+                <TextView
+                    style="@style/text_view_body"
+                    android:layout_width="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="start|center_vertical"
+                    android:text="@string/status" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text=":" />
+
+                <TextView
+                    style="@style/text_view_body"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="@{viewModel.status}" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/cancel_bg"
+                android:elevation="@dimen/dp_5"
+                android:gravity="center"
+                android:enabled="@{viewModel.status.equals(`Cancelled`) ? false: true}"
+                android:onClick="@{() -> viewModel.onCancel()}"
+                android:padding="@dimen/dp_5"
+                android:text="@{viewModel.status.equals(`Cancelled`) ? viewModel.status: viewModel.cancel}"
+                tools:text="@string/cancel_booking"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

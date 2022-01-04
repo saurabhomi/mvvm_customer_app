@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~      https://mindorks.com/license/apache-v2
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License
+  -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.ecocustomerapp.ui.fragments.car.CarItemViewModel" />
+
+        <variable
+            name="mPackage"
+            type="com.ecocustomerapp.data.model.api.Package" />
+
+    </data>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_12"
+        android:layout_marginVertical="@dimen/dp_8"
+        android:background="@color/white"
+        android:onClick="@{() -> viewModel.onItemClick()}"
+        android:orientation="vertical"
+        app:cardCornerRadius="@dimen/dp_10"
+        app:cardElevation="4dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_95"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/img_fleet"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="@dimen/dp_30"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_17"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/sedan"
+                app:imageUrl="@{viewModel.image}" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_toEndOf="@+id/img_fleet"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0"
+                    android:text="@string/or_similar"
+                    android:textColor="@color/hint_color"
+                    android:textSize="@dimen/sp_6"
+                    android:textStyle="normal"
+                    app:font="@{`lite`}" />
+
+                <TextView
+                    android:id="@+id/txt_fleet_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0"
+                    android:text="@{viewModel.car}"
+                    android:textColor="@color/txt_color"
+                    android:textSize="@dimen/sp_11"
+                    android:textStyle="normal"
+                    app:font="@{`medium`}" />
+
+                <TextView
+                    android:id="@+id/txt_capacity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0"
+                    android:text="@{viewModel.sitting_capacity}"
+                    android:textColor="#1c1c1e"
+                    android:textSize="@dimen/sp_8"
+                    android:textStyle="normal"
+                    app:font="@{`regular`}" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_9"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_base_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0.07"
+                    android:text="@{viewModel.rate}"
+                    android:textColor="@color/txt_color"
+                    android:textSize="@dimen/sp_16"
+                    android:textStyle="normal"
+                    app:font="@{`semi`}" />
+
+                <TextView
+                    android:id="@+id/txt_toll_taxes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:letterSpacing="0"
+                    android:lineSpacingExtra="2sp"
+                    android:text="@string/inc_of_airport_toll_and_taxes"
+                    android:textColor="@color/hint_color"
+                    android:textSize="@dimen/sp_8"
+                    android:textStyle="normal"
+                    android:visibility="@{mPackage.rate.equals(`0.0`) ? View.GONE : View.VISIBLE}"
+                    app:font="@{`lite`}" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/img_dash"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_above="@+id/ll_extra"
+                android:layout_marginHorizontal="@dimen/dp_8"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/dash" />
+
+            <LinearLayout
+                android:id="@+id/ll_extra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="@dimen/dp_9"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_km"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/dp_11"
+                    android:drawablePadding="@dimen/dp_6"
+                    android:gravity="center"
+                    android:letterSpacing="0"
+                    android:text="@{viewModel.per_day}"
+                    android:textColor="@color/txt_color"
+                    android:textSize="@dimen/sp_7"
+                    android:textStyle="normal"
+                    android:visibility="@{mPackage.minKM.equals(`0.0`) ? View.GONE : View.VISIBLE}"
+                    app:drawableStartCompat="@drawable/black_dot"
+                    app:font="@{`regular`}" />
+
+                <TextView
+                    android:id="@+id/txt_extra_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/dp_14"
+                    android:drawablePadding="@dimen/dp_6"
+                    android:gravity="center"
+                    android:letterSpacing="0"
+                    android:text="@{viewModel.extra_km_rate}"
+                    android:textColor="@color/txt_color"
+                    android:textSize="@dimen/sp_7"
+                    android:textStyle="normal"
+                    android:visibility="@{mPackage.extra_km_rate.equals(`0.0`) ? View.GONE : View.VISIBLE}"
+                    app:drawableStartCompat="@drawable/black_dot"
+                    app:font="@{`regular`}" />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</layout>

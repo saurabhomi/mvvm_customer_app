@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.fragments.profile.ProfileFragment">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.ecocustomerapp.ui.fragments.profile.ProfileViewModel" />
+
+        <variable
+            name="user"
+            type="com.ecocustomerapp.data.model.api.Registration" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_profile_title"
+            style="@style/text_view_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/gray"
+            android:gravity="start|center_vertical"
+            android:padding="@dimen/dp_5"
+            android:text="@{user.customerType}"
+            android:textColor="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_5"
+            android:orientation="horizontal">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_f_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/f_name">
+
+                <EditText
+                    android:id="@+id/edt_f_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/dp_20"
+                    android:text="@={user.guestLastName}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_l_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/l_name">
+
+                <EditText
+                    android:id="@+id/edt_l_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/dp_20"
+                    android:text="@={user.guestLastName}" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/gender">
+
+                <EditText
+                    android:id="@+id/edt_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/dp_20"
+                    android:text="@={user.gender}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/mobile_number">
+
+                <EditText
+                    android:id="@+id/edt_mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/dp_20"
+                    android:text="@={user.mobile}" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/personal_email">
+
+            <EditText
+                android:id="@+id/edt_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/dp_20"
+                android:text="@={user.email}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="@{user.customerType.equals(`Individual`) ? View.VISIBLE : View.GONE}">
+
+            <EditText
+                android:id="@+id/edt_official_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:background="@drawable/corner_border_gray"
+                android:drawableStart="@android:drawable/sym_action_email"
+                android:drawablePadding="@dimen/dp_10"
+                android:gravity="center_vertical"
+                android:hint="@string/official_email"
+                android:imeOptions="actionDone"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:padding="@dimen/dp_8"
+                android:singleLine="true"
+                android:text="@={user.email}"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/edt_otp_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:background="@drawable/corner_border_gray"
+                android:digits="1234567890"
+                android:drawableStart="@drawable/password"
+                android:drawablePadding="@dimen/dp_10"
+                android:gravity="center_vertical"
+                android:hint="@string/email_otp"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="6"
+                android:visibility="gone"
+                android:maxLines="1"
+                android:padding="@dimen/dp_8"
+                android:singleLine="true"
+                android:text="@={user.emailOtp}"
+                tools:drawableTint="@color/gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/txt_send_otp"
+                    style="@style/text_view_body"
+                    android:layout_marginStart="@dimen/dp_20"
+                    android:layout_marginEnd="@dimen/dp_10"
+                    android:layout_weight="1"
+                    android:background="@color/black"
+                    android:onClick="@{()->viewModel.sendOTP(viewModel.binding.txtSendOtp)}"
+                    android:text="@string/send_otp"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/txt_cancel"
+                    style="@style/text_view_body"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:layout_marginEnd="@dimen/dp_20"
+                    android:layout_weight="1"
+                    android:background="@color/semi_gray"
+                    android:onClick="@{()->viewModel.cancel(viewModel.binding.txtCancel)}"
+                    android:text="@string/cancel"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:background="@drawable/btn_bg"
+                android:visibility="gone"
+                android:onClick="@{()->viewModel.update()}"
+                android:padding="@dimen/dp_8"
+                android:text="@string/update"
+                android:textSize="@dimen/sp_15" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

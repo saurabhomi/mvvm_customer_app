@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.ecocustomerapp.ui.fragments.car.CarViewModel" />
+
+        <variable
+            name="booking"
+            type="com.ecocustomerapp.data.model.api.BookingRequest" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/dp_5"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_route"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="@{booking.showRoute()}"
+            android:textColor="@color/txt_color"
+            android:textSize="@dimen/sp_9"
+            android:textStyle="normal"
+            app:font="@{`regular`}" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginHorizontal="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:visibility="@{booking.showRange() ? View.GONE : View.VISIBLE}"
+            app:cardBackgroundColor="#f6f6f6"
+            app:cardCornerRadius="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:text="@string/below_fares_for_a_range_of_lt_base_km_gt"
+                android:textColor="#1c1c1e"
+                android:textSize="@dimen/sp_9"
+                android:textStyle="normal"
+                app:font="@{`regular`}" />
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/blogRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:adapter="@{viewModel.getCarData}"
+            tools:listitem="@layout/item_car_view" />
+    </LinearLayout>
+</layout>

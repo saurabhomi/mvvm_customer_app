@@ -1,0 +1,110 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="onCheckChange"
+            type="android.widget.CompoundButton.OnCheckedChangeListener"/>
+
+        <variable
+            name="dutyViewModel"
+            type="com.ecocustomerapp.ui.fragments.main.main.MainFragmentViewModel" />
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_16"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/txt_individual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_12"
+                android:letterSpacing="0.1"
+                android:enabled="true"
+                android:textColor="@color/txt_switch"
+                android:lineSpacingExtra="7sp"
+                android:text="@string/individual"
+                android:textSize="@dimen/sp_11"
+                android:textStyle="normal"
+                app:font="@{`regular`}" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/swc"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onCheckedChanged="@{onCheckChange}"
+                android:thumb="@drawable/thumb"
+                app:track="@drawable/track" />
+
+            <TextView
+                android:id="@+id/txt_corporate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_12"
+                android:letterSpacing="0.1"
+                android:enabled="false"
+                android:lineSpacingExtra="7sp"
+                android:text="@string/corporate"
+                android:textColor="@color/txt_switch"
+                android:textSize="@dimen/sp_11"
+                android:textStyle="normal"
+                app:font="@{`regular`}" />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:font="@{`medium`}"
+            android:layout_marginTop="@dimen/dp_13"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textStyle="normal"
+            android:textSize="@dimen/sp_12"
+            android:textColor="#1c1c1e"
+            android:text="@string/book_your_ride_worldwide"/>
+
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_75"
+                android:fillViewport="true"
+                android:layout_marginHorizontal="@dimen/dp_30"
+                android:layout_marginTop="@dimen/dp_22"
+                android:foreground="?selectableItemBackgroundBorderless"
+                android:tabStripEnabled="false"
+                app:tabBackground="@color/white"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="@color/transparent"
+                app:tabIndicatorHeight="@dimen/dp_1"
+                app:tabMaxWidth="0dp"
+                app:tabMode="fixed"
+                android:layout_marginBottom="@dimen/dp_25"
+                app:tabSelectedTextColor="@android:color/white"
+                app:tabTextAppearance="@style/myTabLayoutTextAppearance"
+                app:tabTextColor="@color/colorPrimary" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+</layout>

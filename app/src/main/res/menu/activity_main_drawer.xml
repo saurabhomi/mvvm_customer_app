@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/nav_ride"
+            android:icon="@drawable/ic_taxi"
+            android:visible="false"
+            android:title="@string/book_a_ride" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_profile"
+            android:title="@string/my_profile" />
+
+        <item
+            android:id="@+id/nav_bookings"
+            android:icon="@drawable/ic_bookings"
+            android:title="@string/my_bookings" />
+        <item
+            android:id="@+id/nav_pendings"
+            android:icon="@drawable/ic_pending"
+            android:visible="false"
+            android:title="@string/pending_bookings" />
+
+        <item
+            android:id="@+id/nav_support"
+            android:icon="@drawable/ic_support"
+            android:title="@string/support" />
+        <item
+            android:id="@+id/nav_about_us"
+            android:icon="@drawable/ic_about_us"
+            android:title="@string/about_us" />
+        <item
+            android:id="@+id/nav_track"
+            android:visible="false"
+            android:icon="@drawable/ic_track"
+            android:title="@string/track" />
+
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_share"
+            android:title="@string/share" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/logout" />
+    </group>
+</menu>

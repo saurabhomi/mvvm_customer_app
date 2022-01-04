@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/dp_64"
+        app:cardCornerRadius="@dimen/dp_10"
+        android:elevation="@dimen/dp_10"
+        android:layout_marginVertical="@dimen/dp_1"
+        android:layout_marginHorizontal="@dimen/dp_5"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/tab_bg_color"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@string/tab_icon"
+                android:src="@drawable/tab_hourly_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:letterSpacing="0.1"
+                android:text="@string/hourly_rental"
+                android:textColor="@color/tab_text_color"
+                android:textSize="@dimen/sp_9"
+                android:textStyle="normal"
+                app:font="@{`regular`}" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</layout>

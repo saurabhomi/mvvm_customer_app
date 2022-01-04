@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.verification.VerificationActivity">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.ecocustomerapp.ui.verification.VerificationViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="@dimen/dp_103"
+            android:layout_height="@dimen/dp_34"
+            android:layout_marginTop="@dimen/dp_22"
+            android:contentDescription="@string/logo"
+            android:src="@drawable/header_logo" />
+
+        <TextView
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="6sp"
+            android:textColor="#1c1c1e"
+            android:textSize="22sp"
+            android:textStyle="normal"
+            app:font="@{`regular`}"
+            android:text="@string/verify_your_account" />
+
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="normal"
+            android:textSize="@dimen/sp_11"
+            app:font="@{`lite`}"
+            android:textColor="@color/hint_color"
+            android:lineSpacingExtra="14sp"
+            android:gravity="center_horizontal"
+            android:text="@string/enter_your_email_id_to_retrieve_password"/>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_35"
+            android:layout_marginEnd="@dimen/dp_13"
+            app:cardCornerRadius="@dimen/dp_10">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_16"
+                    android:layout_height="@dimen/dp_16"
+                    android:layout_marginStart="@dimen/dp_15"
+                    android:layout_marginEnd="@dimen/dp_15"
+                    android:contentDescription="@string/logo"
+                    android:src="@drawable/user" />
+
+                <View
+                    android:layout_width="@dimen/dp_.5"
+                    android:layout_height="match_parent"
+                    android:background="@color/drawable_tint" />
+
+                <EditText
+                    android:id="@+id/edt_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="@string/email"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:textSize="@dimen/sp_11"
+                    app:font="@{`lite`}"
+                    android:textColor="@color/txt_color"
+                    android:paddingHorizontal="@dimen/dp_10"
+                    android:singleLine="true"
+                    android:textColorHint="@color/hint_color" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_marginStart="@dimen/dp_13"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_marginEnd="@dimen/dp_13"
+            app:cardCornerRadius="@dimen/dp_10">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_16"
+                    android:layout_height="@dimen/dp_16"
+                    android:layout_marginStart="@dimen/dp_15"
+                    android:layout_marginEnd="@dimen/dp_15"
+                    android:contentDescription="@string/logo"
+                    android:src="@drawable/ic_otp" />
+
+                <View
+                    android:layout_width="@dimen/dp_.5"
+                    android:layout_height="match_parent"
+                    android:background="@color/drawable_tint" />
+
+                <EditText
+                    android:id="@+id/edt_otp"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_50"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="@string/enter_otp"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:textSize="@dimen/sp_11"
+                    app:font="@{`lite`}"
+                    android:textColor="@color/hint_color"
+                    android:paddingHorizontal="@dimen/dp_10"
+                    android:singleLine="true"
+                    android:textColorHint="@color/hint_color" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:font="@{`lite`}"
+                    android:layout_marginEnd="@dimen/dp_15"
+                    android:textStyle="normal"
+                    android:textSize="@dimen/sp_11"
+                    android:textColor="@color/resend"
+                    android:lineSpacingExtra="7sp"
+                    android:text="@string/resend"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_43"
+            android:layout_marginStart="@dimen/dp_26"
+            android:layout_marginTop="@dimen/dp_43"
+            android:layout_marginEnd="@dimen/dp_26"
+            android:background="@drawable/btn_bg"
+            android:padding="@dimen/dp_8"
+            android:onClick="@{()->viewModel.onOtpClick()}"
+            android:text="@string/get_otp"
+            android:textColor="#ffffff"
+            app:font="@{`medium`}"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="normal" />
+
+    </LinearLayout>
+
+</layout>

@@ -1,0 +1,348 @@
+<!--
+  ~  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~      https://mindorks.com/license/apache-v2
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License
+  -->
+
+<resources>
+    <string name="app_name">Eco Customer App</string>
+
+    <!--Toolbar menus-->
+    <string name="clear">Clear</string>
+    <string name="cut">Cut</string>
+    <string name="copy">Copy</string>
+    <string name="paste">Paste</string>
+    <string name="delete">Delete</string>
+    <string name="share">Share</string>
+
+    <!--Drawer-->
+    <string name="open_drawer">Drawer Open</string>
+    <string name="close_drawer">Drawer Close</string>
+
+    <!--Drawer Menus-->
+    <string name="about">About</string>
+    <string name="logout">Logout</string>
+    <string name="feed">My Feed</string>
+
+    <!--App Message-->
+    <string name="api_retry_error">Please retry!</string>
+    <string name="api_default_error">Something wrong happened!</string>
+    <string name="some_error">Some Error Occurred!</string>
+    <string name="connection_error">Internet connection lost!</string>
+
+    <!--Login-->
+    <string name="login_dummy">Login Dummy</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+
+    <!--Login Validation-->
+    <string name="invalid_email_password">Please provide a valid email and password.</string>
+
+    <!--about fragment-->
+    <string name="project_info">This sample app implements MVVM architecture using Dagger2, GreenDao, RxJava, FastAndroidNetworking and PlaceholderView</string>
+    <string name="link_mvvm_blog">1. https://blog.mindorks.com</string>
+    <string name="link_mvvm_repo">2. https://github.com/MindorksOpenSource/android-mvvm-architecture</string>
+    <string name="link_mindorks_blog">3. https://blog.mindorks.com</string>
+    <string name="link_mindorks_repo">4. https://github.com/MindorksOpenSource</string>
+    <string name="version">"version"</string>
+
+    <!--rating dialog-->
+    <string name="rate_us">Rate Us</string>
+    <string name="rating_message">Please let us know, how can we improve ourselves?</string>
+    <string name="rating_play_store_redirect_message_line_1">Awesome! Thank you for the 5 stars.</string>
+    <string name="rating_play_store_redirect_message_line_2">Please help others, in knowing some good things about this app.</string>
+    <string name="rating_play_store_text">Rate us on Play Store</string>
+    <string name="rating_not_provided_error">Please provide us stars.</string>
+    <string name="rating_thanks">Thank you!</string>
+
+    <!--play store-->
+    <string name="app_google_play_store_link">"https://play.google.com/store/apps/details?id="</string>
+    <string name="app_market_link">"market://details?id="</string>
+
+    <!--button-->
+    <string name="later">Later</string>
+    <string name="submit">Submit</string>
+
+    <!--feed-->
+    <string name="title">My Feed</string>
+    <string name="open_source">Open Source</string>
+    <string name="blog">Blog</string>
+
+    <!--empty state-->
+    <string name="empty_screen">We do not have anything\nhere right now.</string>
+    <string name="please_retry">Please Retry</string>
+    <string name="retry">Retry</string>
+    <string name="welcome">Welcome to ECO RENT A CAR</string>
+    <string name="new_user">New user please <i><b><u><p><font color="#3b5998">register </font></p></u></b></i> here.</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="already_user">Already a user just <i><b><u><p><font color="#3b5998">login</font></p></u></b></i> here.</string>
+    <string name="user_name">User name</string>
+    <string name="phone_number">Phone number</string>
+    <string name="please_enter_mobile_number">Please enter mobile number.</string>
+    <string name="please_enter_valid_mobile_number">Please enter valid 10 digit mobile number.</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="book_a_ride">Book a ride</string>
+    <string name="my_profile">My profile</string>
+    <string name="my_bookings">My bookings</string>
+    <string name="pending_bookings">Pending bookings for approval</string>
+    <string name="support">Support</string>
+    <string name="about_us">About us</string>
+    <string name="track">Track</string>
+    <string name="airport">Airport</string>
+    <string name="past">PAST</string>
+    <string name="upcoming">UPCOMING</string>
+    <string name="pending">PENDING</string>
+    <string name="local">Local</string>
+    <string name="outstation">Out\nStation</string>
+    <string name="personal">Personal</string>
+    <string name="corporate">Corporate</string>
+    <string name="booking_for_someone_else">Booking for someone else?</string>
+    <string name="country">Country</string>
+    <string name="city">City</string>
+    <string name="trip">Trip</string>
+    <string name="pickup_address">(Landmark, BuildingName, Door number)</string>
+    <string name="pickup__address">Pickup address</string>
+    <string name="pickup_date">Pickup date \n and time</string>
+    <string name="date_time">DATE &amp; TIME</string>
+    <string name="duty_type">DUTY TYPE</string>
+    <string name="fare">TOTAL_FARE</string>
+    <string name="drop_date">Drop date \n and time</string>
+    <string name="pickup_date_only">Pickup date</string>
+    <string name="pickup_time">Pickup time</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_fragment">FragmentActivity</string>
+    <string name="title_activity_main2">MainActivity</string>
+    <string name="select_car">Select Car</string>
+    <string name="modify">Modify</string>
+    <string name="capacity">4+ \n driver</string>
+    <string name="contact_pickup"><![CDATA[1. Contact & Pickup details]]></string>
+    <string name="name">Name*</string>
+    <string name="email_address">Email Address*</string>
+    <string name="landmark">Pickup address (Landmark, BuildingName, Door number)</string>
+    <string name="flight_details_mandate">Please specify your Flight number*</string>
+    <string name="flight_details">Please specify your Flight number</string>
+    <string name="flight_detail">Flight details</string>
+    <string name="case_code">Case code</string>
+    <string name="airport_pickup">Airport pickup?</string>
+    <string name="terminal">Terminal</string>
+    <string name="send_details">Send trip details to alternate eamil.</string>
+    <string name="your_booking_details">Your booking details</string>
+    <string name="pickup_city">Pickup City</string>
+    <string name="trip_type">Trip type</string>
+    <string name="car_type">Car Type</string>
+    <string name="total_fare">Total fare</string>
+    <string name="proceed_to_pay">Proceed</string>
+    <string name="confirm">Booking Summery</string>
+    <string name="service_type">Service Type</string>
+    <string name="airport_transfer">Airport\nTransfer</string>
+    <string name="packages">Package</string>
+    <string name="from_airport">From Airport</string>
+    <string name="payment_mode">Payment Mode</string>
+    <string name="bill_to_company">Bill to company</string>
+    <string name="special_requirements">Special Requirements</string>
+    <string name="sp_requirements">Sp. Requirements</string>
+    <string name="track_driver">Track Driver</string>
+    <string name="mobile_number">Mobile number</string>
+    <string name="vehicle_type">Vehicle Type</string>
+    <string name="cancel">Cancel</string>
+    <string name="expand">Expand</string>
+    <string name="edit_booking">Edit Booking</string>
+    <string name="feedback">Feedback</string>
+    <string name="edit_billing">Edit Billing details</string>
+    <string name="guest_details">Guest Details</string>
+    <string name="close">Close</string>
+
+    <string-array name="trip_type">
+        <item>Select Trip Type</item>
+        <item>To airport</item>
+        <item>From airport</item>
+    </string-array>
+
+    <string-array name="select">
+        <item>Select</item>
+    </string-array>
+
+    <string-array name="local_package">
+        <item>4Hr/40Km</item>
+        <item>8Hr/80Km</item>
+    </string-array>
+
+    <string-array name="country_code">
+        <item>+91 India</item>
+    </string-array>
+
+    <string-array name="service_name">
+        <item>Track Driver</item>
+        <item>Track Driver</item>
+        <item>Track Driver</item>
+        <item>Track Driver</item>
+        <item>Track Driver</item>
+        <item>Track Driver</item>
+        <item>Track Driver</item>
+        <item>Track Driver</item>
+        <item>Track Driver</item>
+        <item>Track Driver</item>
+        <item>Track Driver</item>
+        <item>Track Driver</item>
+    </string-array>
+    <string name="title_activity_registration">RegistrationActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="gender">Gender*</string>
+    <string name="f_name">First Name*</string>
+    <string name="l_name">Last Name*</string>
+    <string name="get_otp">Get OTP</string>
+    <string name="please_enter_valid_email_address">Please enter valid email address</string>
+    <string name="email_otp">Email OTP</string>
+    <string name="mobile_otp">Mobile OTP</string>
+    <string name="register">Register</string>
+
+    <string name="picker_today">Today</string>
+    <string name="picker_am">AM</string>
+    <string name="picker_pm">PM</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="railway_pickup">Railway station pickup?</string>
+    <string name="drop_address">(Landmark, BuildingName, Door number)</string>
+    <string name="drop__address">Drop address</string>
+    <string name="date_format">dd/MM/yyyy hh:mm</string>
+    <string name="city_from">City From</string>
+    <string name="city_to">City To</string>
+    <string name="round_trip">Round trip</string>
+    <string name="one_way">One way</string>
+    <string name="resend_otp">Resend OTP</string>
+    <string name="na">N/A</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="personal_email">Personal Email ID*</string>
+    <string name="official_email">Enter your Official Email ID*</string>
+    <string name="send_otp">Send OTP</string>
+    <string name="resend">Resend</string>
+    <string name="update">Update</string>
+    <string name="firebase_error">Firebase token not available, Please restart the app!</string>
+    <string name="default_notification_channel_id">01</string>
+    <string name="fcm_message">Hello</string>
+    <string name="home">Home</string>
+    <string name="special_instructions">Special Request</string>
+    <string name="something_wrong">Something went wrong!</string>
+    <string name="user">USER</string>
+    <string name="booking_number">BOOKING NO.</string>
+    <string name="status">STATUS</string>
+    <string name="cancel_booking">Cancel Booking</string>
+    <string name="pickup">PICK UP</string>
+    <string name="drop">DROP</string>
+    <string name="cancellation_reason">Cancellation reason.</string>
+    <string name="canceled">Cancelled</string>
+    <string name="company_name">Company Name</string>
+    <string name="traveller_details">Traveller Details</string>
+    <string name="pickup__details">Pickup Details</string>
+    <string name="drop__details">Drop of Details</string>
+    <string name="pickup_date_time">Pickup Date/Time</string>
+    <string name="service_type_package">Service Type/Package</string>
+    <string name="booking_status">Booking Status</string>
+    <string name="test_map">Test Map</string>
+    <string name="logo">Logo</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="login_to_continue">Login to continue</string>
+    <string name="or_login_with">or Login With</string>
+    <string name="enter_your_email_id_to_retrieve_password">Enter Your Email ID to retrieve Password</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="verify_your_account">Verify Your Account</string>
+    <string name="sign_up_to_get_a_started">Sign up to get a started!</string>
+    <string name="individual">Individual</string>
+    <string name="terms">I agree to the <font color="#ec3137">Terms of Service</font> &amp; <font color="#ec3137">Privacy Policy</font></string>
+    <string name="i_apos_m_already_a_member_sign_in">I\'m already a member, <b><font color="#000000">Sign In</font></b></string>
+    <string name="_91">+91</string>
+    <string name="create_your_profile_for_personal_account">Create Your Profile\nFor Personal Account</string>
+    <string name="create_your_profile_for_corporate_account">Create Your Profile\nFor Corporate Account</string>
+    <string name="create_account">Create Account</string>
+    <string name="add_your_details_and_verify">Add your details and verify</string>
+    <string name="full_name">Full Name</string>
+    <string name="select_entity">Select entity</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="select_entity_of_traveller">Select Entity of Traveller</string>
+    <string name="you_are_creating_new_password_for_your_corporate_account">You are creating new password for your\ncorporate account</string>
+    <string name="set_password">Set Password</string>
+    <string name="proceed">Proceed</string>
+    <string name="chauffeur_self_drive">Chauffeur | Self Drive</string>
+    <string name="tab_icon">Tab Icon</string>
+    <string name="book_your_ride_worldwide">Book Your Ride Worldwide</string>
+    <string name="hourly_rental">Hourly\nRental</string>
+    <string name="select_city_terminal">Select City - Terminal</string>
+    <string name="from_airport_to_airport">From Airport / To Airport</string>
+    <string name="pickup_address_drop_address">Pickup Address / Drop Address</string>
+    <string name="search">Search</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="pick_time">Pickup date time</string>
+    <string name="drop_time">Drop date time</string>
+    <string name="inc_of_airport_toll_and_taxes">inc. of airport toll \n and taxes</string>
+    <string name="or_similar">Or Similar</string>
+    <string name="dzire_etios">Dzire, Etios</string>
+    <string name="below_fares_for_a_range_of_lt_base_km_gt"><![CDATA[Below fares for a range of <Base km>]]></string>
+    <string name="pickup_from">Pickup From</string>
+    <string name="drop_to">Drop to</string>
+    <string name="enter_details">Enter details</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="contact_details">Contact Details</string>
+    <string name="from_airport_terminal_3_to_eco_rent_a_car_kapashera_estate_new_delhi">From Airport Terminal 3 To Eco rent a car, Kapashera Estate, New Delhi</string>
+    <string name="apply_coupon_code">Apply Coupon Code</string>
+    <string name="apply">Apply</string>
+    <string name="booking_summary">Booking Summary</string>
+    <string name="book">Book</string>
+    <string name="departure_time">Departure Time</string>
+    <string name="change_password">Change Password</string>
+    <string name="choose_drive_mode">Choose Drive Mode</string>
+    <string name="india_chauffeur_drive">India Chauffeur Drive</string>
+    <string name="india_self_drive">India Self Drive</string>
+    <string name="international_chauffeur_drive">International Chauffeur Drive</string>
+    <string name="international_self_drive">International Self Drive</string>
+    <string name="the_most_awarded_car_rental_company_in_india">The Most Awarded \nCar Rental Company in India</string>
+    <string name="award"><![CDATA[ECO has been awarded with National Award for 4 consecutive years 2018, 2017, 2016, 2015 by Hon’ble President of India. Winner of Dun & Bradstreet Award in 2014, 2017 & 2019. We are India’s Leading Employee Transportation Company in 2013 & 2015.]]></string>
+    <string name="urban_drive">Urban Drive</string>
+    <string name="urban"><![CDATA[Urban Drive is the newly launched B2C brand of ECOS (India) Mobility & Hospitality Pvt. Ltd. Offering Chauffeur-Driven car rental along with Self Drive car Services in over 100+ cities in India and overseas.]]></string>
+    <string name="pending_approval">Pending Approval</string>
+    <string name="receipt">Receipt</string>
+    <string name="important_info">Important Info</string>
+    <string name="cancellation_info">Cancellation Info</string>
+    <string name="reach_out_to_us_at">Reach Out to Us at</string>
+    <string name="mail_to_us">Mail to us.</string>
+    <string name="_011_420465566">011 40794079</string>
+    <string name="for_support">For Support</string>
+    <string name="for_sales">For Sales</string>
+    <string name="get_latest_updates">Get Latest Updates</string>
+    <string name="select_package">Select Package</string>
+    <string name="select_city">Select City</string>
+    <string name="select_source_city">Source City</string>
+    <string name="select_destination_city">Destination City</string>
+
+
+</resources>

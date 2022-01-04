@@ -1,0 +1,52 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ecocustomerapp.ui.fragments.review.GridItemViewModel" />
+
+        <variable
+            name="name"
+            type="String" />
+
+        <variable
+            name="image"
+            type="Integer" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
+        android:layout_gravity="center"
+        android:background="@color/gray"
+        android:gravity="center"
+
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_grid"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/round_gray"
+            android:padding="@dimen/dp_10"
+            android:src="@drawable/special_requirement"
+            />
+
+        <TextView
+            android:id="@+id/txt_grid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:textSize="@dimen/sp_10"
+            android:text="@string/special_requirements"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</layout>

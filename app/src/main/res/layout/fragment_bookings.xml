@@ -1,0 +1,58 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="dutyViewModel"
+            type="com.ecocustomerapp.ui.fragments.bookings.BookingsFragmentViewModel" />
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_gray"
+        android:orientation="vertical">
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/box_black_border"
+            app:background="@drawable/box_black_border"
+            app:cardBackgroundColor="@android:color/black"
+            app:cardElevation="@dimen/dp_5"
+            app:cardPreventCornerOverlap="false"
+            app:contentPadding="@dimen/dp_.5">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_30"
+                android:fillViewport="true"
+                android:foreground="?selectableItemBackgroundBorderless"
+                android:tabStripEnabled="false"
+                app:tabBackground="@drawable/tab_bg"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="@color/colorAccent"
+                app:tabIndicatorHeight="@dimen/dp_1"
+                app:tabMaxWidth="0dp"
+                app:tabMode="fixed"
+                app:tabPaddingEnd="-1dp"
+                app:tabPaddingStart="-1dp"
+                app:tabSelectedTextColor="@android:color/white"
+                app:tabTextAppearance="@style/myTabLayoutTextAppearance"
+                app:tabTextColor="@color/colorPrimary" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+</layout>
