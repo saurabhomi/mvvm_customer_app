@@ -150,10 +150,11 @@ public class AppApiHelper implements ApiHelper {
     }
 
     @Override
-    public Single<Verification> getEntity(String email, String mobile) {
+    public Single<Verification> getEntity(String email, String mobile,String passengerType) {
         Map<String, String> map = new HashMap<>();
         map.put("Email", email);
         map.put("Mobile", mobile);
+        map.put("passengerType", passengerType);
         return ClientConnection.getInstance().createService(HttpLoggingInterceptor.Level.NONE).requestEntity(map);
     }
 

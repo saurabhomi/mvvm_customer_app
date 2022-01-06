@@ -100,6 +100,33 @@ public class BookingRequest implements Serializable {
     @SerializedName("BookerId")
     private String BookerId;
 
+    public BookingRequest setHourlyPackage(String hourlyPackage) {
+        this.hourlyPackage = hourlyPackage;
+        return this;
+    }
+
+    @Expose
+    @SerializedName("hourly_package")
+    private String hourlyPackage;
+
+    public BookingRequest setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    @Expose
+    @SerializedName("Name")
+    private String name;
+
+    @Expose
+    @SerializedName("TripT0")
+    private String tripTo;
+
+    public BookingRequest setTripTo(String tripTo) {
+        this.tripTo = tripTo;
+        return this;
+    }
+
     public String getPassengerType() {
         return passengerType;
     }
@@ -217,7 +244,7 @@ public class BookingRequest implements Serializable {
 
 
     public String getOrigin_point() {
-        return origin_point == null ? "" : origin_point + ", ";
+        return origin_point == null ? "" : origin_point+" ,";
     }
 
     public BookingRequest setOrigin_point(String origin_point) {
@@ -226,7 +253,7 @@ public class BookingRequest implements Serializable {
     }
 
     public String getDestination_address() {
-        return destination_address;
+        return destination_address==null?"":destination_address;
     }
 
     public BookingRequest setDestination_address(String destination_address) {
@@ -235,7 +262,7 @@ public class BookingRequest implements Serializable {
     }
 
     public String getDestination_point() {
-        return destination_point == null ? "" : destination_point + ", ";
+        return destination_point == null ? "" : destination_point+" ,";
     }
 
     public BookingRequest setDestination_point(String destination_point) {
@@ -410,7 +437,7 @@ public class BookingRequest implements Serializable {
     }
 
     public String getOriginAddress() {
-        return origin_address;
+        return origin_address==null?"": origin_address;
     }
 
     public BookingRequest setOriginAddress(String address) {

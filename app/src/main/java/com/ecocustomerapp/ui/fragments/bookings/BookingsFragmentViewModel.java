@@ -53,7 +53,7 @@ public class BookingsFragmentViewModel extends BaseViewModel<BookingsNavigator, 
 
     public void getBookings() {
         getCompositeDisposable().add(getDataManager()
-                .getBookings(new PackageRequest().setPassengerId(getDataManager().getPassengerId()))
+                .getBookings(new PackageRequest().setPassengerId(getDataManager().getPassengerId()).setPassengerType(getDataManager().getPassengerType()))
                 .doOnSuccess(BaseModel::getResponseStatus)
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())

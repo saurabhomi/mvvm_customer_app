@@ -17,6 +17,7 @@ import com.ecocustomerapp.di.component.FragmentComponent;
 import com.ecocustomerapp.ui.FragmentCallback;
 import com.ecocustomerapp.ui.base.BaseFragment;
 import com.ecocustomerapp.ui.fragments.cancel.CancelFragment;
+import com.ecocustomerapp.ui.fragments.tracking.TrackingFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -110,7 +111,7 @@ public class BookingsListFragment extends BaseFragment<FragmentCallback, Fragmen
     @Override
     public void onAttach(@NotNull Context context) {
         super.onAttach(context);
-        setCallback((FragmentCallback) context).onFragmentAttached(this,false);
+        setCallback((FragmentCallback) context);
     }
 
     @Override
@@ -137,6 +138,11 @@ public class BookingsListFragment extends BaseFragment<FragmentCallback, Fragmen
     @Override
     public void onCancel(Booking booking) {
         getCallback().replaceFragment(CancelFragment.newInstance(booking, false, BookingsFragment.class.getSimpleName()), CancelFragment.class.getSimpleName());
+    }
+
+    @Override
+    public void onTrack(Booking booking) {
+        getCallback().replaceFragment(TrackingFragment.newInstance(booking, false), TrackingFragment.class.getSimpleName());
     }
 
     @Override

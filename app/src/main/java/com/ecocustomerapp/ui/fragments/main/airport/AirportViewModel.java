@@ -83,7 +83,7 @@ public class AirportViewModel extends BaseViewModel<AirportNavigator, FragmentAi
                     getBinding().edtType.setText(getBinding().getBooking().getTripType());
                 } else {
                     getBinding().edtType.setText(string);
-                    getBinding().getBooking().setTripType(string);
+                    getBinding().getBooking().setTripType(string).setHourlyPackage(string);
                 }
             }
 

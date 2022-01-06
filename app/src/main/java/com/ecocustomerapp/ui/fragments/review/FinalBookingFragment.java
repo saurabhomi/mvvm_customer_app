@@ -65,6 +65,11 @@ public class FinalBookingFragment extends BaseFragment<FragmentCallback, Fragmen
         fragmentBinding.setAPackage(aPackage);
         mViewModel.setModSpinner(getActivity());
         mViewModel.setGuestDetails();
+        if (mViewModel.getDataManager().getCustomerType().equals("Corporate")){
+            fragmentBinding.chk.setChecked(true);
+            fragmentBinding.chk.setVisibility(View.GONE);
+        }
+
 
     }
 

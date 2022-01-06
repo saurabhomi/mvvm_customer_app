@@ -130,6 +130,7 @@ public class LocalViewModel extends BaseViewModel<LocalNavigator, FragmentLocalB
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 HourlyPackage aPackage = (HourlyPackage) getBinding().spinnerPackage.getSelectedItem();
                 getBinding().txtPackage.setText(aPackage.getName());
+                getBinding().getBooking().setHourlyPackage(aPackage.getName());
             }
 
             @Override

@@ -91,6 +91,11 @@ public class OutstationViewModel extends BaseViewModel<OutstationNavigator, Frag
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 getBinding().getBooking().setOneway(i == getBinding().oneWay.getId());
                 getBinding().crdDrop.setVisibility(i == getBinding().oneWay.getId() ? View.GONE : View.VISIBLE);
+                if (i == getBinding().oneWay.getId()) {
+                    getBinding().getBooking().setHourlyPackage("One Way");
+                } else if (i == getBinding().rounded.getId()) {
+                    getBinding().getBooking().setHourlyPackage("Two Way");
+                }
             }
         });
         getNavigator().showProgress();
@@ -227,6 +232,7 @@ public class OutstationViewModel extends BaseViewModel<OutstationNavigator, Frag
             getBinding().getBooking().setTripType(OUTSTATION);
             getBinding().getBooking().setOriginAddress("");
             getBinding().getBooking().setDestination_address("");
+            getBinding().getBooking().setTripTo(getBinding().getBooking().getDropCity());
         }
         return true;
     }

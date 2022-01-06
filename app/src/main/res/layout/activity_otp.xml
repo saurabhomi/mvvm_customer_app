@@ -222,12 +222,16 @@
             android:textSize="@dimen/sp_16"
             android:textStyle="normal"
             app:font="@{`medium`}" />
+        <View
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"/>
 
         <TextView
             android:id="@+id/txt_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_127"
+            android:layout_marginBottom="@dimen/dp_20"
             android:gravity="center_horizontal"
             android:lineSpacingExtra="7sp"
             android:onClick="@{()->viewModel.openLoginActivity()}"

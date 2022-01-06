@@ -47,6 +47,7 @@
             android:name=".ui.splash.SplashActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/SplashTheme.ThemeFullScreen"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>

@@ -379,8 +379,8 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
-    public Single<Verification> getEntity(String email, String mobile) {
-        return mApiHelper.getEntity(email, mobile);
+    public Single<Verification> getEntity(String email, String mobile,String passengerType) {
+        return mApiHelper.getEntity(email, mobile,passengerType);
     }
 
     @Override

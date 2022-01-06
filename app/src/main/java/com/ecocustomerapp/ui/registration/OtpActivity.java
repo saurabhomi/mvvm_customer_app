@@ -52,10 +52,10 @@ public class OtpActivity extends BaseActivity<ActivityOtpBinding, OtpViewModel> 
 
     }
 
-    @Override
-    public void onBackPressed() {
-
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//    }
 
     @Override
     public void showProgress() {

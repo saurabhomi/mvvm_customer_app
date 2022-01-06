@@ -78,7 +78,7 @@ public interface ApiHelper {
 
     Single<BaseModel> getCancellation(String booking_id, String reason);
 
-    Single<Verification> getEntity(String email, String mobile);
+    Single<Verification> getEntity(String email, String mobile, String passengerType);
 
     Single<Terminals> getTerminal();
 
