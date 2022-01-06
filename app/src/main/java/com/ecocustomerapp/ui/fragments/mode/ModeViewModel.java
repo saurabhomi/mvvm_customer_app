@@ -3,6 +3,7 @@ package com.ecocustomerapp.ui.fragments.mode;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -26,12 +27,12 @@ public class ModeViewModel extends BaseViewModel<ModeNavigator, FragmentModeBind
 
     public void chauffeurDriver() {
         getNavigator().replaceFragment(MainFragment.newInstance(new BookingRequest()), MainFragment.class.getName());
-
     }
 
+    public void comingSoon() {
+        Toast.makeText(getNavigator().getContext(), "Coming soon!", Toast.LENGTH_SHORT).show();    }
+
     void setPager() {
-
-
         List<Integer> sliderItems = new ArrayList<>();
         sliderItems.add(R.drawable.promo_image);
         sliderItems.add(R.drawable.promo_image);
@@ -42,7 +43,6 @@ public class ModeViewModel extends BaseViewModel<ModeNavigator, FragmentModeBind
         View tab = ((ViewGroup) getBinding().viewpagerTab.getChildAt(0)).getChildAt(1);
         ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
         p.setMargins(50, 0, 50, 0);
-
     }
 
 

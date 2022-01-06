@@ -139,7 +139,7 @@
                         android:textColor="@color/hint_color"
                         android:textSize="@dimen/sp_8"
                         android:textStyle="normal"
-                        android:visibility="@{aPackage.rate.equals(`0.0`) ? View.GONE : View.VISIBLE}"
+                        android:visibility="@{aPackage.rate.equals(`0.0`) || aPackage.rate.equals(``)  ? View.GONE : View.VISIBLE }"
                         app:font="@{`lite`}" />
                 </LinearLayout>
 
@@ -171,8 +171,8 @@
                         android:text="@{aPackage.perDay()}"
                         android:textColor="@color/txt_color"
                         android:textSize="@dimen/sp_7"
-                        android:visibility="@{aPackage.minKM.equals(`0.0`) ? View.GONE : View.VISIBLE}"
                         android:textStyle="normal"
+                        android:visibility="@{aPackage.minKM.equals(`0.0`) ? View.GONE : View.VISIBLE}"
                         app:drawableStartCompat="@drawable/black_dot"
                         app:font="@{`regular`}" />
 
@@ -223,6 +223,7 @@
                 android:background="@drawable/btn_bg_black_white"
                 android:gravity="center"
                 android:text="@string/receipt"
+                android:visibility="invisible"
                 android:textColor="#1c1c1e"
                 android:textSize="@dimen/sp_11"
                 android:textStyle="normal"
@@ -328,6 +329,7 @@
                     android:lineSpacingExtra="6sp"
                     android:onClick="@{(view)->viewModel.onBottomMenuClick(view)}"
                     android:text="@string/track"
+                    android:visibility="invisible"
                     android:textColor="@color/text_color"
                     android:textSize="11sp"
                     android:textStyle="normal"

@@ -104,12 +104,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setBack(isBack);
         this.fragment = fragment;
-        if (fragment instanceof MainFragment) {
+        if (fragment instanceof ModeFragment) {
             item = mActivityMainBinding.navView.getMenu().getItem(0).setChecked(true);
         } else if (fragment instanceof ProfileFragment) {
             item = mActivityMainBinding.navView.getMenu().getItem(2).setChecked(true);
         } else if (fragment instanceof BookingsFragment) {
             item = mActivityMainBinding.navView.getMenu().getItem(3).setChecked(true);
+        }else if(item!=null) {
+            item.setChecked(false);
+            item=null;
         }
 
     }
@@ -273,12 +276,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 this.item = item;
                 break;
             case R.id.nav_home:
-                mViewModel.transitFragment(this, MainFragment.newInstance(new BookingRequest()));
+                mViewModel.transitFragment(this, ModeFragment.newInstance());
                 this.item = item;
                 break;
             case R.id.nav_bookings:
-                if (!(fragment instanceof BookingsFragment) &&
-                        !(fragment instanceof BookingsListFragment)) {
+                if (!(fragment instanceof BookingsFragment) && !(fragment instanceof BookingsListFragment)) {
                     mViewModel.transitFragment(this, BookingsFragment.newInstance());
                     this.item = item;
                 }

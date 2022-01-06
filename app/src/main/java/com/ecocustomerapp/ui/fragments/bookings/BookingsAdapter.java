@@ -96,6 +96,8 @@ public class BookingsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         void onItemSelect(Booking Booking);
 
         void onCancel(Booking booking);
+
+        void onTrack(Booking booking);
     }
 
 
@@ -144,7 +146,11 @@ public class BookingsAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         @Override
         public void onCancel(Booking bookings) {
             mListener.onCancel(bookings);
+        }
 
+        @Override
+        public void onTrack(Booking bookings) {
+            mListener.onTrack(bookings);
         }
     }
 

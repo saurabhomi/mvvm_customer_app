@@ -60,14 +60,13 @@ public class OtpViewModel extends BaseViewModel<OtpNavigator, ActivityOtpBinding
                 }, throwable -> {
                     getNavigator().hideProgress();
                     getNavigator().showToast(throwable.getMessage());
-                    Timber.e(throwable);
                 }));
     }
 
     private void getEntity(OtpResponseBody response) {
 
         getCompositeDisposable().add(getDataManager()
-                .getEntity(response.getData().getEmail(), response.getData().getMobile())
+                .getEntity(response.getData().getEmail(), response.getData().getMobile(), getDataManager().getCustomerType())
                 .doOnSuccess(BaseModel::getResponseStatus)
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())

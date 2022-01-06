@@ -83,12 +83,8 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator, ActivityLoginB
 
 
     private void getEntity(LoginResponseData data) {
-//        getNavigator().hideProgress();
-//        getNavigator().showToast("IOException java.io.IOException: Cleartext HTTP traffic to http://20.193.234.188/ not permitted");
-//        return;
-
         getCompositeDisposable().add(getDataManager()
-                .getEntity(data.getPassenger().getEmail(), data.getPassenger().getMobile())
+                .getEntity(data.getPassenger().getEmail(), data.getPassenger().getMobile(), getDataManager().getCustomerType())
                 .doOnSuccess(BaseModel::getResponseStatus)
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())

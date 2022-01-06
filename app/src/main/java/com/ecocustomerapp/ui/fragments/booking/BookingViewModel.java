@@ -82,13 +82,12 @@ public class BookingViewModel extends BaseViewModel<BookingNavigator, FragmentBo
     public void proceed() {
         if (validate(getNavigator().getRequest())) {
 
-            if (getDataManager().getCustomerType().equals("Booker")) {
+            if (getDataManager().getCustomerType().equals("Booker") || forElse) {
                 getBinding().getBooking().setBookerId(getDataManager().getBookerId());
                 getPassengerId();
             } else {
                 getNavigator().proceedToPay(getBinding().getBooking());
             }
-
         }
     }
 
@@ -116,18 +115,18 @@ public class BookingViewModel extends BaseViewModel<BookingNavigator, FragmentBo
             return false;
         } else {
             if (getBinding().getBooking().fromAirport()) {
-                getBinding().getBooking().setDropAddress(getBinding().getBooking().getDestination_point() + getBinding().getBooking().getDestination_address() + ", " + getBinding().getBooking().getDropCity());
+                getBinding().getBooking().setDropAddress(getBinding().getBooking().getDestination_point()+getBinding().getBooking().getDestination_address()  +  ", " + getBinding().getBooking().getDropCity());
                 getBinding().getBooking().setPickUpAddress(getBinding().getBooking().getPickUpCity());
                 getBinding().getBooking().setFlightDetails(getBinding().txtFlightDetails.getText().toString());
             } else if (getBinding().getBooking().toAirport()) {
-                getBinding().getBooking().setPickUpAddress(getBinding().getBooking().getOrigin_point() + getBinding().getBooking().getOriginAddress() + ", " + getBinding().getBooking().getPickUpCity());
+                getBinding().getBooking().setPickUpAddress(getBinding().getBooking().getOrigin_point()+getBinding().getBooking().getOriginAddress() +  ", " + getBinding().getBooking().getPickUpCity());
                 getBinding().getBooking().setDropAddress(getBinding().getBooking().getDropCity());
                 getBinding().getBooking().setFlightDetails(getBinding().txtFlightDetails.getText().toString());
             }
 
             if (getBinding().getBooking().getTripType().equals("Local") || getBinding().getBooking().getTripType().equals("Outstation")) {
-                getBinding().getBooking().setPickUpAddress(getBinding().getBooking().getOrigin_point() + getBinding().getBooking().getOriginAddress() + ", " + getBinding().getBooking().getPickUpCity());
-                getBinding().getBooking().setDropAddress(getBinding().getBooking().getDestination_point() + getBinding().getBooking().getDestination_address());
+                getBinding().getBooking().setPickUpAddress(getBinding().getBooking().getOrigin_point()+ getBinding().getBooking().getOriginAddress()  + ", " + getBinding().getBooking().getPickUpCity());
+                getBinding().getBooking().setDropAddress(getBinding().getBooking().getDestination_point() +getBinding().getBooking().getDestination_address() );
                 getBinding().getBooking().setFlightDetails("Test");
 
             }
@@ -194,8 +193,25 @@ public class BookingViewModel extends BaseViewModel<BookingNavigator, FragmentBo
                         .subscribeOn(getSchedulerProvider().io())
                         .observeOn(getSchedulerProvider().ui())
                         .subscribe(loginResponseData -> {
+
+                            if (getDataManager().getCustomerType().equals("Individual") && forElse) {
+                                if (loginResponseData.getPassenger().getId().equals("0")){
+                                    getBinding().getBooking().setBookerId(getDataManager().getPassengerId());
+                                }else {
+                                    getBinding().getBooking().setBookerId(loginResponseData.getPassenger().getId());
+                                }
+                                getBinding().getBooking().setName(getDataManager().getUserName());
+
+                            } else if (getDataManager().getCustomerType().equals("Booker")) {
+                                if (loginResponseData.getPassenger().getId().equals("0")) {
+                                    getBinding().getBooking().setBookerId(getDataManager().getPassengerId());
+                                } else {
+                                    getBinding().getBooking().setBookerId(loginResponseData.getPassenger().getId());
+                                }
+                                getBinding().getBooking().setName(getDataManager().getUserName());
+
+                            }
                             getNavigator().hideProgress();
-                            getBinding().getBooking().setPassengerId(loginResponseData.getPassenger().getId());
                             getNavigator().proceedToPay(getBinding().getBooking());
                         }, throwable -> {
                             getNavigator().hideProgress();
