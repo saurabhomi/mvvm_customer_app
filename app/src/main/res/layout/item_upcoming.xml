@@ -240,7 +240,8 @@
                     android:gravity="center"
                     android:onClick="@{() -> viewModel.onTrack()}"
                     android:padding="@dimen/dp_5"
-                    android:text="@{viewModel.status.equals(`Cancelled`) ? viewModel.status: viewModel.cancel}"
+                    android:visibility="@{viewModel.status.equals(`Cancelled`) ? View.GONE:View.VISIBLE}"
+                    android:text="@string/track"
                     android:textColor="@color/white"
                     tools:text="@string/track" />
             </LinearLayout>

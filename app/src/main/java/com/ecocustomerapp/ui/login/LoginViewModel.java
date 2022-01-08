@@ -84,7 +84,7 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator, ActivityLoginB
 
     private void getEntity(LoginResponseData data) {
         getCompositeDisposable().add(getDataManager()
-                .getEntity(data.getPassenger().getEmail(), data.getPassenger().getMobile(), getDataManager().getCustomerType())
+                .getEntity(data.getPassenger().getEmail(), data.getPassenger().getMobile(),data.getPassenger().getCustomer_type())
                 .doOnSuccess(BaseModel::getResponseStatus)
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
@@ -105,7 +105,6 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator, ActivityLoginB
                             insertEntity(verification, data);
                         }, throwable -> {
                             getNavigator().hideProgress();
-                            getNavigator().showToast(throwable.getMessage());
                         }));
 
     }

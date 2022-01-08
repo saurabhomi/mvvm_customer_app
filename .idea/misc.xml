@@ -42,12 +42,14 @@
         <entry key="..\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/tab_hourly.xml" value="0.2569230769230769" />
         <entry key="..\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/tab_outstation.xml" value="0.1" />
         <entry key="..\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/activity_otp.xml" value="0.2609375" />
+        <entry key="..\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/booking_list_item.xml" value="0.2609375" />
         <entry key="..\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/fragment_booking.xml" value="0.2609375" />
         <entry key="..\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/fragment_booking_list.xml" value="0.12447916666666667" />
         <entry key="..\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/fragment_final_booking.xml" value="0.2609375" />
         <entry key="..\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/fragment_mode.xml" value="0.2609375" />
         <entry key="..\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/fragment_outstation.xml" value="0.2609375" />
         <entry key="..\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/fragment_receipt.xml" value="0.2609375" />
+        <entry key="..\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/item_booking_empty_view.xml" value="0.2609375" />
         <entry key="..\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/item_upcoming.xml" value="0.2609375" />
       </map>
     </option>

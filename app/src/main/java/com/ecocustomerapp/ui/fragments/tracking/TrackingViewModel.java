@@ -98,7 +98,9 @@ public class TrackingViewModel extends BaseViewModel<TrackingNavigator, Fragment
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(driverData -> {
-                    setDetails(driverData.getDriverDetails(), getBinding().getRoot().getContext());
+                    if(driverData.getDriverDetails()!=null){
+                        setDetails(driverData.getDriverDetails(), getBinding().getRoot().getContext());
+                    }
                     getNavigator().showProgress(false);
                     getNavigator().showToast(driverData.getMessage());
                 }, throwable -> {
@@ -112,9 +114,6 @@ public class TrackingViewModel extends BaseViewModel<TrackingNavigator, Fragment
         if (details.getImage() != null && !details.getImage().trim().equalsIgnoreCase("")) {
             byte[] imageByteArray = Base64.decode(details.getImage(), Base64.DEFAULT);
             Glide.with(context).asBitmap().load(imageByteArray).placeholder(R.drawable.sedan).into(getBinding().imgDriver);
-        }
-        if (details == null) {
-            getBinding().imgDriver.setVisibility(View.GONE);
         }
         getBinding().crdCall.setOnClickListener(new View.OnClickListener() {
             @Override
