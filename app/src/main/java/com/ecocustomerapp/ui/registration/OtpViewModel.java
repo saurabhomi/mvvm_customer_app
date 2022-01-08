@@ -56,7 +56,15 @@ public class OtpViewModel extends BaseViewModel<OtpNavigator, ActivityOtpBinding
                     getBinding().getData().setMobile(mobile);
                     getBinding().getData().setMobileOtp(response.getData().getOtp_mobile());
                     getBinding().getData().setEmailOtp(response.getData().getOtp_email());
-                    getEntity(response);
+                    if (response.getData().getPassengerType().equals("Individual")) {
+                        getNavigator().hideProgress();
+                        getNavigator().openRegistrationActivity(response, getBinding().getData());
+                    } else if (response.getData().getPassengerType().equals("Corporate")) {
+                        getEntity(response);
+                    } else {
+                        getNavigator().hideProgress();
+                        getNavigator().showToast(response.getMessage());
+                    }
                 }, throwable -> {
                     getNavigator().hideProgress();
                     getNavigator().showToast(throwable.getMessage());
@@ -66,7 +74,7 @@ public class OtpViewModel extends BaseViewModel<OtpNavigator, ActivityOtpBinding
     private void getEntity(OtpResponseBody response) {
 
         getCompositeDisposable().add(getDataManager()
-                .getEntity(response.getData().getEmail(), response.getData().getMobile(), getDataManager().getCustomerType())
+                .getEntity(response.getData().getEmail(), response.getData().getMobile(), response.getData().getPassengerType())
                 .doOnSuccess(BaseModel::getResponseStatus)
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())

@@ -65,7 +65,7 @@ public class BookingsItemViewModel {
     }
 
     public void onTrack() {
-        mListener.onCancel(booking);
+        mListener.onTrack(booking);
     }
 
     public interface BookingsItemViewModelListener {
