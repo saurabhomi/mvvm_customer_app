@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
+import android.text.Html;
 import android.util.Base64;
 import android.view.View;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ecocustomerapp.R;
@@ -115,6 +117,13 @@ public class TrackingViewModel extends BaseViewModel<TrackingNavigator, Fragment
             byte[] imageByteArray = Base64.decode(details.getImage(), Base64.DEFAULT);
             Glide.with(context).asBitmap().load(imageByteArray).placeholder(R.drawable.sedan).into(getBinding().imgDriver);
         }
+        String first = "OTP:";
+        String next = "<font color=\"#56A527\"> 2345 </font>";
+        getBinding().txtOtp.setText(Html.fromHtml(first + next));
+        getBinding().txtModel.setText(details.getType());
+        getBinding().txtNumber.setText(details.getCar_no());
+        getBinding().txtName.setText(details.getName());
+
         getBinding().crdCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
