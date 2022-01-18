@@ -1,11 +1,16 @@
 package com.ecocustomerapp.ui.fragments.tracking;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
+import android.telephony.PhoneNumberUtils;
+import android.text.Html;
 import android.util.Base64;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ecocustomerapp.R;
@@ -115,12 +120,78 @@ public class TrackingViewModel extends BaseViewModel<TrackingNavigator, Fragment
             byte[] imageByteArray = Base64.decode(details.getImage(), Base64.DEFAULT);
             Glide.with(context).asBitmap().load(imageByteArray).placeholder(R.drawable.sedan).into(getBinding().imgDriver);
         }
+        String first = "OTP:";
+        String next = "<font color=\"#56A527\"> 2345 </font>";
+        getBinding().txtOtp.setText(Html.fromHtml(first + next));
+        getBinding().txtModel.setText(details.getType());
+        getBinding().txtNumber.setText(details.getCar_no());
+        getBinding().txtName.setText(details.getName());
+
         getBinding().crdCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 context.startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + details.getMobile())));
             }
         });
+
+        getBinding().imgSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openWhatsApp(details);
+            }
+        });
+
+        getBinding().imgWhatsapp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openWhatsApp(details);
+            }
+        });
+    }
+
+
+
+    public void openWhatsApp(DriverDetails details){
+        try {
+            String text = getBinding().edtMsg.getText().toString();// Replace with your message.
+
+            String toNumber = details.getMobile();
+            toNumber = toNumber.replace("+", "").replace(" ", "");// Replace with mobile phone number without +Sign or leading zeros, but with country code
+            //Suppose your country is India and your phone number is “xxxxxxxxxx”, then you need to send “91xxxxxxxxxx”.
+
+//            Intent intent = new Intent(Intent.ACTION_VIEW);
+//            intent.setData(Uri.parse("https://wa.me/"+toNumber+"/?text="+text));
+////            intent.setData(Uri.parse("https://api.whatsapp.com/send?phone="+toNumber +"&text="+text));
+//            getNavigator().getContext().startActivity(intent);
+            openWhatsAppConversation(getNavigator().getContext(), toNumber,text);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(getNavigator().getContext(), "Whatsapp not installed!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static void openWhatsAppConversationUsingUri(Context context, String numberWithCountryCode, String message) {
+
+        Uri uri = Uri.parse("https://api.whatsapp.com/send?phone=" + numberWithCountryCode + "&text=" + message);
+
+        Intent sendIntent = new Intent(Intent.ACTION_VIEW, uri);
+
+        context.startActivity(sendIntent);
+    }
+
+    public static void openWhatsAppConversation(Context context, String number, String message) {
+
+        number = number.replace(" ", "").replace("+", "");
+
+        Intent sendIntent = new Intent("android.intent.action.MAIN");
+
+        sendIntent.setType("text/plain");
+        sendIntent.putExtra(Intent.EXTRA_TEXT, message);
+        sendIntent.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
+        sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(number) + "@s.whatsapp.net");
+
+        context.startActivity(sendIntent);
     }
 
 }

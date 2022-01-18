@@ -196,17 +196,21 @@ public class BookingViewModel extends BaseViewModel<BookingNavigator, FragmentBo
 
                             if (getDataManager().getCustomerType().equals("Individual") && forElse) {
                                 if (loginResponseData.getPassenger().getId().equals("0")){
+                                    getBinding().getBooking().setPassengerId(loginResponseData.getPassenger().getId());
                                     getBinding().getBooking().setBookerId(getDataManager().getPassengerId());
                                 }else {
+                                    getBinding().getBooking().setPassengerId(loginResponseData.getPassenger().getId());
                                     getBinding().getBooking().setBookerId(loginResponseData.getPassenger().getId());
                                 }
                                 getBinding().getBooking().setName(getDataManager().getUserName());
 
                             } else if (getDataManager().getCustomerType().equals("Booker")) {
                                 if (loginResponseData.getPassenger().getId().equals("0")) {
-                                    getBinding().getBooking().setBookerId(getDataManager().getPassengerId());
+                                    getBinding().getBooking().setPassengerId(loginResponseData.getPassenger().getId());
+                                    getBinding().getBooking().setBookerId(getDataManager().getBookerId());
                                 } else {
-                                    getBinding().getBooking().setBookerId(loginResponseData.getPassenger().getId());
+                                    getBinding().getBooking().setPassengerId(loginResponseData.getPassenger().getId());
+                                    getBinding().getBooking().setBookerId(getDataManager().getBookerId());
                                 }
                                 getBinding().getBooking().setName(getDataManager().getUserName());
 

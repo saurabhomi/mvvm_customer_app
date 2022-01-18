@@ -567,4 +567,8 @@ public class BookingRequest implements Serializable {
         BookerId = bookerId;
         return this;
     }
+
+    public String getHourlyPackage() {
+        return hourlyPackage;
+    }
 }

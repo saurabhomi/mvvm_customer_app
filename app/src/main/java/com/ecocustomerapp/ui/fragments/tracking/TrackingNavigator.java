@@ -1,5 +1,7 @@
 package com.ecocustomerapp.ui.fragments.tracking;
 
+import android.content.Context;
+
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.maps.SupportMapFragment;
@@ -15,6 +17,8 @@ public interface TrackingNavigator {
     void replaceFragment(Fragment fragment, String TAG);
 
     Fragment getUi();
+
+    Context getContext();
 
     String getBookingId();
 

@@ -14,44 +14,173 @@
 
     </data>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="@dimen/dp_118"
-            android:layout_height="@dimen/dp_19"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/dp_22"
-            android:contentDescription="@string/support"
-            android:src="@drawable/ecologo_new" />
-
-        <ImageView
-            android:layout_width="@dimen/dp_150"
-            android:layout_height="@dimen/dp_133"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/dp_21"
-            android:background="@drawable/support"
-            android:contentDescription="@string/support" />
-
-        <androidx.cardview.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="@dimen/dp_12"
-            android:layout_marginTop="@dimen/dp_23"
+            android:layout_height="match_parent"
             android:background="@color/white"
-            android:minHeight="@dimen/dp_39"
-            android:orientation="vertical"
-            app:cardCornerRadius="@dimen/dp_5"
-            app:cardElevation="4dp">
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:orientation="vertical"
+            <ImageView
+                android:layout_width="@dimen/dp_118"
+                android:layout_height="@dimen/dp_19"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dp_22"
+                android:contentDescription="@string/support"
+                android:src="@drawable/ecologo_new" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_150"
+                android:layout_height="@dimen/dp_133"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dp_21"
+                android:background="@drawable/support"
+                android:contentDescription="@string/support" />
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_23"
+                android:background="@color/white"
+                android:minHeight="@dimen/dp_39"
+                android:orientation="vertical"
+                app:cardCornerRadius="@dimen/dp_5"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/dp_9"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_weight="1"
+                        android:drawablePadding="@dimen/dp_5"
+                        android:lineSpacingExtra="9sp"
+                        android:text="@string/reach_out_to_us_at"
+                        android:textColor="#1c1c1e"
+                        android:textSize="@dimen/sp_12"
+                        android:textStyle="normal"
+                        app:drawableEndCompat="@drawable/ic_arrow_fwd"
+                        app:drawableStartCompat="@drawable/ic_call"
+                        app:font="@{`medium`}" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_32"
+                        android:layout_margin="@dimen/dp_9"
+                        android:background="@drawable/gray_bg"
+                        android:onClick="@{()->viewModel.onClickCall()}">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:background="@drawable/gray_bg"
+                            android:gravity="center_vertical"
+                            android:letterSpacing="0.01"
+                            android:lineSpacingExtra="7sp"
+                            android:onClick="@{()->viewModel.onClickCall()}"
+                            android:paddingStart="@dimen/dp_11"
+                            android:text="@string/_011_420465566"
+                            android:textColor="@color/txt_color"
+                            android:textColorHint="@color/hint_color"
+                            android:textSize="@dimen/sp_11"
+                            android:textStyle="normal"
+                            app:font="@{`semi`}" />
+
+                        <Button
+                            android:layout_width="@dimen/dp_100"
+                            android:layout_height="@dimen/dp_32"
+                            android:layout_gravity="center"
+                            android:background="@drawable/gray_bg"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:gravity="center"
+                            android:onClick="@{()->viewModel.onClickCall()}"
+                            android:text="@string/for_support"
+                            android:textColor="@color/white"
+                            app:font="@{`regular`}" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_32"
+                        android:layout_marginHorizontal="@dimen/dp_9"
+                        android:layout_marginBottom="@dimen/dp_9"
+                        android:background="@drawable/gray_bg"
+                        android:onClick="@{()->viewModel.onClickCall()}">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:background="@drawable/gray_bg"
+                            android:gravity="center_vertical"
+                            android:letterSpacing="0.01"
+                            android:lineSpacingExtra="7sp"
+                            android:onClick="@{()->viewModel.onClickCall()}"
+                            android:paddingStart="@dimen/dp_11"
+                            android:text="@string/_011_420465566"
+                            android:textColor="@color/txt_color"
+                            android:textColorHint="@color/hint_color"
+                            android:textSize="@dimen/sp_11"
+                            android:textStyle="normal"
+                            app:font="@{`semi`}" />
+
+                        <Button
+                            android:layout_width="@dimen/dp_100"
+                            android:layout_height="@dimen/dp_32"
+                            android:layout_gravity="center"
+                            android:background="@drawable/gray_bg"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:gravity="center"
+                            android:onClick="@{()->viewModel.onClickCall()}"
+                            android:text="@string/for_sales"
+                            android:textColor="@color/white"
+                            app:font="@{`regular`}" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_27"
+                android:layout_marginTop="@dimen/dp_8"
+                android:letterSpacing="0.01"
+                android:lineSpacingExtra="4sp"
+                android:textColor="#4d4d4d"
+                android:textSize="@dimen/sp_7"
+                android:textStyle="normal"
+                app:font="@{`regular`}"
+                tools:text="24 x 7 Helpline" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_23"
+                android:background="@color/white"
+                android:minHeight="@dimen/dp_39"
+                android:onClick="@{()->viewModel.onClickEmail()}"
+                android:orientation="vertical"
+                app:cardCornerRadius="@dimen/dp_5"
+                app:cardElevation="4dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -61,210 +190,86 @@
                     android:layout_weight="1"
                     android:drawablePadding="@dimen/dp_5"
                     android:lineSpacingExtra="9sp"
-                    android:text="@string/reach_out_to_us_at"
+                    android:text="@string/mail_to_us"
                     android:textColor="#1c1c1e"
                     android:textSize="@dimen/sp_12"
                     android:textStyle="normal"
                     app:drawableEndCompat="@drawable/ic_arrow_fwd"
-                    app:drawableStartCompat="@drawable/ic_call"
+                    app:drawableStartCompat="@drawable/ic_email"
                     app:font="@{`medium`}" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_32"
-                    android:layout_margin="@dimen/dp_9"
-                    android:onClick="@{()->viewModel.onClickCall()}"
-                    android:background="@drawable/gray_bg">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/gray_bg"
-                        android:letterSpacing="0.01"
-                        android:lineSpacingExtra="7sp"
-                        android:onClick="@{()->viewModel.onClickCall()}"
-                        android:text="@string/_011_420465566"
-                        android:paddingStart="@dimen/dp_11"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/txt_color"
-                        android:textColorHint="@color/hint_color"
-                        android:textSize="@dimen/sp_11"
-                        android:textStyle="normal"
-                        app:font="@{`semi`}" />
-
-                    <Button
-                        android:layout_width="@dimen/dp_100"
-                        android:layout_height="@dimen/dp_32"
-                        android:layout_gravity="center"
-                        android:onClick="@{()->viewModel.onClickCall()}"
-                        android:background="@drawable/gray_bg"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/for_support"
-                        android:textColor="@color/white"
-                        app:font="@{`regular`}" />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_32"
-                    android:onClick="@{()->viewModel.onClickCall()}"
-                    android:layout_marginHorizontal="@dimen/dp_9"
-                    android:layout_marginBottom="@dimen/dp_9"
-                    android:background="@drawable/gray_bg">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="@{()->viewModel.onClickCall()}"
-                        android:background="@drawable/gray_bg"
-                        android:letterSpacing="0.01"
-                        android:lineSpacingExtra="7sp"
-                        android:text="@string/_011_420465566"
-                        android:paddingStart="@dimen/dp_11"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/txt_color"
-                        android:textColorHint="@color/hint_color"
-                        android:textSize="@dimen/sp_11"
-                        android:textStyle="normal"
-                        app:font="@{`semi`}" />
-
-                    <Button
-                        android:layout_width="@dimen/dp_100"
-                        android:layout_height="@dimen/dp_32"
-                        android:layout_gravity="center"
-                        android:onClick="@{()->viewModel.onClickCall()}"
-                        android:background="@drawable/gray_bg"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="@string/for_sales"
-                        android:textColor="@color/white"
-                        app:font="@{`regular`}" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_27"
-            android:layout_marginTop="@dimen/dp_8"
-            android:letterSpacing="0.01"
-            android:lineSpacingExtra="4sp"
-            android:textColor="#4d4d4d"
-            android:textSize="@dimen/sp_7"
-            android:textStyle="normal"
-            app:font="@{`regular`}"
-            tools:text="24 x 7 Helpline" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="@dimen/dp_12"
-            android:layout_marginTop="@dimen/dp_23"
-            android:background="@color/white"
-            android:minHeight="@dimen/dp_39"
-            android:orientation="vertical"
-            app:cardCornerRadius="@dimen/dp_5"
-            app:cardElevation="4dp">
+            </androidx.cardview.widget.CardView>
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/dp_9"
-                android:layout_marginTop="@dimen/dp_10"
-                android:layout_weight="1"
-                android:drawablePadding="@dimen/dp_5"
+                android:layout_marginHorizontal="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_55"
                 android:lineSpacingExtra="9sp"
-                android:text="@string/mail_to_us"
+                android:text="@string/get_latest_updates"
                 android:textColor="#1c1c1e"
-                android:textSize="@dimen/sp_12"
+                android:textSize="16sp"
                 android:textStyle="normal"
-                app:drawableEndCompat="@drawable/ic_arrow_fwd"
-                app:drawableStartCompat="@drawable/ic_email"
                 app:font="@{`medium`}" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_37"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginBottom="@dimen/dp_23"
+                android:background="@drawable/gray_bg"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-        </androidx.cardview.widget.CardView>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/support"
+                    android:src="@drawable/ic_facebook" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:font="@{`medium`}"
-            android:layout_marginHorizontal="@dimen/dp_12"
-            android:layout_marginTop="@dimen/dp_55"
-            android:textStyle="normal"
-            android:layout_weight="1"
-            android:textSize="16sp"
-            android:textColor="#1c1c1e"
-            android:lineSpacingExtra="9sp"
-            android:text="@string/get_latest_updates"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/support"
+                    android:src="@drawable/ic_linkedin" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="@dimen/dp_12"
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/dp_16"
-            android:layout_marginBottom="@dimen/dp_23"
-            android:layout_height="@dimen/dp_37"
-            android:background="@drawable/gray_bg">
-            <ImageView
-                android:contentDescription="@string/support"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_facebook"
-                android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/support"
+                    android:src="@drawable/ic_instagram" />
 
-            <ImageView
-                android:contentDescription="@string/support"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_linkedin"
-                android:layout_height="wrap_content"/>
-
-            <ImageView
-                android:contentDescription="@string/support"
-                android:layout_width="wrap_content"
-                android:src="@drawable/ic_instagram"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"/>
-
-            <ImageView
-                android:contentDescription="@string/support"
-                android:layout_width="wrap_content"
-                android:src="@drawable/ic_twitter"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/support"
+                    android:src="@drawable/ic_twitter" />
 
 
-            <ImageView
-                android:contentDescription="@string/support"
-                android:layout_width="wrap_content"
-                android:src="@drawable/ic_youtube"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/support"
+                    android:src="@drawable/ic_youtube" />
 
-            <ImageView
-                android:contentDescription="@string/support"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_whats_app"
-                android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/support"
+                    android:src="@drawable/ic_whats_app" />
+            </LinearLayout>
+
         </LinearLayout>
-
-    </LinearLayout>
-
+    </ScrollView>
 
 
 </layout>

@@ -111,7 +111,7 @@ public class TerminalAutoCompleteAdapter extends ArrayAdapter<TerminalData> {
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             ArrayList<TerminalData> tempValues = (ArrayList<TerminalData>) filterResults.values;
-            if (filterResults != null && filterResults.count > 0) {
+            if (tempValues != null && filterResults.count > 0) {
                 clear();
                 for (TerminalData terminal : tempValues) {
                     add(terminal);

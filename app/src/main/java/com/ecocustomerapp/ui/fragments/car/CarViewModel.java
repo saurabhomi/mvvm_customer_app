@@ -1,5 +1,7 @@
 package com.ecocustomerapp.ui.fragments.car;
 
+import static com.ecocustomerapp.utils.AppConstants.LOCAL;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -40,6 +42,9 @@ public class CarViewModel extends BaseViewModel<CarNavigator, FragmentCarBinding
 
         if (getDataManager().getCustomerType().equals("Booker")) {
             request.setCustomerID(getDataManager().getCustomerId());
+        }
+        if (getBinding().getBooking().getTripType().equals(LOCAL)) {
+            request.setHourlyPackage(getBinding().getBooking().getHourlyPackage());
         }
         if (type.equals(AppConstants.OUTSTATION)) {
 

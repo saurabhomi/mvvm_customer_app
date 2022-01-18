@@ -16,6 +16,7 @@ import com.ecocustomerapp.databinding.FragmentTrackingBinding;
 import com.ecocustomerapp.di.component.FragmentComponent;
 import com.ecocustomerapp.ui.FragmentCallback;
 import com.ecocustomerapp.ui.base.BaseFragment;
+import com.ecocustomerapp.ui.fragments.bookings.BookingsFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import org.jetbrains.annotations.NotNull;
@@ -69,7 +70,7 @@ public class TrackingFragment extends BaseFragment<FragmentCallback, FragmentTra
 
     @Override
     protected void onBackPressed() {
-//        replaceFragment(FinalBookingFragment.newInstance(booking, back), FinalBookingFragment.class.getSimpleName());
+        replaceFragment(BookingsFragment.newInstance(), BookingsFragment.class.getSimpleName());
     }
 
 
@@ -129,5 +130,11 @@ public class TrackingFragment extends BaseFragment<FragmentCallback, FragmentTra
     @Override
     public SupportMapFragment getMapFragment() {
         return (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+    }
+
+    @Nullable
+    @Override
+    public Context getContext() {
+        return getActivity();
     }
 }

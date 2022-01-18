@@ -178,7 +178,7 @@ public class AirportViewModel extends BaseViewModel<AirportNavigator, FragmentAi
             getNavigator().showToast("Please select city | terminal");
             return false;
         }
-        if (getBinding().getBooking().getTripType() == null || getBinding().getBooking().getTripType().equals("From Airport / To Airport")) {
+        if (getBinding().getBooking().getTripType() == null || getBinding().getBooking().getTripType().equals("Select Trip Type")) {
             getNavigator().showToast("Please select trip type");
             return false;
         }

@@ -20,6 +20,7 @@ import com.ecocustomerapp.ui.FragmentCallback;
 import com.ecocustomerapp.ui.base.BaseFragment;
 import com.ecocustomerapp.ui.fragments.confirmation.ReceiptFragment;
 import com.ecocustomerapp.ui.fragments.main.main.MainFragment;
+import com.ecocustomerapp.ui.fragments.mode.ModeFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -106,7 +107,7 @@ public class SupportFragmentFragment extends BaseFragment<FragmentCallback, Frag
 
     @Override
     public void replaceFragment() {
-        getCallback().replaceFragment(fragment.equals(ReceiptFragment.class.getSimpleName()) ? ReceiptFragment.newInstance(response, aPackage, true) : MainFragment.newInstance(new BookingRequest()), fragment);
+        getCallback().replaceFragment(fragment.equals(ReceiptFragment.class.getSimpleName()) ? ReceiptFragment.newInstance(response, aPackage, true) : ModeFragment.newInstance(), fragment);
     }
 
     @Override

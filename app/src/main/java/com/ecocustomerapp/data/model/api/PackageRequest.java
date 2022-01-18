@@ -35,6 +35,10 @@ public class PackageRequest {
     @SerializedName("dropOffDateTime")
     private String dropOffDateTime;
 
+    @Expose
+    @SerializedName("hourly_package")
+    private String hourlyPackage;
+
 
     public PackageRequest setCity(String city) {
         this.city = city;
@@ -80,4 +84,8 @@ public class PackageRequest {
     }
 
 
+    public PackageRequest setHourlyPackage(String hourlyPackage) {
+        this.hourlyPackage = hourlyPackage;
+        return this;
+    }
 }

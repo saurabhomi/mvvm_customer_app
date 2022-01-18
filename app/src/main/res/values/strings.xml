@@ -343,6 +343,7 @@
     <string name="select_city">Select City</string>
     <string name="select_source_city">Source City</string>
     <string name="select_destination_city">Destination City</string>
+    <string name="send_message_to_driver">Send message to driver</string>
 
 
 </resources>

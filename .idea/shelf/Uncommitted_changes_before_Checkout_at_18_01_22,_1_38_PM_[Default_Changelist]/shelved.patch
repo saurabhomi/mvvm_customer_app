@@ -1,0 +1,1107 @@
+Index: app/src/main/java/com/ecocustomerapp/ui/fragments/support/SupportFragmentFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ecocustomerapp.ui.fragments.support;\n\nimport android.content.Context;\nimport android.content.Intent;\nimport android.net.Uri;\nimport android.os.Bundle;\nimport android.view.View;\n\nimport androidx.annotation.NonNull;\nimport androidx.annotation.Nullable;\n\nimport com.ecocustomerapp.BR;\nimport com.ecocustomerapp.R;\nimport com.ecocustomerapp.data.model.api.Booking;\nimport com.ecocustomerapp.data.model.api.BookingRequest;\nimport com.ecocustomerapp.data.model.api.Package;\nimport com.ecocustomerapp.databinding.FragmentSupportBinding;\nimport com.ecocustomerapp.di.component.FragmentComponent;\nimport com.ecocustomerapp.ui.FragmentCallback;\nimport com.ecocustomerapp.ui.base.BaseFragment;\nimport com.ecocustomerapp.ui.fragments.confirmation.ReceiptFragment;\nimport com.ecocustomerapp.ui.fragments.main.main.MainFragment;\n\nimport org.jetbrains.annotations.NotNull;\n\npublic class SupportFragmentFragment extends BaseFragment<FragmentCallback, FragmentSupportBinding, SupportViewModel> implements SupportFragmentNavigator {\n\n\n    FragmentSupportBinding supportBinding;\n\n    private boolean back;\n    private String fragment;\n    private Booking response;\n    private Package aPackage;\n\n    private static final String ARG_PARAM1 = \"param1\";\n    private static final String ARG_PARAM2 = \"param2\";\n    private static final String ARG_PARAM3 = \"param3\";\n    private static final String ARG_PARAM4 = \"param4\";\n\n\n    public static SupportFragmentFragment newInstance(boolean isBack, String name, Booking response, Package aPackage, boolean back) {\n        SupportFragmentFragment fragment = new SupportFragmentFragment();\n        Bundle args = new Bundle();\n        args.putBoolean(ARG_PARAM1, isBack);\n        args.putString(ARG_PARAM2, name);\n        args.putSerializable(ARG_PARAM3, response);\n        args.putSerializable(ARG_PARAM4, aPackage);\n        fragment.setArguments(args);\n        return fragment;\n    }\n\n    @Override\n    public int getBindingVariable() {\n        return BR.viewModel;\n    }\n\n    @Override\n    public int getLayoutId() {\n        return R.layout.fragment_support;\n    }\n\n    @Override\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\n        super.onViewCreated(view, savedInstanceState);\n        supportBinding = getViewDataBinding();\n        mViewModel.setBinding(supportBinding);\n\n    }\n\n    @Override\n    protected void onBackPressed() {\n        replaceFragment();\n    }\n\n    @Override\n    public void onAttach(@NotNull Context context) {\n        super.onAttach(context);\n        setCallback((FragmentCallback) context).onFragmentAttached(this, back);\n    }\n\n    @Override\n    public void onDetach() {\n        getCallback().onFragmentDetached(this.getClass().getSimpleName());\n        super.onDetach();\n    }\n\n    @Override\n    public void onCreate(@Nullable Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        if (getArguments() != null) {\n            back = getArguments().getBoolean(ARG_PARAM1);\n            fragment = getArguments().getString(ARG_PARAM2);\n            response = (Booking) getArguments().getSerializable(ARG_PARAM3);\n            aPackage = (Package) getArguments().getSerializable(ARG_PARAM4);\n            getCallback().setBack(back);\n        }\n        mViewModel.setNavigator(this);\n    }\n\n\n    @Override\n    public void performDependencyInjection(FragmentComponent buildComponent) {\n        buildComponent.inject(this);\n    }\n\n    @Override\n    public void replaceFragment() {\n        getCallback().replaceFragment(fragment.equals(ReceiptFragment.class.getSimpleName()) ? ReceiptFragment.newInstance(response, aPackage, true) : MainFragment.newInstance(new BookingRequest()), fragment);\n    }\n\n    @Override\n    public void makeCall() {\n        startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse(\"tel:01140794079\")));\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/ecocustomerapp/ui/fragments/support/SupportFragmentFragment.java b/app/src/main/java/com/ecocustomerapp/ui/fragments/support/SupportFragmentFragment.java
+--- a/app/src/main/java/com/ecocustomerapp/ui/fragments/support/SupportFragmentFragment.java	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/app/src/main/java/com/ecocustomerapp/ui/fragments/support/SupportFragmentFragment.java	(date 1642425076575)
+@@ -20,6 +20,7 @@
+ import com.ecocustomerapp.ui.base.BaseFragment;
+ import com.ecocustomerapp.ui.fragments.confirmation.ReceiptFragment;
+ import com.ecocustomerapp.ui.fragments.main.main.MainFragment;
++import com.ecocustomerapp.ui.fragments.mode.ModeFragment;
+ 
+ import org.jetbrains.annotations.NotNull;
+ 
+@@ -106,7 +107,7 @@
+ 
+     @Override
+     public void replaceFragment() {
+-        getCallback().replaceFragment(fragment.equals(ReceiptFragment.class.getSimpleName()) ? ReceiptFragment.newInstance(response, aPackage, true) : MainFragment.newInstance(new BookingRequest()), fragment);
++        getCallback().replaceFragment(fragment.equals(ReceiptFragment.class.getSimpleName()) ? ReceiptFragment.newInstance(response, aPackage, true) : ModeFragment.newInstance(), fragment);
+     }
+ 
+     @Override
+Index: app/src/main/java/com/ecocustomerapp/ui/fragments/support/SupportViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ecocustomerapp.ui.fragments.support;\n\nimport com.ecocustomerapp.data.manager.DataManager;\nimport com.ecocustomerapp.databinding.FragmentSupportBinding;\nimport com.ecocustomerapp.ui.base.BaseViewModel;\nimport com.ecocustomerapp.utils.rx.SchedulerProvider;\n\npublic class SupportViewModel extends BaseViewModel<SupportFragmentNavigator, FragmentSupportBinding> {\n    public SupportViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {\n        super(dataManager, schedulerProvider);\n    }\n\n\n    public void onClickCall(){\n        getNavigator().makeCall();\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/ecocustomerapp/ui/fragments/support/SupportViewModel.java b/app/src/main/java/com/ecocustomerapp/ui/fragments/support/SupportViewModel.java
+--- a/app/src/main/java/com/ecocustomerapp/ui/fragments/support/SupportViewModel.java	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/app/src/main/java/com/ecocustomerapp/ui/fragments/support/SupportViewModel.java	(date 1642424374474)
+@@ -1,5 +1,8 @@
+ package com.ecocustomerapp.ui.fragments.support;
+ 
++import android.content.Intent;
++import android.net.Uri;
++
+ import com.ecocustomerapp.data.manager.DataManager;
+ import com.ecocustomerapp.databinding.FragmentSupportBinding;
+ import com.ecocustomerapp.ui.base.BaseViewModel;
+@@ -14,4 +17,9 @@
+     public void onClickCall(){
+         getNavigator().makeCall();
+     }
++
++    public void onClickEmail(){
++        Intent intent = new Intent (Intent.ACTION_VIEW , Uri.parse("mailto:" + "cars@ecorentacar.com"));
++        getNavigator().getContext().startActivity(intent);
++    }
+ }
+Index: app/src/main/java/com/ecocustomerapp/ui/main/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/*\n *  Copyright (C) 2017 JAJ Technologies Private Limited\n *\n *  Licensed under the Apache License, Version 2.0 (the \"License\");\n *  you may not use this file except in compliance with the License.\n *  You may obtain a copy of the License at\n *\n *      https://jajtechnologies.com/license/apache-v2\n *\n *  Unless required by applicable law or agreed to in writing, software\n *  distributed under the License is distributed on an \"AS IS\" BASIS,\n *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n *  See the License for the specific language governing permissions and\n *  limitations under the License\n */\n\npackage com.ecocustomerapp.ui.main;\n\nimport static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;\n\nimport android.app.Activity;\nimport android.content.Context;\nimport android.content.Intent;\nimport android.net.Uri;\nimport android.os.Bundle;\nimport android.view.MenuItem;\nimport android.view.View;\nimport android.widget.Toast;\n\nimport androidx.annotation.NonNull;\nimport androidx.annotation.Nullable;\nimport androidx.appcompat.app.ActionBarDrawerToggle;\nimport androidx.core.view.GravityCompat;\nimport androidx.databinding.DataBindingUtil;\nimport androidx.drawerlayout.widget.DrawerLayout;\nimport androidx.fragment.app.Fragment;\n\nimport com.ecocustomerapp.BR;\nimport com.ecocustomerapp.BuildConfig;\nimport com.ecocustomerapp.R;\nimport com.ecocustomerapp.data.model.api.BookingRequest;\nimport com.ecocustomerapp.databinding.ActivityMainBinding;\nimport com.ecocustomerapp.databinding.NavHeaderMainBinding;\nimport com.ecocustomerapp.di.component.ActivityComponent;\nimport com.ecocustomerapp.ui.FragmentCallback;\nimport com.ecocustomerapp.ui.base.BaseActivity;\nimport com.ecocustomerapp.ui.fragments.bookings.BookingsFragment;\nimport com.ecocustomerapp.ui.fragments.bookings.BookingsListFragment;\nimport com.ecocustomerapp.ui.fragments.main.main.MainFragment;\nimport com.ecocustomerapp.ui.fragments.mode.ModeFragment;\nimport com.ecocustomerapp.ui.fragments.profile.ProfileFragment;\nimport com.ecocustomerapp.ui.login.LoginActivity;\nimport com.google.android.material.navigation.NavigationView;\n\n\n/**\n * Class Description.\n *\n * @author Saurabh Srivastava.\n * @version 1.0.\n * @since 15/6/19.\n */\npublic class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> implements MainNavigator, NavigationView.OnNavigationItemSelectedListener, FragmentCallback {\n    private static final String TAG = MainActivity.class.getSimpleName();\n\n    private ActivityMainBinding mActivityMainBinding;\n    private DrawerLayout mDrawer;\n    private MenuItem item;\n    private Fragment fragment;\n    private boolean isBack;\n\n    public static Intent newIntent(Context context) {\n        return new Intent(context, MainActivity.class);\n    }\n\n    @Override\n    public int getBindingVariable() {\n        return BR.viewModel;\n    }\n\n    @Override\n    public int getLayoutId() {\n        return R.layout.activity_main;\n    }\n\n    @Override\n    public void performDependencyInjection(ActivityComponent buildComponent) {\n        buildComponent.inject(this);\n    }\n\n    @Override\n    public void handleError(Throwable throwable, int message) {\n        // handle error\n        showToast(getString(message));\n    }\n\n    @Override\n    public void onBackPressed() {\n        super.onBackPressed();\n    }\n\n    @Override\n    public void onFragmentAttached(Fragment fragment, boolean isBack) {\n//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);\n        setBack(isBack);\n        this.fragment = fragment;\n        if (fragment instanceof ModeFragment) {\n            item = mActivityMainBinding.navView.getMenu().getItem(0).setChecked(true);\n        } else if (fragment instanceof ProfileFragment) {\n            item = mActivityMainBinding.navView.getMenu().getItem(2).setChecked(true);\n        } else if (fragment instanceof BookingsFragment) {\n            item = mActivityMainBinding.navView.getMenu().getItem(3).setChecked(true);\n        }else if(item!=null) {\n            item.setChecked(false);\n            item=null;\n        }\n\n    }\n\n    @Override\n    public void setBack(boolean isBack) {\n        this.isBack=isBack;\n        mActivityMainBinding.appBar.toolbar.setNavigationIcon(isBack ? R.drawable.back : R.drawable.ic_menu);\n    }\n\n    @Override\n    public void onFragmentDetached(String tag) {\n        mViewModel.removeFragment(this, tag);\n    }\n\n\n    public void replaceFragment(Fragment fragment, String TAG) {\n        mViewModel.transitFragment(this, fragment);\n    }\n\n\n    public void goBack(Fragment fragment, String TAG) {\n        mViewModel.transitFragment(this, fragment);\n    }\n\n    @Override\n    public boolean onOptionsItemSelected(MenuItem item) {\n        switch (item.getItemId()) {\n            case android.R.id.home:\n                onBackPressed();\n                return true;\n        }\n        return super.onOptionsItemSelected(item);\n    }\n\n    @Override\n    public void openLoginActivity() {\n        startActivity(LoginActivity.newIntent(this));\n        finish();\n    }\n\n    @Override\n    public void showProgress(boolean show) {\n        if (show) {\n            showLoading();\n        } else {\n            hideLoading();\n        }\n    }\n\n    @Override\n    public void showToast(String message) {\n\n    }\n\n    @Override\n    protected void onStart() {\n        super.onStart();\n//        mViewModel.onStart(this);\n    }\n\n    @Override\n    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {\n        if (resultCode != Activity.RESULT_OK) {\n            {\n                mViewModel.checkGPS(this);\n            }\n        }\n        super.onActivityResult(requestCode, resultCode, data);\n    }\n\n    @Override\n    protected void onStop() {\n        super.onStop();\n//        mViewModel.onStop(this);\n    }\n\n    @Override\n    public MainActivity getContext() {\n        return this;\n    }\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        mActivityMainBinding = getViewDataBinding();\n        mViewModel.setNavigator(this);\n        NavHeaderMainBinding mainBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.nav_header_main, mActivityMainBinding.navView, false);\n        mActivityMainBinding.navView.addHeaderView(mainBinding.getRoot());\n        mActivityMainBinding.setViewModel(mViewModel);\n        mViewModel.setBinding(mActivityMainBinding);\n        setUp();\n    }\n\n\n    @Override\n    protected void onResume() {\n        super.onResume();\n    }\n\n    private void lockDrawer() {\n        if (mDrawer != null) {\n            mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);\n        }\n    }\n\n\n    private void setUp() {\n        mDrawer = mActivityMainBinding.drawerLayout;\n        mActivityMainBinding.navView.setNavigationItemSelectedListener(this);\n        item = mActivityMainBinding.navView.getMenu().getItem(0).setChecked(true);\n\n        setSupportActionBar(mActivityMainBinding.appBar.toolbar);\n        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(\n                this,\n                mDrawer,\n                mActivityMainBinding.appBar.toolbar,\n                R.string.navigation_drawer_open,\n                R.string.navigation_drawer_close);\n\n\n        getSupportActionBar().setDisplayShowHomeEnabled(false);\n        mDrawerToggle.setDrawerIndicatorEnabled(false);\n        getSupportActionBar().setDisplayShowTitleEnabled(false);\n        mActivityMainBinding.appBar.toolbar.setNavigationIcon(R.drawable.ic_menu);\n        mDrawer.addDrawerListener(mDrawerToggle);\n        mDrawerToggle.syncState();\n        mViewModel.onNavMenuCreated();\n        mViewModel.transitFragment(this, ModeFragment.newInstance());\n        mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {\n            @Override\n            public void onClick(View v) {\n                if (isBack){\n                    onBackPressed();\n                }else {\n                    mDrawer.open();\n                }\n\n            }\n        });\n    }\n\n    private void unlockDrawer() {\n        if (mDrawer != null) {\n            mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);\n        }\n    }\n\n    @Override\n    public boolean onNavigationItemSelected(@NonNull MenuItem item) {\n        mDrawer.closeDrawer(GravityCompat.START);\n        if (this.item != null && this.item == item) {\n            return true;\n        }\n        switch (item.getItemId()) {\n            case R.id.nav_logout:\n                mViewModel.logout();\n                Intent intent = LoginActivity.newIntent(MainActivity.this);\n                startActivity(intent);\n                finish();\n                this.item = item;\n                break;\n            case R.id.nav_home:\n                mViewModel.transitFragment(this, ModeFragment.newInstance());\n                this.item = item;\n                break;\n            case R.id.nav_bookings:\n                if (!(fragment instanceof BookingsFragment) && !(fragment instanceof BookingsListFragment)) {\n                    mViewModel.transitFragment(this, BookingsFragment.newInstance());\n                    this.item = item;\n                }\n\n                break;\n            case R.id.nav_profile:\n                replaceFragment(ProfileFragment.newInstance(), ProfileFragment.class.getSimpleName());\n                this.item = item;\n                break;\n            case R.id.nav_share:\n                Intent sendIntent = new Intent();\n                sendIntent.setAction(Intent.ACTION_SEND);\n                sendIntent.putExtra(Intent.EXTRA_TEXT,\n                        \"Hey check out my app at: https://play.google.com/store/apps/details?id=\" + BuildConfig.APPLICATION_ID);\n                sendIntent.setType(\"text/plain\");\n                startActivity(sendIntent);\n                break;\n            case R.id.nav_support:\n                startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse(\"tel:01140794079\")));\n                break;\n            case R.id.nav_about_us:\n                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(\"https://www.ecorentacar.com/about-us/\"));\n                browserIntent.setFlags(FLAG_ACTIVITY_NEW_TASK);\n                startActivity(browserIntent);\n                break;\n            default:\n                Toast.makeText(this, \"Under development\", Toast.LENGTH_SHORT).show();\n                break;\n        }\n\n        return true;\n    }\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/ecocustomerapp/ui/main/MainActivity.java b/app/src/main/java/com/ecocustomerapp/ui/main/MainActivity.java
+--- a/app/src/main/java/com/ecocustomerapp/ui/main/MainActivity.java	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/app/src/main/java/com/ecocustomerapp/ui/main/MainActivity.java	(date 1642424916666)
+@@ -38,6 +38,7 @@
+ import com.ecocustomerapp.BR;
+ import com.ecocustomerapp.BuildConfig;
+ import com.ecocustomerapp.R;
++import com.ecocustomerapp.data.model.api.Booking;
+ import com.ecocustomerapp.data.model.api.BookingRequest;
+ import com.ecocustomerapp.databinding.ActivityMainBinding;
+ import com.ecocustomerapp.databinding.NavHeaderMainBinding;
+@@ -49,6 +50,7 @@
+ import com.ecocustomerapp.ui.fragments.main.main.MainFragment;
+ import com.ecocustomerapp.ui.fragments.mode.ModeFragment;
+ import com.ecocustomerapp.ui.fragments.profile.ProfileFragment;
++import com.ecocustomerapp.ui.fragments.support.SupportFragmentFragment;
+ import com.ecocustomerapp.ui.login.LoginActivity;
+ import com.google.android.material.navigation.NavigationView;
+ 
+@@ -299,7 +301,8 @@
+                 startActivity(sendIntent);
+                 break;
+             case R.id.nav_support:
+-                startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:01140794079")));
++                replaceFragment(SupportFragmentFragment.newInstance(true,MainFragment.class.getSimpleName(),new Booking(),null,true), ProfileFragment.class.getSimpleName());
++                this.item = item;
+                 break;
+             case R.id.nav_about_us:
+                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.ecorentacar.com/about-us/"));
+Index: app/src/main/java/com/ecocustomerapp/ui/fragments/car/CarViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ecocustomerapp.ui.fragments.car;\n\nimport androidx.lifecycle.LiveData;\nimport androidx.lifecycle.MutableLiveData;\n\nimport com.ecocustomerapp.data.manager.DataManager;\nimport com.ecocustomerapp.data.model.BaseModel;\nimport com.ecocustomerapp.data.model.api.BookingRequest;\nimport com.ecocustomerapp.data.model.api.Package;\nimport com.ecocustomerapp.data.model.api.PackageRequest;\nimport com.ecocustomerapp.databinding.FragmentCarBinding;\nimport com.ecocustomerapp.ui.base.BaseViewModel;\nimport com.ecocustomerapp.ui.fragments.booking.BookingFragment;\nimport com.ecocustomerapp.ui.fragments.main.main.MainFragment;\nimport com.ecocustomerapp.utils.AppConstants;\nimport com.ecocustomerapp.utils.rx.SchedulerProvider;\n\nimport java.util.HashSet;\nimport java.util.List;\n\npublic class CarViewModel extends BaseViewModel<CarNavigator, FragmentCarBinding> {\n    private final MutableLiveData<List<Package>> liveData;\n\n    public CarViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {\n        super(dataManager, schedulerProvider);\n        liveData = new MutableLiveData<>();\n\n    }\n\n    public void modify() {\n        getNavigator().replaceNextFragment(MainFragment.newInstance(getBinding().getBooking()));\n    }\n\n    private PackageRequest getRequest(String type) {\n        PackageRequest request = new PackageRequest()\n                .setCity(getBinding().getBooking().getCity())\n                .setPassengerId(getDataManager().getPassengerId())\n                .setPassengerType(getDataManager().getPassengerType())\n                .setBookingType(getBinding().getBooking().getBookingType());\n\n        if (getDataManager().getCustomerType().equals(\"Booker\")) {\n            request.setCustomerID(getDataManager().getCustomerId());\n        }\n        if (type.equals(AppConstants.OUTSTATION)) {\n\n            request.setPickUpDateTime(getBinding().getBooking().getPickUpDateTime())\n                    .setDropOffDateTime(getBinding().getBooking().getDropOffDateTime());\n        }\n        return request;\n    }\n\n\n    public void getCar() {\n        getNavigator().showProgress();\n        getCompositeDisposable().add(getDataManager()\n                .getPackage(getBinding().getBooking().getPackageType(), getRequest(getBinding().getBooking().getPackageType()))\n                .doOnSuccess(BaseModel::getResponseStatus)\n                .subscribeOn(getSchedulerProvider().io())\n                .observeOn(getSchedulerProvider().ui())\n                .subscribe(packageResponse -> {\n                    getNavigator().hideProgress();\n                    getNavigator().showToast(packageResponse.getMessage());\n                    liveData.setValue(packageResponse.getPackageList());\n                }, throwable -> {\n                    getNavigator().hideProgress();\n                    getNavigator().showToast(throwable.getMessage());\n                }));\n    }\n\n\n    void getPaymentMethod(BookingRequest request, Package aPackage) {\n        getNavigator().showProgress();\n        getCompositeDisposable()\n                .add(getDataManager()\n                        .getPaymentMode(getDataManager()\n                                .getCustomerId())\n                        .subscribeOn(getSchedulerProvider().io())\n                        .observeOn(getSchedulerProvider().ui())\n                        .subscribe(loginResponseData -> {\n                            getNavigator().hideProgress();\n                            getDataManager().setMod(new HashSet<String>(loginResponseData.getPassenger().getModeOfPayment()));\n                            getNavigator().replaceNextFragment(BookingFragment.newInstance(request, aPackage));\n                        }, throwable -> {\n                            getNavigator().hideProgress();\n                            getNavigator().showToast(throwable.getMessage());\n                        }));\n    }\n\n    public LiveData<List<Package>> getCarData() {\n        return liveData;\n    }\n\n\n    // TODO: Implement the ViewModel\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/ecocustomerapp/ui/fragments/car/CarViewModel.java b/app/src/main/java/com/ecocustomerapp/ui/fragments/car/CarViewModel.java
+--- a/app/src/main/java/com/ecocustomerapp/ui/fragments/car/CarViewModel.java	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/app/src/main/java/com/ecocustomerapp/ui/fragments/car/CarViewModel.java	(date 1642425581285)
+@@ -1,5 +1,7 @@
+ package com.ecocustomerapp.ui.fragments.car;
+ 
++import static com.ecocustomerapp.utils.AppConstants.LOCAL;
++
+ import androidx.lifecycle.LiveData;
+ import androidx.lifecycle.MutableLiveData;
+ 
+@@ -41,6 +43,9 @@
+         if (getDataManager().getCustomerType().equals("Booker")) {
+             request.setCustomerID(getDataManager().getCustomerId());
+         }
++        if (getBinding().getBooking().getTripType().equals(LOCAL)) {
++            request.setHourlyPackage(getBinding().getBooking().getHourlyPackage());
++        }
+         if (type.equals(AppConstants.OUTSTATION)) {
+ 
+             request.setPickUpDateTime(getBinding().getBooking().getPickUpDateTime())
+Index: app/src/main/java/com/ecocustomerapp/ui/fragments/main/TerminalAutoCompleteAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ecocustomerapp.ui.fragments.main;\n\nimport android.content.Context;\nimport android.text.Html;\nimport android.view.LayoutInflater;\nimport android.view.View;\nimport android.view.ViewGroup;\nimport android.widget.ArrayAdapter;\nimport android.widget.Filter;\nimport android.widget.TextView;\n\nimport androidx.annotation.NonNull;\nimport androidx.annotation.Nullable;\n\nimport com.ecocustomerapp.R;\nimport com.ecocustomerapp.data.model.api.TerminalData;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\npublic class TerminalAutoCompleteAdapter extends ArrayAdapter<TerminalData> {\n    private final Context context;\n    private final int resourceId;\n    private final List<TerminalData> items;\n    private final List<TerminalData> tempItems;\n    private final List<TerminalData> suggestions;\n    private OnEditingListener listener;\n\n    public TerminalAutoCompleteAdapter(@NonNull Context context, int resourceId, List<TerminalData> items, OnEditingListener listener) {\n        super(context, resourceId, items);\n        this.items = items;\n        this.context = context;\n        this.resourceId = resourceId;\n        tempItems = new ArrayList<>(items);\n        suggestions = new ArrayList<>();\n        this.listener = listener;\n    }\n\n    @NonNull\n    @Override\n    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {\n        View view = convertView;\n        try {\n            if (convertView == null) {\n                LayoutInflater inflater = LayoutInflater.from(context);\n                view = inflater.inflate(resourceId, parent, false);\n            }\n            TerminalData terminal = getItem(position);\n            TextView name = view.findViewById(R.id.text);\n            String first = terminal.getName();\n            String next = \"<font color=\\\"#ec3137\\\"> | </font>\";\n            String last = terminal.getTerminalName();\n            name.setText(Html.fromHtml(first + next + last));\n        } catch (Exception e) {\n            e.printStackTrace();\n        }\n        return view;\n    }\n\n    @Nullable\n    @Override\n    public TerminalData getItem(int position) {\n        return items.get(position);\n    }\n\n    @Override\n    public int getCount() {\n        return items.size();\n    }\n\n    @Override\n    public long getItemId(int position) {\n        return position;\n    }\n\n    @NonNull\n    @Override\n    public Filter getFilter() {\n        return DataFilter;\n    }\n\n    private final Filter DataFilter = new Filter() {\n        @Override\n        public CharSequence convertResultToString(Object resultValue) {\n            TerminalData terminal = (TerminalData) resultValue;\n            String first = terminal.getName();\n            String next = \"<font color=\\\"#ec3137\\\"> | </font>\";\n            String last = terminal.getTerminalName();\n            return Html.fromHtml(first + next + last);\n        }\n\n\n        @Override\n        protected FilterResults performFiltering(CharSequence charSequence) {\n            if (charSequence != null) {\n                suggestions.clear();\n                for (TerminalData terminal : tempItems) {\n                    if (terminal.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {\n                        suggestions.add(terminal);\n                    }\n                }\n                FilterResults filterResults = new FilterResults();\n                filterResults.values = suggestions;\n                filterResults.count = suggestions.size();\n                return filterResults;\n            } else {\n                return new FilterResults();\n            }\n        }\n\n        @Override\n        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {\n            ArrayList<TerminalData> tempValues = (ArrayList<TerminalData>) filterResults.values;\n            if (filterResults != null && filterResults.count > 0) {\n                clear();\n                for (TerminalData terminal : tempValues) {\n                    add(terminal);\n                }\n                notifyDataSetChanged();\n            } else {\n                clear();\n                notifyDataSetChanged();\n            }\n        }\n    };\n\n    public interface OnEditingListener {\n        void onEdit();\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/ecocustomerapp/ui/fragments/main/TerminalAutoCompleteAdapter.java b/app/src/main/java/com/ecocustomerapp/ui/fragments/main/TerminalAutoCompleteAdapter.java
+--- a/app/src/main/java/com/ecocustomerapp/ui/fragments/main/TerminalAutoCompleteAdapter.java	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/app/src/main/java/com/ecocustomerapp/ui/fragments/main/TerminalAutoCompleteAdapter.java	(date 1642424075667)
+@@ -111,7 +111,7 @@
+         @Override
+         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+             ArrayList<TerminalData> tempValues = (ArrayList<TerminalData>) filterResults.values;
+-            if (filterResults != null && filterResults.count > 0) {
++            if (tempValues != null && filterResults.count > 0) {
+                 clear();
+                 for (TerminalData terminal : tempValues) {
+                     add(terminal);
+Index: app/src/main/res/layout/fragment_support.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<layout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    tools:context=\".ui.fragments.support.SupportFragmentFragment\">\n\n    <data>\n\n        <import type=\"android.view.View\" />\n\n        <variable\n            name=\"viewModel\"\n            type=\"com.ecocustomerapp.ui.fragments.support.SupportViewModel\" />\n\n    </data>\n\n    <LinearLayout\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"match_parent\"\n        android:background=\"@color/white\"\n        android:orientation=\"vertical\">\n\n        <ImageView\n            android:layout_width=\"@dimen/dp_118\"\n            android:layout_height=\"@dimen/dp_19\"\n            android:layout_gravity=\"center_horizontal\"\n            android:layout_marginTop=\"@dimen/dp_22\"\n            android:contentDescription=\"@string/support\"\n            android:src=\"@drawable/ecologo_new\" />\n\n        <ImageView\n            android:layout_width=\"@dimen/dp_150\"\n            android:layout_height=\"@dimen/dp_133\"\n            android:layout_gravity=\"center_horizontal\"\n            android:layout_marginTop=\"@dimen/dp_21\"\n            android:background=\"@drawable/support\"\n            android:contentDescription=\"@string/support\" />\n\n        <androidx.cardview.widget.CardView\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            android:layout_gravity=\"center\"\n            android:layout_marginHorizontal=\"@dimen/dp_12\"\n            android:layout_marginTop=\"@dimen/dp_23\"\n            android:background=\"@color/white\"\n            android:minHeight=\"@dimen/dp_39\"\n            android:orientation=\"vertical\"\n            app:cardCornerRadius=\"@dimen/dp_5\"\n            app:cardElevation=\"4dp\">\n\n            <LinearLayout\n                android:orientation=\"vertical\"\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\">\n\n                <TextView\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginHorizontal=\"@dimen/dp_9\"\n                    android:layout_marginTop=\"@dimen/dp_10\"\n                    android:layout_weight=\"1\"\n                    android:drawablePadding=\"@dimen/dp_5\"\n                    android:lineSpacingExtra=\"9sp\"\n                    android:text=\"@string/reach_out_to_us_at\"\n                    android:textColor=\"#1c1c1e\"\n                    android:textSize=\"@dimen/sp_12\"\n                    android:textStyle=\"normal\"\n                    app:drawableEndCompat=\"@drawable/ic_arrow_fwd\"\n                    app:drawableStartCompat=\"@drawable/ic_call\"\n                    app:font=\"@{`medium`}\" />\n\n                <LinearLayout\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"@dimen/dp_32\"\n                    android:layout_margin=\"@dimen/dp_9\"\n                    android:onClick=\"@{()->viewModel.onClickCall()}\"\n                    android:background=\"@drawable/gray_bg\">\n\n                    <TextView\n                        android:layout_width=\"0dp\"\n                        android:layout_height=\"match_parent\"\n                        android:layout_weight=\"1\"\n                        android:background=\"@drawable/gray_bg\"\n                        android:letterSpacing=\"0.01\"\n                        android:lineSpacingExtra=\"7sp\"\n                        android:onClick=\"@{()->viewModel.onClickCall()}\"\n                        android:text=\"@string/_011_420465566\"\n                        android:paddingStart=\"@dimen/dp_11\"\n                        android:layout_gravity=\"center_vertical\"\n                        android:gravity=\"center_vertical\"\n                        android:textColor=\"@color/txt_color\"\n                        android:textColorHint=\"@color/hint_color\"\n                        android:textSize=\"@dimen/sp_11\"\n                        android:textStyle=\"normal\"\n                        app:font=\"@{`semi`}\" />\n\n                    <Button\n                        android:layout_width=\"@dimen/dp_100\"\n                        android:layout_height=\"@dimen/dp_32\"\n                        android:layout_gravity=\"center\"\n                        android:onClick=\"@{()->viewModel.onClickCall()}\"\n                        android:background=\"@drawable/gray_bg\"\n                        android:backgroundTint=\"@color/colorPrimary\"\n                        android:gravity=\"center\"\n                        android:text=\"@string/for_support\"\n                        android:textColor=\"@color/white\"\n                        app:font=\"@{`regular`}\" />\n                </LinearLayout>\n\n\n                <LinearLayout\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"@dimen/dp_32\"\n                    android:onClick=\"@{()->viewModel.onClickCall()}\"\n                    android:layout_marginHorizontal=\"@dimen/dp_9\"\n                    android:layout_marginBottom=\"@dimen/dp_9\"\n                    android:background=\"@drawable/gray_bg\">\n\n                    <TextView\n                        android:layout_width=\"0dp\"\n                        android:layout_height=\"match_parent\"\n                        android:layout_weight=\"1\"\n                        android:onClick=\"@{()->viewModel.onClickCall()}\"\n                        android:background=\"@drawable/gray_bg\"\n                        android:letterSpacing=\"0.01\"\n                        android:lineSpacingExtra=\"7sp\"\n                        android:text=\"@string/_011_420465566\"\n                        android:paddingStart=\"@dimen/dp_11\"\n                        android:layout_gravity=\"center_vertical\"\n                        android:gravity=\"center_vertical\"\n                        android:textColor=\"@color/txt_color\"\n                        android:textColorHint=\"@color/hint_color\"\n                        android:textSize=\"@dimen/sp_11\"\n                        android:textStyle=\"normal\"\n                        app:font=\"@{`semi`}\" />\n\n                    <Button\n                        android:layout_width=\"@dimen/dp_100\"\n                        android:layout_height=\"@dimen/dp_32\"\n                        android:layout_gravity=\"center\"\n                        android:onClick=\"@{()->viewModel.onClickCall()}\"\n                        android:background=\"@drawable/gray_bg\"\n                        android:backgroundTint=\"@color/colorPrimary\"\n                        android:gravity=\"center\"\n                        android:text=\"@string/for_sales\"\n                        android:textColor=\"@color/white\"\n                        app:font=\"@{`regular`}\" />\n                </LinearLayout>\n\n            </LinearLayout>\n\n\n        </androidx.cardview.widget.CardView>\n\n        <TextView\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:layout_marginStart=\"@dimen/dp_27\"\n            android:layout_marginTop=\"@dimen/dp_8\"\n            android:letterSpacing=\"0.01\"\n            android:lineSpacingExtra=\"4sp\"\n            android:textColor=\"#4d4d4d\"\n            android:textSize=\"@dimen/sp_7\"\n            android:textStyle=\"normal\"\n            app:font=\"@{`regular`}\"\n            tools:text=\"24 x 7 Helpline\" />\n\n        <androidx.cardview.widget.CardView\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"wrap_content\"\n            android:layout_gravity=\"center\"\n            android:layout_marginHorizontal=\"@dimen/dp_12\"\n            android:layout_marginTop=\"@dimen/dp_23\"\n            android:background=\"@color/white\"\n            android:minHeight=\"@dimen/dp_39\"\n            android:orientation=\"vertical\"\n            app:cardCornerRadius=\"@dimen/dp_5\"\n            app:cardElevation=\"4dp\">\n\n            <TextView\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginHorizontal=\"@dimen/dp_9\"\n                android:layout_marginTop=\"@dimen/dp_10\"\n                android:layout_weight=\"1\"\n                android:drawablePadding=\"@dimen/dp_5\"\n                android:lineSpacingExtra=\"9sp\"\n                android:text=\"@string/mail_to_us\"\n                android:textColor=\"#1c1c1e\"\n                android:textSize=\"@dimen/sp_12\"\n                android:textStyle=\"normal\"\n                app:drawableEndCompat=\"@drawable/ic_arrow_fwd\"\n                app:drawableStartCompat=\"@drawable/ic_email\"\n                app:font=\"@{`medium`}\" />\n\n\n        </androidx.cardview.widget.CardView>\n\n        <TextView\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"0dp\"\n            app:font=\"@{`medium`}\"\n            android:layout_marginHorizontal=\"@dimen/dp_12\"\n            android:layout_marginTop=\"@dimen/dp_55\"\n            android:textStyle=\"normal\"\n            android:layout_weight=\"1\"\n            android:textSize=\"16sp\"\n            android:textColor=\"#1c1c1e\"\n            android:lineSpacingExtra=\"9sp\"\n            android:text=\"@string/get_latest_updates\"/>\n\n        <LinearLayout\n            android:orientation=\"horizontal\"\n            android:layout_marginHorizontal=\"@dimen/dp_12\"\n            android:layout_width=\"match_parent\"\n            android:layout_gravity=\"center\"\n            android:gravity=\"center\"\n            android:layout_marginTop=\"@dimen/dp_16\"\n            android:layout_marginBottom=\"@dimen/dp_23\"\n            android:layout_height=\"@dimen/dp_37\"\n            android:background=\"@drawable/gray_bg\">\n            <ImageView\n                android:contentDescription=\"@string/support\"\n                android:layout_width=\"wrap_content\"\n                android:layout_weight=\"1\"\n                android:src=\"@drawable/ic_facebook\"\n                android:layout_height=\"wrap_content\"/>\n\n            <ImageView\n                android:contentDescription=\"@string/support\"\n                android:layout_width=\"wrap_content\"\n                android:layout_weight=\"1\"\n                android:src=\"@drawable/ic_linkedin\"\n                android:layout_height=\"wrap_content\"/>\n\n            <ImageView\n                android:contentDescription=\"@string/support\"\n                android:layout_width=\"wrap_content\"\n                android:src=\"@drawable/ic_instagram\"\n                android:layout_weight=\"1\"\n                android:layout_height=\"wrap_content\"/>\n\n            <ImageView\n                android:contentDescription=\"@string/support\"\n                android:layout_width=\"wrap_content\"\n                android:src=\"@drawable/ic_twitter\"\n                android:layout_weight=\"1\"\n                android:layout_height=\"wrap_content\"/>\n\n\n            <ImageView\n                android:contentDescription=\"@string/support\"\n                android:layout_width=\"wrap_content\"\n                android:src=\"@drawable/ic_youtube\"\n                android:layout_weight=\"1\"\n                android:layout_height=\"wrap_content\"/>\n\n            <ImageView\n                android:contentDescription=\"@string/support\"\n                android:layout_width=\"wrap_content\"\n                android:layout_weight=\"1\"\n                android:src=\"@drawable/ic_whats_app\"\n                android:layout_height=\"wrap_content\"/>\n        </LinearLayout>\n\n    </LinearLayout>\n\n\n\n</layout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_support.xml b/app/src/main/res/layout/fragment_support.xml
+--- a/app/src/main/res/layout/fragment_support.xml	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/app/src/main/res/layout/fragment_support.xml	(date 1642425388104)
+@@ -14,257 +14,262 @@
+ 
+     </data>
+ 
+-    <LinearLayout
+-        android:layout_width="match_parent"
+-        android:layout_height="match_parent"
+-        android:background="@color/white"
+-        android:orientation="vertical">
++    <ScrollView
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content">
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="match_parent"
++            android:background="@color/white"
++            android:orientation="vertical">
+ 
+-        <ImageView
+-            android:layout_width="@dimen/dp_118"
+-            android:layout_height="@dimen/dp_19"
+-            android:layout_gravity="center_horizontal"
+-            android:layout_marginTop="@dimen/dp_22"
+-            android:contentDescription="@string/support"
+-            android:src="@drawable/ecologo_new" />
++            <ImageView
++                android:layout_width="@dimen/dp_118"
++                android:layout_height="@dimen/dp_19"
++                android:layout_gravity="center_horizontal"
++                android:layout_marginTop="@dimen/dp_22"
++                android:contentDescription="@string/support"
++                android:src="@drawable/ecologo_new" />
+ 
+-        <ImageView
+-            android:layout_width="@dimen/dp_150"
+-            android:layout_height="@dimen/dp_133"
+-            android:layout_gravity="center_horizontal"
+-            android:layout_marginTop="@dimen/dp_21"
+-            android:background="@drawable/support"
+-            android:contentDescription="@string/support" />
++            <ImageView
++                android:layout_width="@dimen/dp_150"
++                android:layout_height="@dimen/dp_133"
++                android:layout_gravity="center_horizontal"
++                android:layout_marginTop="@dimen/dp_21"
++                android:background="@drawable/support"
++                android:contentDescription="@string/support" />
+ 
+-        <androidx.cardview.widget.CardView
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"
+-            android:layout_gravity="center"
+-            android:layout_marginHorizontal="@dimen/dp_12"
+-            android:layout_marginTop="@dimen/dp_23"
+-            android:background="@color/white"
+-            android:minHeight="@dimen/dp_39"
+-            android:orientation="vertical"
+-            app:cardCornerRadius="@dimen/dp_5"
+-            app:cardElevation="4dp">
++            <androidx.cardview.widget.CardView
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:layout_gravity="center"
++                android:layout_marginHorizontal="@dimen/dp_12"
++                android:layout_marginTop="@dimen/dp_23"
++                android:background="@color/white"
++                android:minHeight="@dimen/dp_39"
++                android:orientation="vertical"
++                app:cardCornerRadius="@dimen/dp_5"
++                app:cardElevation="4dp">
+ 
+-            <LinearLayout
+-                android:orientation="vertical"
+-                android:layout_width="match_parent"
+-                android:layout_height="wrap_content">
++                <LinearLayout
++                    android:layout_width="match_parent"
++                    android:layout_height="wrap_content"
++                    android:orientation="vertical">
+ 
+-                <TextView
+-                    android:layout_width="match_parent"
+-                    android:layout_height="wrap_content"
+-                    android:layout_marginHorizontal="@dimen/dp_9"
+-                    android:layout_marginTop="@dimen/dp_10"
+-                    android:layout_weight="1"
+-                    android:drawablePadding="@dimen/dp_5"
+-                    android:lineSpacingExtra="9sp"
+-                    android:text="@string/reach_out_to_us_at"
+-                    android:textColor="#1c1c1e"
+-                    android:textSize="@dimen/sp_12"
+-                    android:textStyle="normal"
+-                    app:drawableEndCompat="@drawable/ic_arrow_fwd"
+-                    app:drawableStartCompat="@drawable/ic_call"
+-                    app:font="@{`medium`}" />
++                    <TextView
++                        android:layout_width="match_parent"
++                        android:layout_height="wrap_content"
++                        android:layout_marginHorizontal="@dimen/dp_9"
++                        android:layout_marginTop="@dimen/dp_10"
++                        android:layout_weight="1"
++                        android:drawablePadding="@dimen/dp_5"
++                        android:lineSpacingExtra="9sp"
++                        android:text="@string/reach_out_to_us_at"
++                        android:textColor="#1c1c1e"
++                        android:textSize="@dimen/sp_12"
++                        android:textStyle="normal"
++                        app:drawableEndCompat="@drawable/ic_arrow_fwd"
++                        app:drawableStartCompat="@drawable/ic_call"
++                        app:font="@{`medium`}" />
+ 
+-                <LinearLayout
+-                    android:layout_width="match_parent"
+-                    android:layout_height="@dimen/dp_32"
+-                    android:layout_margin="@dimen/dp_9"
+-                    android:onClick="@{()->viewModel.onClickCall()}"
+-                    android:background="@drawable/gray_bg">
++                    <LinearLayout
++                        android:layout_width="match_parent"
++                        android:layout_height="@dimen/dp_32"
++                        android:layout_margin="@dimen/dp_9"
++                        android:background="@drawable/gray_bg"
++                        android:onClick="@{()->viewModel.onClickCall()}">
+ 
+-                    <TextView
+-                        android:layout_width="0dp"
+-                        android:layout_height="match_parent"
+-                        android:layout_weight="1"
+-                        android:background="@drawable/gray_bg"
+-                        android:letterSpacing="0.01"
+-                        android:lineSpacingExtra="7sp"
+-                        android:onClick="@{()->viewModel.onClickCall()}"
+-                        android:text="@string/_011_420465566"
+-                        android:paddingStart="@dimen/dp_11"
+-                        android:layout_gravity="center_vertical"
+-                        android:gravity="center_vertical"
+-                        android:textColor="@color/txt_color"
+-                        android:textColorHint="@color/hint_color"
+-                        android:textSize="@dimen/sp_11"
+-                        android:textStyle="normal"
+-                        app:font="@{`semi`}" />
++                        <TextView
++                            android:layout_width="0dp"
++                            android:layout_height="match_parent"
++                            android:layout_gravity="center_vertical"
++                            android:layout_weight="1"
++                            android:background="@drawable/gray_bg"
++                            android:gravity="center_vertical"
++                            android:letterSpacing="0.01"
++                            android:lineSpacingExtra="7sp"
++                            android:onClick="@{()->viewModel.onClickCall()}"
++                            android:paddingStart="@dimen/dp_11"
++                            android:text="@string/_011_420465566"
++                            android:textColor="@color/txt_color"
++                            android:textColorHint="@color/hint_color"
++                            android:textSize="@dimen/sp_11"
++                            android:textStyle="normal"
++                            app:font="@{`semi`}" />
+ 
+-                    <Button
+-                        android:layout_width="@dimen/dp_100"
+-                        android:layout_height="@dimen/dp_32"
+-                        android:layout_gravity="center"
+-                        android:onClick="@{()->viewModel.onClickCall()}"
+-                        android:background="@drawable/gray_bg"
+-                        android:backgroundTint="@color/colorPrimary"
+-                        android:gravity="center"
+-                        android:text="@string/for_support"
+-                        android:textColor="@color/white"
+-                        app:font="@{`regular`}" />
+-                </LinearLayout>
++                        <Button
++                            android:layout_width="@dimen/dp_100"
++                            android:layout_height="@dimen/dp_32"
++                            android:layout_gravity="center"
++                            android:background="@drawable/gray_bg"
++                            android:backgroundTint="@color/colorPrimary"
++                            android:gravity="center"
++                            android:onClick="@{()->viewModel.onClickCall()}"
++                            android:text="@string/for_support"
++                            android:textColor="@color/white"
++                            app:font="@{`regular`}" />
++                    </LinearLayout>
+ 
+ 
+-                <LinearLayout
+-                    android:layout_width="match_parent"
+-                    android:layout_height="@dimen/dp_32"
+-                    android:onClick="@{()->viewModel.onClickCall()}"
+-                    android:layout_marginHorizontal="@dimen/dp_9"
+-                    android:layout_marginBottom="@dimen/dp_9"
+-                    android:background="@drawable/gray_bg">
++                    <LinearLayout
++                        android:layout_width="match_parent"
++                        android:layout_height="@dimen/dp_32"
++                        android:layout_marginHorizontal="@dimen/dp_9"
++                        android:layout_marginBottom="@dimen/dp_9"
++                        android:background="@drawable/gray_bg"
++                        android:onClick="@{()->viewModel.onClickCall()}">
+ 
+-                    <TextView
+-                        android:layout_width="0dp"
+-                        android:layout_height="match_parent"
+-                        android:layout_weight="1"
+-                        android:onClick="@{()->viewModel.onClickCall()}"
+-                        android:background="@drawable/gray_bg"
+-                        android:letterSpacing="0.01"
+-                        android:lineSpacingExtra="7sp"
+-                        android:text="@string/_011_420465566"
+-                        android:paddingStart="@dimen/dp_11"
+-                        android:layout_gravity="center_vertical"
+-                        android:gravity="center_vertical"
+-                        android:textColor="@color/txt_color"
+-                        android:textColorHint="@color/hint_color"
+-                        android:textSize="@dimen/sp_11"
+-                        android:textStyle="normal"
+-                        app:font="@{`semi`}" />
++                        <TextView
++                            android:layout_width="0dp"
++                            android:layout_height="match_parent"
++                            android:layout_gravity="center_vertical"
++                            android:layout_weight="1"
++                            android:background="@drawable/gray_bg"
++                            android:gravity="center_vertical"
++                            android:letterSpacing="0.01"
++                            android:lineSpacingExtra="7sp"
++                            android:onClick="@{()->viewModel.onClickCall()}"
++                            android:paddingStart="@dimen/dp_11"
++                            android:text="@string/_011_420465566"
++                            android:textColor="@color/txt_color"
++                            android:textColorHint="@color/hint_color"
++                            android:textSize="@dimen/sp_11"
++                            android:textStyle="normal"
++                            app:font="@{`semi`}" />
+ 
+-                    <Button
+-                        android:layout_width="@dimen/dp_100"
+-                        android:layout_height="@dimen/dp_32"
+-                        android:layout_gravity="center"
+-                        android:onClick="@{()->viewModel.onClickCall()}"
+-                        android:background="@drawable/gray_bg"
+-                        android:backgroundTint="@color/colorPrimary"
+-                        android:gravity="center"
+-                        android:text="@string/for_sales"
+-                        android:textColor="@color/white"
+-                        app:font="@{`regular`}" />
+-                </LinearLayout>
++                        <Button
++                            android:layout_width="@dimen/dp_100"
++                            android:layout_height="@dimen/dp_32"
++                            android:layout_gravity="center"
++                            android:background="@drawable/gray_bg"
++                            android:backgroundTint="@color/colorPrimary"
++                            android:gravity="center"
++                            android:onClick="@{()->viewModel.onClickCall()}"
++                            android:text="@string/for_sales"
++                            android:textColor="@color/white"
++                            app:font="@{`regular`}" />
++                    </LinearLayout>
+ 
+-            </LinearLayout>
++                </LinearLayout>
+ 
+ 
+-        </androidx.cardview.widget.CardView>
++            </androidx.cardview.widget.CardView>
+ 
+-        <TextView
+-            android:layout_width="wrap_content"
+-            android:layout_height="wrap_content"
+-            android:layout_marginStart="@dimen/dp_27"
+-            android:layout_marginTop="@dimen/dp_8"
+-            android:letterSpacing="0.01"
+-            android:lineSpacingExtra="4sp"
+-            android:textColor="#4d4d4d"
+-            android:textSize="@dimen/sp_7"
+-            android:textStyle="normal"
+-            app:font="@{`regular`}"
+-            tools:text="24 x 7 Helpline" />
++            <TextView
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:layout_marginStart="@dimen/dp_27"
++                android:layout_marginTop="@dimen/dp_8"
++                android:letterSpacing="0.01"
++                android:lineSpacingExtra="4sp"
++                android:textColor="#4d4d4d"
++                android:textSize="@dimen/sp_7"
++                android:textStyle="normal"
++                app:font="@{`regular`}"
++                tools:text="24 x 7 Helpline" />
+ 
+-        <androidx.cardview.widget.CardView
+-            android:layout_width="match_parent"
+-            android:layout_height="wrap_content"
+-            android:layout_gravity="center"
+-            android:layout_marginHorizontal="@dimen/dp_12"
+-            android:layout_marginTop="@dimen/dp_23"
+-            android:background="@color/white"
+-            android:minHeight="@dimen/dp_39"
+-            android:orientation="vertical"
+-            app:cardCornerRadius="@dimen/dp_5"
+-            app:cardElevation="4dp">
++            <androidx.cardview.widget.CardView
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:layout_gravity="center"
++                android:layout_marginHorizontal="@dimen/dp_12"
++                android:layout_marginTop="@dimen/dp_23"
++                android:background="@color/white"
++                android:minHeight="@dimen/dp_39"
++                android:onClick="@{()->viewModel.onClickEmail()}"
++                android:orientation="vertical"
++                app:cardCornerRadius="@dimen/dp_5"
++                app:cardElevation="4dp">
+ 
+-            <TextView
+-                android:layout_width="match_parent"
+-                android:layout_height="wrap_content"
+-                android:layout_marginHorizontal="@dimen/dp_9"
+-                android:layout_marginTop="@dimen/dp_10"
+-                android:layout_weight="1"
+-                android:drawablePadding="@dimen/dp_5"
+-                android:lineSpacingExtra="9sp"
+-                android:text="@string/mail_to_us"
+-                android:textColor="#1c1c1e"
+-                android:textSize="@dimen/sp_12"
+-                android:textStyle="normal"
+-                app:drawableEndCompat="@drawable/ic_arrow_fwd"
+-                app:drawableStartCompat="@drawable/ic_email"
+-                app:font="@{`medium`}" />
++                <TextView
++                    android:layout_width="match_parent"
++                    android:layout_height="wrap_content"
++                    android:layout_marginHorizontal="@dimen/dp_9"
++                    android:layout_marginTop="@dimen/dp_10"
++                    android:layout_weight="1"
++                    android:drawablePadding="@dimen/dp_5"
++                    android:lineSpacingExtra="9sp"
++                    android:text="@string/mail_to_us"
++                    android:textColor="#1c1c1e"
++                    android:textSize="@dimen/sp_12"
++                    android:textStyle="normal"
++                    app:drawableEndCompat="@drawable/ic_arrow_fwd"
++                    app:drawableStartCompat="@drawable/ic_email"
++                    app:font="@{`medium`}" />
+ 
+ 
+-        </androidx.cardview.widget.CardView>
++            </androidx.cardview.widget.CardView>
+ 
+-        <TextView
+-            android:layout_width="wrap_content"
+-            android:layout_height="0dp"
+-            app:font="@{`medium`}"
+-            android:layout_marginHorizontal="@dimen/dp_12"
+-            android:layout_marginTop="@dimen/dp_55"
+-            android:textStyle="normal"
+-            android:layout_weight="1"
+-            android:textSize="16sp"
+-            android:textColor="#1c1c1e"
+-            android:lineSpacingExtra="9sp"
+-            android:text="@string/get_latest_updates"/>
++            <TextView
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:layout_marginHorizontal="@dimen/dp_12"
++                android:layout_marginTop="@dimen/dp_55"
++                android:lineSpacingExtra="9sp"
++                android:text="@string/get_latest_updates"
++                android:textColor="#1c1c1e"
++                android:textSize="16sp"
++                android:textStyle="normal"
++                app:font="@{`medium`}" />
+ 
+-        <LinearLayout
+-            android:orientation="horizontal"
+-            android:layout_marginHorizontal="@dimen/dp_12"
+-            android:layout_width="match_parent"
+-            android:layout_gravity="center"
+-            android:gravity="center"
+-            android:layout_marginTop="@dimen/dp_16"
+-            android:layout_marginBottom="@dimen/dp_23"
+-            android:layout_height="@dimen/dp_37"
+-            android:background="@drawable/gray_bg">
+-            <ImageView
+-                android:contentDescription="@string/support"
+-                android:layout_width="wrap_content"
+-                android:layout_weight="1"
+-                android:src="@drawable/ic_facebook"
+-                android:layout_height="wrap_content"/>
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="@dimen/dp_37"
++                android:layout_gravity="center"
++                android:layout_marginHorizontal="@dimen/dp_12"
++                android:layout_marginTop="@dimen/dp_16"
++                android:layout_marginBottom="@dimen/dp_23"
++                android:background="@drawable/gray_bg"
++                android:gravity="center"
++                android:orientation="horizontal">
++
++                <ImageView
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:layout_weight="1"
++                    android:contentDescription="@string/support"
++                    android:src="@drawable/ic_facebook" />
+ 
+-            <ImageView
+-                android:contentDescription="@string/support"
+-                android:layout_width="wrap_content"
+-                android:layout_weight="1"
+-                android:src="@drawable/ic_linkedin"
+-                android:layout_height="wrap_content"/>
+-
+-            <ImageView
+-                android:contentDescription="@string/support"
+-                android:layout_width="wrap_content"
+-                android:src="@drawable/ic_instagram"
+-                android:layout_weight="1"
+-                android:layout_height="wrap_content"/>
+-
+-            <ImageView
+-                android:contentDescription="@string/support"
+-                android:layout_width="wrap_content"
+-                android:src="@drawable/ic_twitter"
+-                android:layout_weight="1"
+-                android:layout_height="wrap_content"/>
+-
+-
+-            <ImageView
+-                android:contentDescription="@string/support"
+-                android:layout_width="wrap_content"
+-                android:src="@drawable/ic_youtube"
+-                android:layout_weight="1"
+-                android:layout_height="wrap_content"/>
++                <ImageView
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:layout_weight="1"
++                    android:contentDescription="@string/support"
++                    android:src="@drawable/ic_linkedin" />
++
++                <ImageView
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:layout_weight="1"
++                    android:contentDescription="@string/support"
++                    android:src="@drawable/ic_instagram" />
++
++                <ImageView
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:layout_weight="1"
++                    android:contentDescription="@string/support"
++                    android:src="@drawable/ic_twitter" />
++
++
++                <ImageView
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:layout_weight="1"
++                    android:contentDescription="@string/support"
++                    android:src="@drawable/ic_youtube" />
+ 
+-            <ImageView
+-                android:contentDescription="@string/support"
+-                android:layout_width="wrap_content"
+-                android:layout_weight="1"
+-                android:src="@drawable/ic_whats_app"
+-                android:layout_height="wrap_content"/>
+-        </LinearLayout>
++                <ImageView
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:layout_weight="1"
++                    android:contentDescription="@string/support"
++                    android:src="@drawable/ic_whats_app" />
++            </LinearLayout>
+ 
+-    </LinearLayout>
+-
++        </LinearLayout>
++    </ScrollView>
+ 
+ 
+ </layout>
+\ No newline at end of file
+Index: app/src/main/java/com/ecocustomerapp/data/model/api/BookingRequest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ecocustomerapp.data.model.api;\n\nimport com.google.gson.annotations.Expose;\nimport com.google.gson.annotations.SerializedName;\n\nimport java.io.Serializable;\nimport java.text.ParseException;\nimport java.text.SimpleDateFormat;\nimport java.util.Date;\nimport java.util.Locale;\nimport java.util.Objects;\n\npublic class BookingRequest implements Serializable {\n\n    @Expose\n    @SerializedName(\"customerId\")\n    private String customerId;\n\n    @Expose\n    @SerializedName(\"salutation\")\n    private String salutation;\n\n    @Expose\n    @SerializedName(\"emailAddress\")\n    private String emailAddress;\n\n    @Expose\n    @SerializedName(\"mobile\")\n    private String mobile;\n\n    @Expose\n    @SerializedName(\"pickUpCity\")\n    private String pickUpCity;\n\n    @Expose\n    @SerializedName(\"pickUpDateTime\")\n    private String pickUpDateTime;\n\n    @Expose\n    @SerializedName(\"dropOffDateTime\")\n    private String dropOffDateTime;\n\n    @Expose\n    @SerializedName(\"carType\")\n    private String carType;\n\n    @Expose\n    @SerializedName(\"packageType\")\n    private String packageType;\n\n    @Expose\n    @SerializedName(\"picklocationlat\")\n    private String picklocationlat;\n\n    @Expose\n    @SerializedName(\"picklocationlon\")\n    private String picklocationlon;\n\n    @Expose\n    @SerializedName(\"droplocationlat\")\n    private String droplocationlat;\n\n    @Expose\n    @SerializedName(\"droplocationlon\")\n    private String droplocationlon;\n\n    @Expose\n    @SerializedName(\"passengerId\")\n    private int passengerId;\n\n    @Expose\n    @SerializedName(\"CaseCode\")\n    private String caseCode;\n\n    @Expose\n    @SerializedName(\"dropCity\")\n    private String dropCity;\n\n    @Expose\n    @SerializedName(\"pickUpAddress\")\n    private String pickUpAddress;\n\n    @Expose\n    @SerializedName(\"dropAddress\")\n    private String dropAddress;\n\n    @Expose\n    @SerializedName(\"SomeoneElse\")\n    private String SomeoneElse;\n\n    @Expose\n    @SerializedName(\"Flightdetails\")\n    private String flightDetails;\n\n    @Expose\n    @SerializedName(\"passengerType\")\n    private String passengerType;\n\n    @Expose\n    @SerializedName(\"BookerId\")\n    private String BookerId;\n\n    public BookingRequest setHourlyPackage(String hourlyPackage) {\n        this.hourlyPackage = hourlyPackage;\n        return this;\n    }\n\n    @Expose\n    @SerializedName(\"hourly_package\")\n    private String hourlyPackage;\n\n    public BookingRequest setName(String name) {\n        this.name = name;\n        return this;\n    }\n\n    @Expose\n    @SerializedName(\"Name\")\n    private String name;\n\n    @Expose\n    @SerializedName(\"TripT0\")\n    private String tripTo;\n\n    public BookingRequest setTripTo(String tripTo) {\n        this.tripTo = tripTo;\n        return this;\n    }\n\n    public String getPassengerType() {\n        return passengerType;\n    }\n\n    public BookingRequest setPassengerType(String passengerType) {\n        this.passengerType = passengerType;\n        return this;\n    }\n\n    public String getSomeoneElse() {\n        return SomeoneElse;\n    }\n\n    public boolean forElse() {\n        return SomeoneElse!=null && SomeoneElse.equals(\"Yes\");\n    }\n\n    public BookingRequest setSomeoneElse(String someoneElse) {\n        SomeoneElse = someoneElse;\n        return this;\n    }\n\n    public String getFlightDetails() {\n        return flightDetails;\n    }\n\n    public BookingRequest setFlightDetails(String flightDetails) {\n        this.flightDetails = flightDetails;\n        return this;\n    }\n\n    private String bookingType;\n\n    private int tabPosition;\n\n    private String entity;\n\n    private String city;\n\n    private String CityGeoName;\n\n    private String localPackage;\n\n    private String tripType;\n\n    private String origin_address;\n\n    private String origin_point;\n\n    private String destination_address;\n\n    private String destination_point;\n\n    private String city_terminal;\n\n    private String date;\n\n    private String time;\n\n    private boolean oneway;\n\n    private String else_name;\n\n    private String else_email;\n\n    private String else_mobile;\n\n    private long calendarTime;\n\n    public String getElse_name() {\n        return else_name == null ? \"\" : else_name;\n    }\n\n    public BookingRequest setElse_name(String else_name) {\n        this.else_name = else_name;\n        return this;\n    }\n\n    public String getElse_email() {\n        return else_email == null ? \"\" : else_email;\n    }\n\n    public BookingRequest setElse_email(String else_email) {\n        this.else_email = else_email;\n        return this;\n    }\n\n    public String getElse_mobile() {\n        return else_mobile == null ? \"\" : else_mobile;\n    }\n\n    public BookingRequest setElse_mobile(String else_mobile) {\n        this.else_mobile = else_mobile;\n        return this;\n    }\n\n\n    public String getLocalPackage() {\n        return localPackage;\n    }\n\n    public void setLocalPackage(String localPackage) {\n        this.localPackage = localPackage;\n    }\n\n\n    public String getCityGeoName() {\n        return CityGeoName;\n    }\n\n    public BookingRequest setCityGeoName(String cityGeoName) {\n        CityGeoName = cityGeoName;\n        return this;\n    }\n\n\n    public String getOrigin_point() {\n        return origin_point == null ? \"\" : origin_point+\" ,\";\n    }\n\n    public BookingRequest setOrigin_point(String origin_point) {\n        this.origin_point = origin_point;\n        return this;\n    }\n\n    public String getDestination_address() {\n        return destination_address==null?\"\":destination_address;\n    }\n\n    public BookingRequest setDestination_address(String destination_address) {\n        this.destination_address = destination_address;\n        return this;\n    }\n\n    public String getDestination_point() {\n        return destination_point == null ? \"\" : destination_point+\" ,\";\n    }\n\n    public BookingRequest setDestination_point(String destination_point) {\n        this.destination_point = destination_point;\n        return this;\n    }\n\n\n    public String getDate() {\n        return date;\n    }\n\n\n    public String getFlight_details() {\n        return flight_details;\n    }\n\n    public BookingRequest setFlight_details(String flight_details) {\n        this.flight_details = flight_details;\n        return this;\n    }\n\n    private String flight_details;\n\n    public BookingRequest setCustomerId(String customerId) {\n        this.customerId = customerId;\n        return this;\n    }\n\n    public String getSalutation() {\n        return else_name==null|| else_name.isEmpty()?salutation:else_name;\n    }\n\n    public BookingRequest setSalutation(String salutation) {\n        this.salutation = salutation;\n        return this;\n    }\n\n    public String getEmailAddress() {\n        return else_email==null|| else_email.isEmpty()?emailAddress:else_email;\n    }\n\n    public BookingRequest setEmailAddress(String emailAddress) {\n        this.emailAddress = emailAddress;\n        return this;\n    }\n\n    public String getPickUpAddress() {\n        return pickUpAddress;\n    }\n\n    public String getMobile() {\n        return else_mobile==null|| else_mobile.isEmpty()?mobile:else_mobile;\n    }\n\n    public BookingRequest setMobile(String mobile) {\n        this.mobile = mobile;\n        return this;\n    }\n\n    public BookingRequest setPickUpCity(String pickUpCity) {\n        this.pickUpCity = pickUpCity;\n        return this;\n    }\n\n    public String getPickUpCity() {\n        return pickUpCity == null ? \"\" : pickUpCity;\n    }\n\n    public BookingRequest setPickUpDateTime(String pickUpDateTime) {\n        this.pickUpDateTime = pickUpDateTime;\n        return this;\n    }\n\n    public BookingRequest setCarType(String carType) {\n        this.carType = carType;\n        return this;\n    }\n\n    public BookingRequest setPackageType(String packageType) {\n        this.packageType = packageType;\n        return this;\n    }\n\n    public BookingRequest setPicklocationlat(String picklocationlat) {\n        this.picklocationlat = picklocationlat;\n        return this;\n    }\n\n    public BookingRequest setPicklocationlon(String picklocationlon) {\n        this.picklocationlon = picklocationlon;\n        return this;\n    }\n\n    public BookingRequest setDroplocationlat(String droplocationlat) {\n        this.droplocationlat = droplocationlat;\n        return this;\n    }\n\n    public BookingRequest setDroplocationlon(String droplocationlon) {\n        this.droplocationlon = droplocationlon;\n        return this;\n    }\n\n    public BookingRequest setPassengerId(String passengerId) {\n        this.passengerId = Integer.parseInt(passengerId);\n        return this;\n    }\n\n    public BookingRequest setCaseCode(String caseCode) {\n        this.caseCode = caseCode;\n        return this;\n    }\n\n    public BookingRequest setDropCity(String dropCity) {\n        this.dropCity = dropCity;\n        return this;\n    }\n\n    public BookingRequest setPickUpAddress(String pickUpAddress) {\n        this.pickUpAddress = pickUpAddress;\n        return this;\n    }\n\n    public String getDropAddress() {\n        return dropAddress;\n    }\n\n    public BookingRequest setDropAddress(String dropAddress) {\n        this.dropAddress = dropAddress;\n        return this;\n    }\n\n    public BookingRequest setBookingType(String type) {\n        this.bookingType = type;\n        return this;\n    }\n\n    public String getBookingType() {\n        return bookingType;\n    }\n\n    public boolean showRange(){\n       return bookingType.equals(\"Corporate\") || bookingType.equals(\"Booker\");\n    }\n\n    public BookingRequest setTabPosition(int position) {\n        tabPosition = position;\n        return this;\n    }\n\n    public String getEntity() {\n        return entity;\n    }\n\n    public BookingRequest setEntity(String entity) {\n        this.entity = entity;\n        return this;\n    }\n\n    public int getTabPosition() {\n        return tabPosition;\n    }\n\n    public String getTripType() {\n        return tripType;\n    }\n\n    public BookingRequest setTripType(String tripType) {\n        this.tripType = tripType;\n        return this;\n    }\n\n    public String getOriginAddress() {\n        return origin_address==null?\"\": origin_address;\n    }\n\n    public BookingRequest setOriginAddress(String address) {\n        this.origin_address = address;\n        return this;\n    }\n\n    public BookingRequest setDate(String date) {\n        this.date = date;\n        return this;\n    }\n\n    public String getTime() {\n        return time;\n    }\n\n    public BookingRequest setTime(String time) {\n        this.time = time;\n        return this;\n    }\n\n    public String getCity_terminal() {\n        return city_terminal;\n    }\n\n    public BookingRequest setCity_terminal(String city_terminal) {\n        this.city_terminal = city_terminal;\n        return this;\n    }\n\n    public boolean fromAirport() {\n        return tripType.equals(\"From airport\");\n    }\n\n    public boolean toAirport() {\n        return tripType.equals(\"To airport\");\n    }\n\n    public String getPackageType() {\n        return packageType == null ? \"\" : packageType;\n    }\n\n    public String getPickUpDateTime() {\n        return pickUpDateTime;\n    }\n\n    public String getDropCity() {\n        return dropCity == null ? \"\" : dropCity;\n    }\n\n    public String getDropOffDateTime() {\n        return dropOffDateTime;\n    }\n\n    public BookingRequest setDropOffDateTime(String dropOffDateTime) {\n        this.dropOffDateTime = dropOffDateTime;\n        return this;\n    }\n\n    public String getCaseCode() {\n        return caseCode;\n    }\n\n    public String getDepartureTime() {\n        SimpleDateFormat sdf = new SimpleDateFormat(\"dd/MM/yyyy HH:mm\", Locale.getDefault());\n        SimpleDateFormat dateFormat = new SimpleDateFormat(\"dd MMM, hh:mm a\", Locale.getDefault());\n        try {\n            return dateFormat.format(Objects.requireNonNull(sdf.parse(pickUpDateTime)));\n        } catch (ParseException e) {\n            e.printStackTrace();\n            return \"00:00\";\n        }\n    }\n\n    public String showRoute() {\n        switch (tripType) {\n            case \"From airport\":\n                return \"From Airport \" + pickUpCity + \" to \" + dropCity;\n            case \"To airport\":\n                return \"From \" + pickUpCity + \" to \" + dropCity;\n            case \"Local\":\n                return \"From \" + pickUpCity;\n            case \"Outstation\":\n                return \"From \" + pickUpCity + \" to\" + getDropCity();\n            default:\n                return \"\";\n\n        }\n\n    }\n\n    public String getCity() {\n        return city;\n    }\n\n    public BookingRequest setCity(String city) {\n        this.city = city;\n        return this;\n    }\n\n    public boolean isOneway() {\n        return oneway;\n    }\n\n    public void setOneway(boolean oneway) {\n        this.oneway = oneway;\n    }\n\n    public long getCalendarTime() {\n        return calendarTime;\n    }\n\n    public void setCalendarTime(String calendarTime) {\n\n\n        SimpleDateFormat sdf = new SimpleDateFormat(\"dd/MM/yyyy HH:mm\", Locale.getDefault());\n        Date date = null;\n        try {\n            date = sdf.parse(calendarTime);\n        } catch (ParseException e) {\n            e.printStackTrace();\n        }\n        this.calendarTime = date.getTime();\n    }\n\n    public BookingRequest setBookerId(String bookerId) {\n        BookerId = bookerId;\n        return this;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/ecocustomerapp/data/model/api/BookingRequest.java b/app/src/main/java/com/ecocustomerapp/data/model/api/BookingRequest.java
+--- a/app/src/main/java/com/ecocustomerapp/data/model/api/BookingRequest.java	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/app/src/main/java/com/ecocustomerapp/data/model/api/BookingRequest.java	(date 1642423656290)
+@@ -567,4 +567,8 @@
+         BookerId = bookerId;
+         return this;
+     }
++
++    public String getHourlyPackage() {
++        return hourlyPackage;
++    }
+ }
+Index: app/src/main/java/com/ecocustomerapp/ui/fragments/support/SupportFragmentNavigator.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ecocustomerapp.ui.fragments.support;\n\npublic interface SupportFragmentNavigator {\n\n    void replaceFragment();\n\n    void makeCall();\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/ecocustomerapp/ui/fragments/support/SupportFragmentNavigator.java b/app/src/main/java/com/ecocustomerapp/ui/fragments/support/SupportFragmentNavigator.java
+--- a/app/src/main/java/com/ecocustomerapp/ui/fragments/support/SupportFragmentNavigator.java	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/app/src/main/java/com/ecocustomerapp/ui/fragments/support/SupportFragmentNavigator.java	(date 1642424374484)
+@@ -1,8 +1,12 @@
+ package com.ecocustomerapp.ui.fragments.support;
+ 
++import android.content.Context;
++
+ public interface SupportFragmentNavigator {
+ 
+     void replaceFragment();
+ 
+     void makeCall();
++
++    Context getContext();
+ }
+Index: app/src/main/java/com/ecocustomerapp/data/model/api/PackageRequest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ecocustomerapp.data.model.api;\n\nimport com.google.gson.annotations.Expose;\nimport com.google.gson.annotations.SerializedName;\n\npublic class PackageRequest {\n\n    @Expose\n    @SerializedName(\"City\")\n    private String city;\n\n    @Expose\n    @SerializedName(\"passengerId\")\n    private String passenger_id;\n\n    @Expose\n    @SerializedName(\"PassengerType\")\n    private String Passenger_type;\n\n    @Expose\n    @SerializedName(\"BookingType\")\n    private String BookingType;\n\n    @Expose\n    @SerializedName(\"pickUpDateTime\")\n    private String pickUpDateTime;\n\n    @Expose\n    @SerializedName(\"CustomerID\")\n    private String CustomerID;\n\n\n\n    @Expose\n    @SerializedName(\"dropOffDateTime\")\n    private String dropOffDateTime;\n\n\n    public PackageRequest setCity(String city) {\n        this.city = city;\n        return this;\n    }\n\n    public PackageRequest setPassengerId(String passenger_id) {\n        this.passenger_id = passenger_id;\n        return this;\n    }\n\n    public PackageRequest setPassengerType(String passenger_type) {\n        Passenger_type = passenger_type;\n        return this;\n    }\n\n    public PackageRequest setBookingType(String bookingType) {\n        BookingType = bookingType;\n        return this;\n    }\n\n    public String getPickUpDateTime() {\n        return pickUpDateTime;\n    }\n\n    public PackageRequest setPickUpDateTime(String pickUpDateTime) {\n        this.pickUpDateTime = pickUpDateTime;\n        return this;\n    }\n\n    public String getDropOffDateTime() {\n        return dropOffDateTime;\n    }\n\n    public PackageRequest setDropOffDateTime(String dropOffDateTime) {\n        this.dropOffDateTime = dropOffDateTime;\n        return this;\n    }\n\n    public PackageRequest setCustomerID(String customerID) {\n        CustomerID = customerID;\n        return this;\n    }\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/ecocustomerapp/data/model/api/PackageRequest.java b/app/src/main/java/com/ecocustomerapp/data/model/api/PackageRequest.java
+--- a/app/src/main/java/com/ecocustomerapp/data/model/api/PackageRequest.java	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/app/src/main/java/com/ecocustomerapp/data/model/api/PackageRequest.java	(date 1642423656304)
+@@ -35,6 +35,10 @@
+     @SerializedName("dropOffDateTime")
+     private String dropOffDateTime;
+ 
++    @Expose
++    @SerializedName("hourly_package")
++    private String hourlyPackage;
++
+ 
+     public PackageRequest setCity(String city) {
+         this.city = city;
+@@ -80,4 +84,8 @@
+     }
+ 
+ 
++    public PackageRequest setHourlyPackage(String hourlyPackage) {
++        this.hourlyPackage = hourlyPackage;
++        return this;
++    }
+ }
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!--\n  ~  Copyright (C) 2017 MINDORKS NEXTGEN PRIVATE LIMITED\n  ~\n  ~  Licensed under the Apache License, Version 2.0 (the \"License\");\n  ~  you may not use this file except in compliance with the License.\n  ~  You may obtain a copy of the License at\n  ~\n  ~      https://mindorks.com/license/apache-v2\n  ~\n  ~  Unless required by applicable law or agreed to in writing, software\n  ~  distributed under the License is distributed on an \"AS IS\" BASIS,\n  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n  ~  See the License for the specific language governing permissions and\n  ~  limitations under the License\n  -->\n\n<resources>\n    <string name=\"app_name\">Eco Customer App</string>\n\n    <!--Toolbar menus-->\n    <string name=\"clear\">Clear</string>\n    <string name=\"cut\">Cut</string>\n    <string name=\"copy\">Copy</string>\n    <string name=\"paste\">Paste</string>\n    <string name=\"delete\">Delete</string>\n    <string name=\"share\">Share</string>\n\n    <!--Drawer-->\n    <string name=\"open_drawer\">Drawer Open</string>\n    <string name=\"close_drawer\">Drawer Close</string>\n\n    <!--Drawer Menus-->\n    <string name=\"about\">About</string>\n    <string name=\"logout\">Logout</string>\n    <string name=\"feed\">My Feed</string>\n\n    <!--App Message-->\n    <string name=\"api_retry_error\">Please retry!</string>\n    <string name=\"api_default_error\">Something wrong happened!</string>\n    <string name=\"some_error\">Some Error Occurred!</string>\n    <string name=\"connection_error\">Internet connection lost!</string>\n\n    <!--Login-->\n    <string name=\"login_dummy\">Login Dummy</string>\n    <string name=\"login\">Login</string>\n    <string name=\"email\">Email</string>\n    <string name=\"password\">Password</string>\n    <string name=\"confirm_password\">Confirm Password</string>\n\n    <!--Login Validation-->\n    <string name=\"invalid_email_password\">Please provide a valid email and password.</string>\n\n    <!--about fragment-->\n    <string name=\"project_info\">This sample app implements MVVM architecture using Dagger2, GreenDao, RxJava, FastAndroidNetworking and PlaceholderView</string>\n    <string name=\"link_mvvm_blog\">1. https://blog.mindorks.com</string>\n    <string name=\"link_mvvm_repo\">2. https://github.com/MindorksOpenSource/android-mvvm-architecture</string>\n    <string name=\"link_mindorks_blog\">3. https://blog.mindorks.com</string>\n    <string name=\"link_mindorks_repo\">4. https://github.com/MindorksOpenSource</string>\n    <string name=\"version\">\"version\"</string>\n\n    <!--rating dialog-->\n    <string name=\"rate_us\">Rate Us</string>\n    <string name=\"rating_message\">Please let us know, how can we improve ourselves?</string>\n    <string name=\"rating_play_store_redirect_message_line_1\">Awesome! Thank you for the 5 stars.</string>\n    <string name=\"rating_play_store_redirect_message_line_2\">Please help others, in knowing some good things about this app.</string>\n    <string name=\"rating_play_store_text\">Rate us on Play Store</string>\n    <string name=\"rating_not_provided_error\">Please provide us stars.</string>\n    <string name=\"rating_thanks\">Thank you!</string>\n\n    <!--play store-->\n    <string name=\"app_google_play_store_link\">\"https://play.google.com/store/apps/details?id=\"</string>\n    <string name=\"app_market_link\">\"market://details?id=\"</string>\n\n    <!--button-->\n    <string name=\"later\">Later</string>\n    <string name=\"submit\">Submit</string>\n\n    <!--feed-->\n    <string name=\"title\">My Feed</string>\n    <string name=\"open_source\">Open Source</string>\n    <string name=\"blog\">Blog</string>\n\n    <!--empty state-->\n    <string name=\"empty_screen\">We do not have anything\\nhere right now.</string>\n    <string name=\"please_retry\">Please Retry</string>\n    <string name=\"retry\">Retry</string>\n    <string name=\"welcome\">Welcome to ECO RENT A CAR</string>\n    <string name=\"new_user\">New user please <i><b><u><p><font color=\"#3b5998\">register </font></p></u></b></i> here.</string>\n    <string name=\"forgot_password\">Forgot Password?</string>\n    <string name=\"already_user\">Already a user just <i><b><u><p><font color=\"#3b5998\">login</font></p></u></b></i> here.</string>\n    <string name=\"user_name\">User name</string>\n    <string name=\"phone_number\">Phone number</string>\n    <string name=\"please_enter_mobile_number\">Please enter mobile number.</string>\n    <string name=\"please_enter_valid_mobile_number\">Please enter valid 10 digit mobile number.</string>\n    <string name=\"title_activity_main\">MainActivity</string>\n    <string name=\"navigation_drawer_open\">Open navigation drawer</string>\n    <string name=\"navigation_drawer_close\">Close navigation drawer</string>\n    <string name=\"nav_header_title\">Android Studio</string>\n    <string name=\"nav_header_subtitle\">android.studio@android.com</string>\n    <string name=\"nav_header_desc\">Navigation header</string>\n    <string name=\"action_settings\">Settings</string>\n\n    <string name=\"menu_home\">Home</string>\n    <string name=\"menu_gallery\">Gallery</string>\n    <string name=\"menu_slideshow\">Slideshow</string>\n    <string name=\"book_a_ride\">Book a ride</string>\n    <string name=\"my_profile\">My profile</string>\n    <string name=\"my_bookings\">My bookings</string>\n    <string name=\"pending_bookings\">Pending bookings for approval</string>\n    <string name=\"support\">Support</string>\n    <string name=\"about_us\">About us</string>\n    <string name=\"track\">Track</string>\n    <string name=\"airport\">Airport</string>\n    <string name=\"past\">PAST</string>\n    <string name=\"upcoming\">UPCOMING</string>\n    <string name=\"pending\">PENDING</string>\n    <string name=\"local\">Local</string>\n    <string name=\"outstation\">Out\\nStation</string>\n    <string name=\"personal\">Personal</string>\n    <string name=\"corporate\">Corporate</string>\n    <string name=\"booking_for_someone_else\">Booking for someone else?</string>\n    <string name=\"country\">Country</string>\n    <string name=\"city\">City</string>\n    <string name=\"trip\">Trip</string>\n    <string name=\"pickup_address\">(Landmark, BuildingName, Door number)</string>\n    <string name=\"pickup__address\">Pickup address</string>\n    <string name=\"pickup_date\">Pickup date \\n and time</string>\n    <string name=\"date_time\">DATE &amp; TIME</string>\n    <string name=\"duty_type\">DUTY TYPE</string>\n    <string name=\"fare\">TOTAL_FARE</string>\n    <string name=\"drop_date\">Drop date \\n and time</string>\n    <string name=\"pickup_date_only\">Pickup date</string>\n    <string name=\"pickup_time\">Pickup time</string>\n    <string name=\"title_activity_home\">HomeActivity</string>\n    <string name=\"title_activity_fragment\">FragmentActivity</string>\n    <string name=\"title_activity_main2\">MainActivity</string>\n    <string name=\"select_car\">Select Car</string>\n    <string name=\"modify\">Modify</string>\n    <string name=\"capacity\">4+ \\n driver</string>\n    <string name=\"contact_pickup\"><![CDATA[1. Contact & Pickup details]]></string>\n    <string name=\"name\">Name*</string>\n    <string name=\"email_address\">Email Address*</string>\n    <string name=\"landmark\">Pickup address (Landmark, BuildingName, Door number)</string>\n    <string name=\"flight_details_mandate\">Please specify your Flight number*</string>\n    <string name=\"flight_details\">Please specify your Flight number</string>\n    <string name=\"flight_detail\">Flight details</string>\n    <string name=\"case_code\">Case code</string>\n    <string name=\"airport_pickup\">Airport pickup?</string>\n    <string name=\"terminal\">Terminal</string>\n    <string name=\"send_details\">Send trip details to alternate eamil.</string>\n    <string name=\"your_booking_details\">Your booking details</string>\n    <string name=\"pickup_city\">Pickup City</string>\n    <string name=\"trip_type\">Trip type</string>\n    <string name=\"car_type\">Car Type</string>\n    <string name=\"total_fare\">Total fare</string>\n    <string name=\"proceed_to_pay\">Proceed</string>\n    <string name=\"confirm\">Booking Summery</string>\n    <string name=\"service_type\">Service Type</string>\n    <string name=\"airport_transfer\">Airport\\nTransfer</string>\n    <string name=\"packages\">Package</string>\n    <string name=\"from_airport\">From Airport</string>\n    <string name=\"payment_mode\">Payment Mode</string>\n    <string name=\"bill_to_company\">Bill to company</string>\n    <string name=\"special_requirements\">Special Requirements</string>\n    <string name=\"sp_requirements\">Sp. Requirements</string>\n    <string name=\"track_driver\">Track Driver</string>\n    <string name=\"mobile_number\">Mobile number</string>\n    <string name=\"vehicle_type\">Vehicle Type</string>\n    <string name=\"cancel\">Cancel</string>\n    <string name=\"expand\">Expand</string>\n    <string name=\"edit_booking\">Edit Booking</string>\n    <string name=\"feedback\">Feedback</string>\n    <string name=\"edit_billing\">Edit Billing details</string>\n    <string name=\"guest_details\">Guest Details</string>\n    <string name=\"close\">Close</string>\n\n    <string-array name=\"trip_type\">\n        <item>Select Trip Type</item>\n        <item>To airport</item>\n        <item>From airport</item>\n    </string-array>\n\n    <string-array name=\"select\">\n        <item>Select</item>\n    </string-array>\n\n    <string-array name=\"local_package\">\n        <item>4Hr/40Km</item>\n        <item>8Hr/80Km</item>\n    </string-array>\n\n    <string-array name=\"country_code\">\n        <item>+91 India</item>\n    </string-array>\n\n    <string-array name=\"service_name\">\n        <item>Track Driver</item>\n        <item>Track Driver</item>\n        <item>Track Driver</item>\n        <item>Track Driver</item>\n        <item>Track Driver</item>\n        <item>Track Driver</item>\n        <item>Track Driver</item>\n        <item>Track Driver</item>\n        <item>Track Driver</item>\n        <item>Track Driver</item>\n        <item>Track Driver</item>\n        <item>Track Driver</item>\n    </string-array>\n    <string name=\"title_activity_registration\">RegistrationActivity</string>\n    <string name=\"prompt_email\">Email</string>\n    <string name=\"prompt_password\">Password</string>\n    <string name=\"action_sign_in\">Sign in or register</string>\n    <string name=\"action_sign_in_short\">Sign in</string>\n    <string name=\"invalid_username\">Not a valid username</string>\n    <string name=\"invalid_password\">Password must be >5 characters</string>\n    <string name=\"login_failed\">\"Login failed\"</string>\n    <string name=\"gender\">Gender*</string>\n    <string name=\"f_name\">First Name*</string>\n    <string name=\"l_name\">Last Name*</string>\n    <string name=\"get_otp\">Get OTP</string>\n    <string name=\"please_enter_valid_email_address\">Please enter valid email address</string>\n    <string name=\"email_otp\">Email OTP</string>\n    <string name=\"mobile_otp\">Mobile OTP</string>\n    <string name=\"register\">Register</string>\n\n    <string name=\"picker_today\">Today</string>\n    <string name=\"picker_am\">AM</string>\n    <string name=\"picker_pm\">PM</string>\n    <string name=\"female\">Female</string>\n    <string name=\"male\">Male</string>\n    <string name=\"railway_pickup\">Railway station pickup?</string>\n    <string name=\"drop_address\">(Landmark, BuildingName, Door number)</string>\n    <string name=\"drop__address\">Drop address</string>\n    <string name=\"date_format\">dd/MM/yyyy hh:mm</string>\n    <string name=\"city_from\">City From</string>\n    <string name=\"city_to\">City To</string>\n    <string name=\"round_trip\">Round trip</string>\n    <string name=\"one_way\">One way</string>\n    <string name=\"resend_otp\">Resend OTP</string>\n    <string name=\"na\">N/A</string>\n    <!-- TODO: Remove or change this placeholder text -->\n    <string name=\"hello_blank_fragment\">Hello blank fragment</string>\n    <string name=\"personal_email\">Personal Email ID*</string>\n    <string name=\"official_email\">Enter your Official Email ID*</string>\n    <string name=\"send_otp\">Send OTP</string>\n    <string name=\"resend\">Resend</string>\n    <string name=\"update\">Update</string>\n    <string name=\"firebase_error\">Firebase token not available, Please restart the app!</string>\n    <string name=\"default_notification_channel_id\">01</string>\n    <string name=\"fcm_message\">Hello</string>\n    <string name=\"home\">Home</string>\n    <string name=\"special_instructions\">Special Request</string>\n    <string name=\"something_wrong\">Something went wrong!</string>\n    <string name=\"user\">USER</string>\n    <string name=\"booking_number\">BOOKING NO.</string>\n    <string name=\"status\">STATUS</string>\n    <string name=\"cancel_booking\">Cancel Booking</string>\n    <string name=\"pickup\">PICK UP</string>\n    <string name=\"drop\">DROP</string>\n    <string name=\"cancellation_reason\">Cancellation reason.</string>\n    <string name=\"canceled\">Cancelled</string>\n    <string name=\"company_name\">Company Name</string>\n    <string name=\"traveller_details\">Traveller Details</string>\n    <string name=\"pickup__details\">Pickup Details</string>\n    <string name=\"drop__details\">Drop of Details</string>\n    <string name=\"pickup_date_time\">Pickup Date/Time</string>\n    <string name=\"service_type_package\">Service Type/Package</string>\n    <string name=\"booking_status\">Booking Status</string>\n    <string name=\"test_map\">Test Map</string>\n    <string name=\"logo\">Logo</string>\n    <string name=\"sign_up\">Sign Up</string>\n    <string name=\"login_to_continue\">Login to continue</string>\n    <string name=\"or_login_with\">or Login With</string>\n    <string name=\"enter_your_email_id_to_retrieve_password\">Enter Your Email ID to retrieve Password</string>\n    <string name=\"enter_otp\">Enter OTP</string>\n    <string name=\"verify_your_account\">Verify Your Account</string>\n    <string name=\"sign_up_to_get_a_started\">Sign up to get a started!</string>\n    <string name=\"individual\">Individual</string>\n    <string name=\"terms\">I agree to the <font color=\"#ec3137\">Terms of Service</font> &amp; <font color=\"#ec3137\">Privacy Policy</font></string>\n    <string name=\"i_apos_m_already_a_member_sign_in\">I\\'m already a member, <b><font color=\"#000000\">Sign In</font></b></string>\n    <string name=\"_91\">+91</string>\n    <string name=\"create_your_profile_for_personal_account\">Create Your Profile\\nFor Personal Account</string>\n    <string name=\"create_your_profile_for_corporate_account\">Create Your Profile\\nFor Corporate Account</string>\n    <string name=\"create_account\">Create Account</string>\n    <string name=\"add_your_details_and_verify\">Add your details and verify</string>\n    <string name=\"full_name\">Full Name</string>\n    <string name=\"select_entity\">Select entity</string>\n    <string name=\"reset_password\">Reset Password</string>\n    <string name=\"select_entity_of_traveller\">Select Entity of Traveller</string>\n    <string name=\"you_are_creating_new_password_for_your_corporate_account\">You are creating new password for your\\ncorporate account</string>\n    <string name=\"set_password\">Set Password</string>\n    <string name=\"proceed\">Proceed</string>\n    <string name=\"chauffeur_self_drive\">Chauffeur | Self Drive</string>\n    <string name=\"tab_icon\">Tab Icon</string>\n    <string name=\"book_your_ride_worldwide\">Book Your Ride Worldwide</string>\n    <string name=\"hourly_rental\">Hourly\\nRental</string>\n    <string name=\"select_city_terminal\">Select City - Terminal</string>\n    <string name=\"from_airport_to_airport\">From Airport / To Airport</string>\n    <string name=\"pickup_address_drop_address\">Pickup Address / Drop Address</string>\n    <string name=\"search\">Search</string>\n    <string name=\"date\">Date</string>\n    <string name=\"time\">Time</string>\n    <string name=\"pick_time\">Pickup date time</string>\n    <string name=\"drop_time\">Drop date time</string>\n    <string name=\"inc_of_airport_toll_and_taxes\">inc. of airport toll \\n and taxes</string>\n    <string name=\"or_similar\">Or Similar</string>\n    <string name=\"dzire_etios\">Dzire, Etios</string>\n    <string name=\"below_fares_for_a_range_of_lt_base_km_gt\"><![CDATA[Below fares for a range of <Base km>]]></string>\n    <string name=\"pickup_from\">Pickup From</string>\n    <string name=\"drop_to\">Drop to</string>\n    <string name=\"enter_details\">Enter details</string>\n    <string name=\"yes\">Yes</string>\n    <string name=\"no\">No</string>\n    <string name=\"contact_details\">Contact Details</string>\n    <string name=\"from_airport_terminal_3_to_eco_rent_a_car_kapashera_estate_new_delhi\">From Airport Terminal 3 To Eco rent a car, Kapashera Estate, New Delhi</string>\n    <string name=\"apply_coupon_code\">Apply Coupon Code</string>\n    <string name=\"apply\">Apply</string>\n    <string name=\"booking_summary\">Booking Summary</string>\n    <string name=\"book\">Book</string>\n    <string name=\"departure_time\">Departure Time</string>\n    <string name=\"change_password\">Change Password</string>\n    <string name=\"choose_drive_mode\">Choose Drive Mode</string>\n    <string name=\"india_chauffeur_drive\">India Chauffeur Drive</string>\n    <string name=\"india_self_drive\">India Self Drive</string>\n    <string name=\"international_chauffeur_drive\">International Chauffeur Drive</string>\n    <string name=\"international_self_drive\">International Self Drive</string>\n    <string name=\"the_most_awarded_car_rental_company_in_india\">The Most Awarded \\nCar Rental Company in India</string>\n    <string name=\"award\"><![CDATA[ECO has been awarded with National Award for 4 consecutive years 2018, 2017, 2016, 2015 by Hon’ble President of India. Winner of Dun & Bradstreet Award in 2014, 2017 & 2019. We are India’s Leading Employee Transportation Company in 2013 & 2015.]]></string>\n    <string name=\"urban_drive\">Urban Drive</string>\n    <string name=\"urban\"><![CDATA[Urban Drive is the newly launched B2C brand of ECOS (India) Mobility & Hospitality Pvt. Ltd. Offering Chauffeur-Driven car rental along with Self Drive car Services in over 100+ cities in India and overseas.]]></string>\n    <string name=\"pending_approval\">Pending Approval</string>\n    <string name=\"receipt\">Receipt</string>\n    <string name=\"important_info\">Important Info</string>\n    <string name=\"cancellation_info\">Cancellation Info</string>\n    <string name=\"reach_out_to_us_at\">Reach Out to Us at</string>\n    <string name=\"mail_to_us\">Mail to us.</string>\n    <string name=\"_011_420465566\">011 40794079</string>\n    <string name=\"for_support\">For Support</string>\n    <string name=\"for_sales\">For Sales</string>\n    <string name=\"get_latest_updates\">Get Latest Updates</string>\n    <string name=\"select_package\">Select Package</string>\n    <string name=\"select_city\">Select City</string>\n    <string name=\"select_source_city\">Source City</string>\n    <string name=\"select_destination_city\">Destination City</string>\n\n\n</resources>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+--- a/app/src/main/res/values/strings.xml	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/app/src/main/res/values/strings.xml	(date 1641802535949)
+@@ -343,6 +343,7 @@
+     <string name="select_city">Select City</string>
+     <string name="select_source_city">Source City</string>
+     <string name="select_destination_city">Destination City</string>
++    <string name="send_message_to_driver">Send message to driver</string>
+ 
+ 
+ </resources>
+Index: app/src/main/java/com/ecocustomerapp/ui/fragments/booking/BookingViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ecocustomerapp.ui.fragments.booking;\n\nimport android.widget.RadioGroup;\n\nimport com.ecocustomerapp.R;\nimport com.ecocustomerapp.data.manager.DataManager;\nimport com.ecocustomerapp.data.model.BaseModel;\nimport com.ecocustomerapp.data.model.api.BookingRequest;\nimport com.ecocustomerapp.databinding.FragmentBookingBinding;\nimport com.ecocustomerapp.ui.base.BaseViewModel;\nimport com.ecocustomerapp.ui.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;\nimport com.ecocustomerapp.utils.rx.SchedulerProvider;\n\nimport java.util.Calendar;\n\npublic class BookingViewModel extends BaseViewModel<BookingNavigator, FragmentBookingBinding> {\n\n    public BookingViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {\n        super(dataManager, schedulerProvider);\n    }\n\n    private boolean forElse;\n\n    public void modify() {\n        dateTimePicker();\n    }\n\n    public void setUp() {\n        getBinding().rdYes.setEnabled(getBinding().getBooking().getBookingType().equals(\"Individual\") || getBinding().getBooking().getBookingType().equals(\"Booker\"));\n        if (getBinding().getBooking().forElse()) {\n            forElse = true;\n            getBinding().rdYes.setChecked(true);\n            setElseEnable(true);\n        } else {\n            forElse = false;\n            getBinding().rdNo.setChecked(true);\n            setElseEnable(false);\n        }\n        getBinding().setOnCheckChange(new RadioGroup.OnCheckedChangeListener() {\n            @Override\n            public void onCheckedChanged(RadioGroup group, int checkedId) {\n                setElseEnable(checkedId == R.id.rd_yes);\n                forElse = checkedId == R.id.rd_yes;\n            }\n        });\n\n        if (getBinding().getBooking().fromAirport()) {\n            getBinding().getBooking().setOriginAddress(getBinding().getBooking().getPickUpCity());\n            getBinding().txtPickupAddress.setEnabled(false);\n        } else if (getBinding().getBooking().toAirport()) {\n            getBinding().getBooking().setDestination_address(getBinding().getBooking().getDropCity());\n            getBinding().txtDropAddress.setEnabled(false);\n        }\n    }\n\n    private void setElseEnable(boolean enable) {\n        getBinding().elseName.setEnabled(enable);\n        getBinding().elseEmail.setEnabled(enable);\n        getBinding().elseMobile.setEnabled(enable);\n\n        if (enable && forElse) {\n            getBinding().elseName.setText(getBinding().getBooking().getElse_name());\n            getBinding().elseEmail.setText(getBinding().getBooking().getElse_email());\n            getBinding().elseMobile.setText(getBinding().getBooking().getElse_mobile());\n        } else if (enable) {\n            getBinding().elseName.setText(\"\");\n            getBinding().elseEmail.setText(\"\");\n            getBinding().elseMobile.setText(\"\");\n        } else {\n            getBinding().elseName.setText(\"\");\n            getBinding().elseEmail.setText(\"\");\n            getBinding().elseMobile.setText(\"\");\n            getBinding().elseName.setText(getBinding().getBooking().getSalutation());\n            getBinding().elseEmail.setText(getBinding().getBooking().getEmailAddress());\n            getBinding().elseMobile.setText(getBinding().getBooking().getMobile());\n        }\n\n\n    }\n\n\n    public void proceed() {\n        if (validate(getNavigator().getRequest())) {\n\n            if (getDataManager().getCustomerType().equals(\"Booker\") || forElse) {\n                getBinding().getBooking().setBookerId(getDataManager().getBookerId());\n                getPassengerId();\n            } else {\n                getNavigator().proceedToPay(getBinding().getBooking());\n            }\n        }\n    }\n\n    private boolean validate(BookingRequest request) {\n\n        boolean isPickupRequired = request.getTripType().equals(\"To airport\") || request.getTripType().equals(\"Local\") || request.getTripType().equals(\"Outstation\");\n\n        boolean isDropRequired = request.getTripType().equals(\"From airport\") || request.getTripType().equals(\"Local\") || request.getTripType().equals(\"Outstation\");\n\n        if (isPickupRequired && (request.getOriginAddress() == null || request.getOriginAddress().trim().isEmpty())) {\n            getNavigator().showToast(\"Please enter pickup address\");\n            return false;\n        }\n        if (isDropRequired && (request.getDestination_address() == null || request.getDestination_address().trim().isEmpty())) {\n            getNavigator().showToast(\"Please enter drop address\");\n            return false;\n        }\n\n        if (request.getTripType().contains(\"airport\") && (request.getFlight_details() == null || request.getFlight_details().trim().isEmpty())) {\n            getNavigator().showToast(\"Please enter flight details\");\n            return false;\n        }\n        if (getDataManager().getShowCaseCode() && (request.getCaseCode() == null || request.getCaseCode().trim().isEmpty())) {\n            getNavigator().showToast(\"Please enter \" + getDataManager().getCaseCodeName());\n            return false;\n        } else {\n            if (getBinding().getBooking().fromAirport()) {\n                getBinding().getBooking().setDropAddress(getBinding().getBooking().getDestination_point()+getBinding().getBooking().getDestination_address()  +  \", \" + getBinding().getBooking().getDropCity());\n                getBinding().getBooking().setPickUpAddress(getBinding().getBooking().getPickUpCity());\n                getBinding().getBooking().setFlightDetails(getBinding().txtFlightDetails.getText().toString());\n            } else if (getBinding().getBooking().toAirport()) {\n                getBinding().getBooking().setPickUpAddress(getBinding().getBooking().getOrigin_point()+getBinding().getBooking().getOriginAddress() +  \", \" + getBinding().getBooking().getPickUpCity());\n                getBinding().getBooking().setDropAddress(getBinding().getBooking().getDropCity());\n                getBinding().getBooking().setFlightDetails(getBinding().txtFlightDetails.getText().toString());\n            }\n\n            if (getBinding().getBooking().getTripType().equals(\"Local\") || getBinding().getBooking().getTripType().equals(\"Outstation\")) {\n                getBinding().getBooking().setPickUpAddress(getBinding().getBooking().getOrigin_point()+ getBinding().getBooking().getOriginAddress()  + \", \" + getBinding().getBooking().getPickUpCity());\n                getBinding().getBooking().setDropAddress(getBinding().getBooking().getDestination_point() +getBinding().getBooking().getDestination_address() );\n                getBinding().getBooking().setFlightDetails(\"Test\");\n\n            }\n        }\n\n        if (!request.getTripType().contains(\"airport\")) {\n            getBinding().getBooking().setFlight_details(\"test\");\n        }\n\n        if (forElse) {\n            getBinding().getBooking().setSomeoneElse(\"Yes\");\n        } else {\n            getBinding().getBooking().setSomeoneElse(\"No\");\n        }\n\n        if (getBinding().getBooking().getMobile().length() >= 11) {\n            getBinding().getBooking().setMobile(getBinding().getBooking().getMobile().substring(2));\n        }\n\n        getBinding().getBooking().setPassengerType(getDataManager().getPassengerType());\n        getBinding().getBooking().setCaseCode(\"test\");\n\n        return true;\n    }\n\n\n    public void dateTimePicker() {\n\n        long time = getBinding().getBooking().getCalendarTime();\n        Calendar calendar = Calendar.getInstance();\n        calendar.setTimeInMillis(time);\n        SingleDateAndTimePickerDialog.Builder builder = new SingleDateAndTimePickerDialog.Builder(getBinding().getRoot().getContext());\n        builder.setTimeZone(Calendar.getInstance().getTimeZone());\n        builder.minutesStep(15);\n        builder.mainColor(getBinding().getRoot().getResources().getColor(R.color.colorPrimary));\n        builder.minDateRange(calendar.getTime());\n        builder.closeListener(new SingleDateAndTimePickerDialog.CloseListener() {\n            @Override\n            public void onClose() {\n\n            }\n        });\n        builder.title(\"Select date and time\");\n        builder.listener(new SingleDateAndTimePickerDialog.Listener() {\n            @Override\n            public void onDateSelected(String date, String time, String dateTime) {\n\n                getBinding().getBooking().setPickUpDateTime(dateTime + \":00\");\n                getBinding().txtDepartureTime.setText(getBinding().getBooking().getDepartureTime());\n            }\n        });\n        builder.display();\n    }\n\n\n    private void getPassengerId() {\n        getNavigator().showProgress();\n        getCompositeDisposable()\n                .add(getDataManager()\n                        .getPassenger(getBinding().getBooking().getElse_name(), getBinding()\n                                .getBooking()\n                                .getElse_email(), getBinding().getBooking().getElse_mobile())\n                        .doOnSuccess(BaseModel::getResponseStatus)\n                        .subscribeOn(getSchedulerProvider().io())\n                        .observeOn(getSchedulerProvider().ui())\n                        .subscribe(loginResponseData -> {\n\n                            if (getDataManager().getCustomerType().equals(\"Individual\") && forElse) {\n                                if (loginResponseData.getPassenger().getId().equals(\"0\")){\n                                    getBinding().getBooking().setBookerId(getDataManager().getPassengerId());\n                                }else {\n                                    getBinding().getBooking().setBookerId(loginResponseData.getPassenger().getId());\n                                }\n                                getBinding().getBooking().setName(getDataManager().getUserName());\n\n                            } else if (getDataManager().getCustomerType().equals(\"Booker\")) {\n                                if (loginResponseData.getPassenger().getId().equals(\"0\")) {\n                                    getBinding().getBooking().setBookerId(getDataManager().getPassengerId());\n                                } else {\n                                    getBinding().getBooking().setBookerId(loginResponseData.getPassenger().getId());\n                                }\n                                getBinding().getBooking().setName(getDataManager().getUserName());\n\n                            }\n                            getNavigator().hideProgress();\n                            getNavigator().proceedToPay(getBinding().getBooking());\n                        }, throwable -> {\n                            getNavigator().hideProgress();\n                            getNavigator().showToast(throwable.getMessage());\n                        }));\n\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/ecocustomerapp/ui/fragments/booking/BookingViewModel.java b/app/src/main/java/com/ecocustomerapp/ui/fragments/booking/BookingViewModel.java
+--- a/app/src/main/java/com/ecocustomerapp/ui/fragments/booking/BookingViewModel.java	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/app/src/main/java/com/ecocustomerapp/ui/fragments/booking/BookingViewModel.java	(date 1641968368653)
+@@ -196,17 +196,21 @@
+ 
+                             if (getDataManager().getCustomerType().equals("Individual") && forElse) {
+                                 if (loginResponseData.getPassenger().getId().equals("0")){
++                                    getBinding().getBooking().setPassengerId(loginResponseData.getPassenger().getId());
+                                     getBinding().getBooking().setBookerId(getDataManager().getPassengerId());
+                                 }else {
++                                    getBinding().getBooking().setPassengerId(loginResponseData.getPassenger().getId());
+                                     getBinding().getBooking().setBookerId(loginResponseData.getPassenger().getId());
+                                 }
+                                 getBinding().getBooking().setName(getDataManager().getUserName());
+ 
+                             } else if (getDataManager().getCustomerType().equals("Booker")) {
+                                 if (loginResponseData.getPassenger().getId().equals("0")) {
+-                                    getBinding().getBooking().setBookerId(getDataManager().getPassengerId());
++                                    getBinding().getBooking().setPassengerId(loginResponseData.getPassenger().getId());
++                                    getBinding().getBooking().setBookerId(getDataManager().getBookerId());
+                                 } else {
+-                                    getBinding().getBooking().setBookerId(loginResponseData.getPassenger().getId());
++                                    getBinding().getBooking().setPassengerId(loginResponseData.getPassenger().getId());
++                                    getBinding().getBooking().setBookerId(getDataManager().getBookerId());
+                                 }
+                                 getBinding().getBooking().setName(getDataManager().getUserName());
+ 
+Index: app/src/main/java/com/ecocustomerapp/ui/fragments/review/FinalBookingFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ecocustomerapp.ui.fragments.review;\n\nimport android.content.Context;\nimport android.os.Bundle;\nimport android.view.View;\nimport android.widget.Toast;\n\nimport androidx.annotation.NonNull;\nimport androidx.annotation.Nullable;\nimport androidx.fragment.app.Fragment;\n\nimport com.ecocustomerapp.BR;\nimport com.ecocustomerapp.R;\nimport com.ecocustomerapp.data.model.api.BookingRequest;\nimport com.ecocustomerapp.data.model.api.BookingResponse;\nimport com.ecocustomerapp.data.model.api.Package;\nimport com.ecocustomerapp.databinding.FragmentFinalBookingBinding;\nimport com.ecocustomerapp.di.component.FragmentComponent;\nimport com.ecocustomerapp.ui.FragmentCallback;\nimport com.ecocustomerapp.ui.base.BaseFragment;\nimport com.ecocustomerapp.ui.fragments.booking.BookingFragment;\nimport com.ecocustomerapp.ui.fragments.bookings.BookingsFragment;\nimport com.ecocustomerapp.ui.fragments.confirmation.ReceiptFragment;\n\nimport org.jetbrains.annotations.NotNull;\n\npublic class FinalBookingFragment extends BaseFragment<FragmentCallback, FragmentFinalBookingBinding, FinalBookingViewModel> implements FinalBookingNavigator {\n    FragmentFinalBookingBinding fragmentBinding;\n\n    private static final String ARG_PARAM1 = \"param1\";\n    private static final String ARG_PARAM2 = \"param2\";\n    private static final String ARG_PARAM3 = \"param3\";\n\n    private BookingRequest request;\n    private Package aPackage;\n\n    private boolean back = false;\n\n    public static FinalBookingFragment newInstance(BookingRequest request, Package aPackage, boolean back) {\n        FinalBookingFragment fragment = new FinalBookingFragment();\n        Bundle args = new Bundle();\n        args.putSerializable(ARG_PARAM1, request);\n        args.putSerializable(ARG_PARAM2, aPackage);\n        args.putBoolean(ARG_PARAM3, back);\n        fragment.setArguments(args);\n        return fragment;\n    }\n\n    @Override\n    public int getBindingVariable() {\n        return BR.viewModel;\n    }\n\n    @Override\n    public int getLayoutId() {\n        return R.layout.fragment_final_booking;\n    }\n\n    @Override\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\n        super.onViewCreated(view, savedInstanceState);\n        fragmentBinding = getViewDataBinding();\n        mViewModel.setBinding(fragmentBinding);\n        fragmentBinding.setBooking(request);\n        fragmentBinding.setAPackage(aPackage);\n        mViewModel.setModSpinner(getActivity());\n        mViewModel.setGuestDetails();\n        if (mViewModel.getDataManager().getCustomerType().equals(\"Corporate\")){\n            fragmentBinding.chk.setChecked(true);\n            fragmentBinding.chk.setVisibility(View.GONE);\n        }\n\n\n    }\n\n    @Override\n    protected void onBackPressed() {\n        if (back) {\n            replaceFragment(BookingsFragment.newInstance());\n        } else {\n            getCallback().replaceFragment(BookingFragment.newInstance(request, aPackage), BookingFragment.class.getSimpleName());\n        }\n    }\n\n    @Override\n    public void onCreate(@Nullable Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        if (getArguments() != null) {\n            request = (BookingRequest) getArguments().getSerializable(ARG_PARAM1);\n            aPackage = (Package) getArguments().getSerializable(ARG_PARAM2);\n            back = getArguments().getBoolean(ARG_PARAM3);\n        }\n        mViewModel.setNavigator(this);\n    }\n\n    @Override\n    public void onAttach(@NotNull Context context) {\n        super.onAttach(context);\n        setCallback((FragmentCallback) context).onFragmentAttached(this, true);\n    }\n\n    @Override\n    public void onDetach() {\n        getCallback().onFragmentDetached(this.getClass().getSimpleName());\n        super.onDetach();\n    }\n\n\n    @Override\n    public void performDependencyInjection(FragmentComponent buildComponent) {\n        buildComponent.inject(this);\n    }\n\n    @Override\n    public void showToast(String message) {\n        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();\n    }\n\n    @Override\n    public void replaceFragment(Fragment fragment) {\n        getCallback().replaceFragment(fragment, fragment.getClass().getSimpleName());\n    }\n\n    @Override\n    public boolean getBack() {\n        return back;\n    }\n\n    @Override\n    public void showBooking(BookingResponse response) {\n        getCallback().replaceFragment(ReceiptFragment.newInstance(response.getBooking(), aPackage, false), ReceiptFragment.class.getSimpleName());\n    }\n\n    @Override\n    public void showProgress() {\n        getBaseActivity().showLoading();\n    }\n\n    @Override\n    public void hideProgress() {\n        getBaseActivity().hideLoading();\n    }\n\n    @Override\n    public Fragment getUi() {\n        return this;\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/ecocustomerapp/ui/fragments/review/FinalBookingFragment.java b/app/src/main/java/com/ecocustomerapp/ui/fragments/review/FinalBookingFragment.java
+--- a/app/src/main/java/com/ecocustomerapp/ui/fragments/review/FinalBookingFragment.java	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/app/src/main/java/com/ecocustomerapp/ui/fragments/review/FinalBookingFragment.java	(date 1641960352248)
+@@ -65,7 +65,7 @@
+         fragmentBinding.setAPackage(aPackage);
+         mViewModel.setModSpinner(getActivity());
+         mViewModel.setGuestDetails();
+-        if (mViewModel.getDataManager().getCustomerType().equals("Corporate")){
++        if (mViewModel.getDataManager().getCustomerType().equals("Corporate") || mViewModel.getDataManager().getCustomerType().equals("Booker")){
+             fragmentBinding.chk.setChecked(true);
+             fragmentBinding.chk.setVisibility(View.GONE);
+         }
+Index: app/src/main/java/com/ecocustomerapp/ui/fragments/tracking/TrackingViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ecocustomerapp.ui.fragments.tracking;\n\nimport android.content.Context;\nimport android.content.Intent;\nimport android.location.Location;\nimport android.net.Uri;\nimport android.text.Html;\nimport android.util.Base64;\nimport android.view.View;\nimport android.widget.TextView;\n\nimport com.bumptech.glide.Glide;\nimport com.ecocustomerapp.R;\nimport com.ecocustomerapp.data.manager.DataManager;\nimport com.ecocustomerapp.data.model.BaseModel;\nimport com.ecocustomerapp.data.model.api.DriverDetails;\nimport com.ecocustomerapp.databinding.FragmentTrackingBinding;\nimport com.ecocustomerapp.ui.base.BaseViewModel;\nimport com.ecocustomerapp.utils.maps.MapObservableProvider;\nimport com.ecocustomerapp.utils.rx.SchedulerProvider;\nimport com.google.android.gms.maps.GoogleMap;\nimport com.google.android.gms.maps.model.LatLngBounds;\nimport com.google.android.gms.maps.model.Marker;\n\nimport org.jetbrains.annotations.NotNull;\n\nimport io.reactivex.Observable;\nimport io.reactivex.functions.BiFunction;\nimport timber.log.Timber;\n\npublic class TrackingViewModel extends BaseViewModel<TrackingNavigator, FragmentTrackingBinding> {\n    private MapObservableProvider mapObservableProvider;\n    private GoogleMap googleMap;\n    private Marker marker;\n    private Marker pickUpMarker;\n\n    public TrackingViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {\n        super(dataManager, schedulerProvider);\n    }\n\n\n    protected void showMap() {\n        mapObservableProvider = new MapObservableProvider(getNavigator().getMapFragment());\n        getCompositeDisposable().add(mapObservableProvider.getMapReadyObservable().subscribe(googleMap -> {\n            this.googleMap = googleMap;\n            setMarkerOnMap();\n            Timber.d(\"map ready\");\n        }, throwable -> getNavigator().handleError(throwable, R.string.something_wrong)));\n    }\n\n    private void setMarkerOnMap() {\n        getCompositeDisposable()\n                .add(Observable.zip(mapObservableProvider.getMarkerObservable(getDataManager().getCurrentLocation(), \"My position\"), mapObservableProvider.getMarkerObservable(getDataManager().getCurrentLocation(), \"Pickup Point\"), new BiFunction<Marker, Marker, LatLngBounds>() {\n                    @Override\n                    public @NotNull LatLngBounds apply(@NotNull Marker marker, @NotNull Marker marker2) throws Exception {\n                        TrackingViewModel.this.marker = marker;\n                        TrackingViewModel.this.pickUpMarker = marker2;\n                        LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();\n                        boundsBuilder.include(marker.getPosition());\n                        boundsBuilder.include(marker2.getPosition());\n                        return boundsBuilder.build();\n                    }\n                })\n                        .subscribe(bounds -> {\n                            setBounds(bounds);\n                        }, throwable ->\n                                getNavigator().handleError(throwable, R.string.something_wrong)));\n    }\n\n    private void setBounds(LatLngBounds bounds) {\n        getCompositeDisposable().add(mapObservableProvider\n                .getBoundsObservable(bounds, getNavigator().getMapFragment().requireView().getMeasuredWidth(), getNavigator().getMapFragment().getView().getMeasuredHeight())\n                .subscribe(\n                        bounds1 -> getNavigator().showToast(bounds1.toString()),\n                        throwable -> getNavigator().handleError(throwable, R.string.something_wrong)));\n    }\n\n    void onLocationChange(Location location) {\n        super.currentLocation = location;\n        if (googleMap != null && marker != null) {\n\n            getCompositeDisposable()\n                    .add(mapObservableProvider.getMarkerAnimatorObservable(marker, location)\n                            .subscribe(marker1 -> {\n                                TrackingViewModel.this.marker = marker1;\n                                LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();\n                                boundsBuilder.include(marker1.getPosition());\n                                boundsBuilder.include(pickUpMarker.getPosition());\n                                setBounds(boundsBuilder.build());\n                            }, Timber::d));\n\n        }\n    }\n\n    void getDriverDetails() {\n        getNavigator().showProgress(true);\n        getCompositeDisposable().add(getDataManager()\n                .getDriverDetails(getNavigator().getBookingId())\n                .doOnSuccess(BaseModel::getResponseStatus)\n                .subscribeOn(getSchedulerProvider().io())\n                .observeOn(getSchedulerProvider().ui())\n                .subscribe(driverData -> {\n                    if(driverData.getDriverDetails()!=null){\n                        setDetails(driverData.getDriverDetails(), getBinding().getRoot().getContext());\n                    }\n                    getNavigator().showProgress(false);\n                    getNavigator().showToast(driverData.getMessage());\n                }, throwable -> {\n                    getBinding().imgDriver.setVisibility(View.GONE);\n                    getNavigator().showProgress(false);\n                    getNavigator().showToast(throwable.getMessage());\n                }));\n    }\n\n    private void setDetails(DriverDetails details, Context context) {\n        if (details.getImage() != null && !details.getImage().trim().equalsIgnoreCase(\"\")) {\n            byte[] imageByteArray = Base64.decode(details.getImage(), Base64.DEFAULT);\n            Glide.with(context).asBitmap().load(imageByteArray).placeholder(R.drawable.sedan).into(getBinding().imgDriver);\n        }\n        String first = \"OTP:\";\n        String next = \"<font color=\\\"#56A527\\\"> 2345 </font>\";\n        getBinding().txtOtp.setText(Html.fromHtml(first + next));\n        getBinding().txtModel.setText(details.getType());\n        getBinding().txtNumber.setText(details.getCar_no());\n        getBinding().txtName.setText(details.getName());\n\n        getBinding().crdCall.setOnClickListener(new View.OnClickListener() {\n            @Override\n            public void onClick(View v) {\n                context.startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse(\"tel:\" + details.getMobile())));\n            }\n        });\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/ecocustomerapp/ui/fragments/tracking/TrackingViewModel.java b/app/src/main/java/com/ecocustomerapp/ui/fragments/tracking/TrackingViewModel.java
+--- a/app/src/main/java/com/ecocustomerapp/ui/fragments/tracking/TrackingViewModel.java	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/app/src/main/java/com/ecocustomerapp/ui/fragments/tracking/TrackingViewModel.java	(date 1642062631800)
+@@ -1,13 +1,18 @@
+ package com.ecocustomerapp.ui.fragments.tracking;
+ 
++import android.content.ComponentName;
+ import android.content.Context;
+ import android.content.Intent;
++import android.content.pm.PackageInfo;
++import android.content.pm.PackageManager;
+ import android.location.Location;
+ import android.net.Uri;
++import android.telephony.PhoneNumberUtils;
+ import android.text.Html;
+ import android.util.Base64;
+ import android.view.View;
+ import android.widget.TextView;
++import android.widget.Toast;
+ 
+ import com.bumptech.glide.Glide;
+ import com.ecocustomerapp.R;
+@@ -130,6 +135,65 @@
+                 context.startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + details.getMobile())));
+             }
+         });
++
++        getBinding().imgSend.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View view) {
++                openWhatsApp(details);
++            }
++        });
++
++        getBinding().imgWhatsapp.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View view) {
++                openWhatsApp(details);
++            }
++        });
++    }
++
++
++
++    public void openWhatsApp(DriverDetails details){
++        try {
++            String text = getBinding().edtMsg.getText().toString();// Replace with your message.
++
++            String toNumber = details.getMobile();
++            toNumber = toNumber.replace("+", "").replace(" ", "");// Replace with mobile phone number without +Sign or leading zeros, but with country code
++            //Suppose your country is India and your phone number is “xxxxxxxxxx”, then you need to send “91xxxxxxxxxx”.
++
++//            Intent intent = new Intent(Intent.ACTION_VIEW);
++//            intent.setData(Uri.parse("https://wa.me/"+toNumber+"/?text="+text));
++////            intent.setData(Uri.parse("https://api.whatsapp.com/send?phone="+toNumber +"&text="+text));
++//            getNavigator().getContext().startActivity(intent);
++            openWhatsAppConversation(getNavigator().getContext(), toNumber,text);
++        }
++        catch (Exception e){
++            e.printStackTrace();
++            Toast.makeText(getNavigator().getContext(), "Whatsapp not installed!", Toast.LENGTH_SHORT).show();
++        }
++    }
++
++    public static void openWhatsAppConversationUsingUri(Context context, String numberWithCountryCode, String message) {
++
++        Uri uri = Uri.parse("https://api.whatsapp.com/send?phone=" + numberWithCountryCode + "&text=" + message);
++
++        Intent sendIntent = new Intent(Intent.ACTION_VIEW, uri);
++
++        context.startActivity(sendIntent);
++    }
++
++    public static void openWhatsAppConversation(Context context, String number, String message) {
++
++        number = number.replace(" ", "").replace("+", "");
++
++        Intent sendIntent = new Intent("android.intent.action.MAIN");
++
++        sendIntent.setType("text/plain");
++        sendIntent.putExtra(Intent.EXTRA_TEXT, message);
++        sendIntent.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
++        sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(number) + "@s.whatsapp.net");
++
++        context.startActivity(sendIntent);
+     }
+ 
+ }
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"DesignSurface\">\n    <option name=\"filePathToZoomLevelMap\">\n      <map>\n        <entry key=\"../../../../layout/custom_preview.xml\" value=\"0.25833333333333336\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/drawable/border_dark_color.xml\" value=\"0.14814814814814814\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/drawable/bottom_border_shadow.xml\" value=\"0.14814814814814814\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/drawable/btn_bg.xml\" value=\"0.14814814814814814\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/drawable/btn_bg_black_white.xml\" value=\"0.14814814814814814\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/drawable/btn_bg_red_white.xml\" value=\"0.14814814814814814\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/drawable/button_bg.xml\" value=\"0.26944444444444443\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/drawable/dash.xml\" value=\"0.2675925925925926\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/drawable/gray_bg.xml\" value=\"0.11296296296296296\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/drawable/ic_youtube.xml\" value=\"0.2675925925925926\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/drawable/radio_flat.xml\" value=\"0.14814814814814814\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/drawable/radio_selected.xml\" value=\"0.14814814814814814\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/drawable/radio_selector.xml\" value=\"0.14814814814814814\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/drawable/tab_bg.xml\" value=\"0.26944444444444443\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/drawable/tab_bg_color.xml\" value=\"0.26944444444444443\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/activity_forget_password.xml\" value=\"0.2609375\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/activity_login.xml\" value=\"0.2609375\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/activity_main.xml\" value=\"0.2609375\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/activity_otp.xml\" value=\"0.2609375\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/activity_registration.xml\" value=\"0.2609375\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/app_bar_home.xml\" value=\"0.2609375\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/fragment_airport.xml\" value=\"0.17647058823529413\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/fragment_booking.xml\" value=\"0.2569230769230769\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/fragment_car.xml\" value=\"0.2569230769230769\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/fragment_final_booking.xml\" value=\"0.2569230769230769\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/fragment_local.xml\" value=\"0.18\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/fragment_main.xml\" value=\"0.2569230769230769\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/fragment_mode.xml\" value=\"0.134375\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/fragment_outstation.xml\" value=\"0.13489583333333333\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/fragment_profile.xml\" value=\"0.2569230769230769\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/fragment_receipt.xml\" value=\"0.2569230769230769\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/item_car_view.xml\" value=\"0.2609375\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/simple_spinner_dropdown_item.xml\" value=\"0.2569230769230769\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/simple_spinner_layout.xml\" value=\"0.2569230769230769\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/spinner_list_item.xml\" value=\"0.2569230769230769\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/spinner_no_selection.xml\" value=\"0.2569230769230769\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/tab_airport.xml\" value=\"0.2569230769230769\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/tab_hourly.xml\" value=\"0.2569230769230769\" />\n        <entry key=\"..\\:/Users/saura/AndroidStudioProjects/customer_app/app/src/main/res/layout/tab_outstation.xml\" value=\"0.1\" />\n        <entry key=\"..\\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/activity_otp.xml\" value=\"0.2609375\" />\n        <entry key=\"..\\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/booking_list_item.xml\" value=\"0.2609375\" />\n        <entry key=\"..\\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/fragment_booking.xml\" value=\"0.2609375\" />\n        <entry key=\"..\\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/fragment_booking_list.xml\" value=\"0.12447916666666667\" />\n        <entry key=\"..\\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/fragment_final_booking.xml\" value=\"0.2609375\" />\n        <entry key=\"..\\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/fragment_mode.xml\" value=\"0.2609375\" />\n        <entry key=\"..\\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/fragment_outstation.xml\" value=\"0.2609375\" />\n        <entry key=\"..\\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/fragment_receipt.xml\" value=\"0.2609375\" />\n        <entry key=\"..\\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/item_booking_empty_view.xml\" value=\"0.2609375\" />\n        <entry key=\"..\\:/Users/saura/Documents/GitHub/mvvm_customer_app/app/src/main/res/layout/item_upcoming.xml\" value=\"0.2609375\" />\n        <entry key=\"app/src/main/res/drawable/black_border_circle.xml\" value=\"0.24791666666666667\" />\n        <entry key=\"app/src/main/res/drawable/ic_driver.xml\" value=\"0.24791666666666667\" />\n        <entry key=\"app/src/main/res/drawable/round_gray.xml\" value=\"0.24791666666666667\" />\n        <entry key=\"app/src/main/res/drawable/user.xml\" value=\"0.24791666666666667\" />\n        <entry key=\"app/src/main/res/layout/fragment_tracking.xml\" value=\"0.24259868421052633\" />\n      </map>\n    </option>\n  </component>\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_11\" project-jdk-name=\"11\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\n  </component>\n  <component name=\"ProjectType\">\n    <option name=\"id\" value=\"Android\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/.idea/misc.xml	(date 1642493267518)
+@@ -56,11 +56,12 @@
+         <entry key="app/src/main/res/drawable/ic_driver.xml" value="0.24791666666666667" />
+         <entry key="app/src/main/res/drawable/round_gray.xml" value="0.24791666666666667" />
+         <entry key="app/src/main/res/drawable/user.xml" value="0.24791666666666667" />
++        <entry key="app/src/main/res/layout/fragment_support.xml" value="0.23177083333333334" />
+         <entry key="app/src/main/res/layout/fragment_tracking.xml" value="0.24259868421052633" />
+       </map>
+     </option>
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="11" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\n  <component name=\"GradleSettings\">\n    <option name=\"linkedExternalProjectsSettings\">\n      <GradleProjectSettings>\n        <option name=\"testRunner\" value=\"GRADLE\" />\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\n        <option name=\"gradleJvm\" value=\"Android Studio java home\" />\n        <option name=\"modules\">\n          <set>\n            <option value=\"$PROJECT_DIR$\" />\n            <option value=\"$PROJECT_DIR$/app\" />\n          </set>\n        </option>\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\n      </GradleProjectSettings>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+--- a/.idea/gradle.xml	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/.idea/gradle.xml	(date 1642491946475)
+@@ -7,7 +7,7 @@
+         <option name="testRunner" value="GRADLE" />
+         <option name="distributionType" value="DEFAULT_WRAPPED" />
+         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+-        <option name="gradleJvm" value="Android Studio java home" />
++        <option name="gradleJvm" value="1.8" />
+         <option name="modules">
+           <set>
+             <option value="$PROJECT_DIR$" />
+Index: app/src/main/java/com/ecocustomerapp/ui/fragments/tracking/TrackingNavigator.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ecocustomerapp.ui.fragments.tracking;\n\nimport androidx.fragment.app.Fragment;\n\nimport com.google.android.gms.maps.SupportMapFragment;\n\npublic interface TrackingNavigator {\n\n    void showProgress(boolean show);\n\n    void handleError(Throwable throwable, int message);\n\n    void showToast(String message);\n\n    void replaceFragment(Fragment fragment, String TAG);\n\n    Fragment getUi();\n\n    String getBookingId();\n\n    SupportMapFragment getMapFragment();\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/ecocustomerapp/ui/fragments/tracking/TrackingNavigator.java b/app/src/main/java/com/ecocustomerapp/ui/fragments/tracking/TrackingNavigator.java
+--- a/app/src/main/java/com/ecocustomerapp/ui/fragments/tracking/TrackingNavigator.java	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/app/src/main/java/com/ecocustomerapp/ui/fragments/tracking/TrackingNavigator.java	(date 1641802435212)
+@@ -1,5 +1,7 @@
+ package com.ecocustomerapp.ui.fragments.tracking;
+ 
++import android.content.Context;
++
+ import androidx.fragment.app.Fragment;
+ 
+ import com.google.android.gms.maps.SupportMapFragment;
+@@ -16,6 +18,8 @@
+ 
+     Fragment getUi();
+ 
++    Context getContext();
++
+     String getBookingId();
+ 
+     SupportMapFragment getMapFragment();
+Index: app/src/main/java/com/ecocustomerapp/ui/fragments/tracking/TrackingFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ecocustomerapp.ui.fragments.tracking;\n\nimport android.content.Context;\nimport android.os.Bundle;\nimport android.view.View;\nimport android.widget.Toast;\n\nimport androidx.annotation.NonNull;\nimport androidx.annotation.Nullable;\nimport androidx.fragment.app.Fragment;\n\nimport com.ecocustomerapp.BR;\nimport com.ecocustomerapp.R;\nimport com.ecocustomerapp.data.model.api.Booking;\nimport com.ecocustomerapp.databinding.FragmentTrackingBinding;\nimport com.ecocustomerapp.di.component.FragmentComponent;\nimport com.ecocustomerapp.ui.FragmentCallback;\nimport com.ecocustomerapp.ui.base.BaseFragment;\nimport com.google.android.gms.maps.SupportMapFragment;\n\nimport org.jetbrains.annotations.NotNull;\n\npublic class TrackingFragment extends BaseFragment<FragmentCallback, FragmentTrackingBinding, TrackingViewModel> implements TrackingNavigator {\n\n    private FragmentTrackingBinding trackingBinding;\n    private static final String ARG_PARAM1 = \"param1\";\n    private static final String ARG_PARAM2 = \"param2\";\n    private Booking booking;\n    private boolean back = false;\n\n    public static TrackingFragment newInstance(Booking booking, boolean back) {\n        TrackingFragment fragment = new TrackingFragment();\n        Bundle args = new Bundle();\n        args.putSerializable(ARG_PARAM1, booking);\n        args.putBoolean(ARG_PARAM2, back);\n        fragment.setArguments(args);\n        return fragment;\n    }\n\n    @Override\n    public int getBindingVariable() {\n        return BR.viewModel;\n    }\n\n    @Override\n    public int getLayoutId() {\n        return R.layout.fragment_tracking;\n    }\n\n    @Override\n    public void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        mViewModel.setNavigator(this);\n        if (getArguments() != null) {\n            booking = (Booking) getArguments().getSerializable(ARG_PARAM1);\n            back = getArguments().getBoolean(ARG_PARAM2);\n        }\n\n    }\n\n    @Override\n    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {\n        super.onViewCreated(view, savedInstanceState);\n        trackingBinding = getViewDataBinding();\n        mViewModel.setBinding(trackingBinding);\n        mViewModel.showMap();\n        mViewModel.getDriverDetails();\n    }\n\n    @Override\n    protected void onBackPressed() {\n//        replaceFragment(FinalBookingFragment.newInstance(booking, back), FinalBookingFragment.class.getSimpleName());\n    }\n\n\n    @Override\n    public void onDetach() {\n        getCallback().onFragmentDetached(this.getClass().getSimpleName());\n        super.onDetach();\n    }\n\n    @Override\n    public void onAttach(@NotNull Context context) {\n        super.onAttach(context);\n        setCallback((FragmentCallback) context).onFragmentAttached(this, false);\n    }\n\n\n    @Override\n    public void performDependencyInjection(FragmentComponent buildComponent) {\n        buildComponent.inject(this);\n    }\n\n    @Override\n    public void showProgress(boolean show) {\n        if (show) {\n            getBaseActivity().showLoading();\n        } else {\n            getBaseActivity().hideLoading();\n        }\n\n    }\n\n    @Override\n    public void handleError(Throwable throwable, int message) {\n\n    }\n\n    @Override\n    public void showToast(String message) {\n        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();\n    }\n\n    @Override\n    public void replaceFragment(Fragment fragment, String TAG) {\n        getCallback().replaceFragment(fragment, TAG);\n    }\n\n    @Override\n    public Fragment getUi() {\n        return this;\n    }\n\n    @Override\n    public String getBookingId() {\n        return booking.getBookingNo();\n    }\n\n    @Override\n    public SupportMapFragment getMapFragment() {\n        return (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/ecocustomerapp/ui/fragments/tracking/TrackingFragment.java b/app/src/main/java/com/ecocustomerapp/ui/fragments/tracking/TrackingFragment.java
+--- a/app/src/main/java/com/ecocustomerapp/ui/fragments/tracking/TrackingFragment.java	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/app/src/main/java/com/ecocustomerapp/ui/fragments/tracking/TrackingFragment.java	(date 1641806116005)
+@@ -16,6 +16,7 @@
+ import com.ecocustomerapp.di.component.FragmentComponent;
+ import com.ecocustomerapp.ui.FragmentCallback;
+ import com.ecocustomerapp.ui.base.BaseFragment;
++import com.ecocustomerapp.ui.fragments.bookings.BookingsFragment;
+ import com.google.android.gms.maps.SupportMapFragment;
+ 
+ import org.jetbrains.annotations.NotNull;
+@@ -69,7 +70,7 @@
+ 
+     @Override
+     protected void onBackPressed() {
+-//        replaceFragment(FinalBookingFragment.newInstance(booking, back), FinalBookingFragment.class.getSimpleName());
++        replaceFragment(BookingsFragment.newInstance(), BookingsFragment.class.getSimpleName());
+     }
+ 
+ 
+@@ -130,4 +131,10 @@
+     public SupportMapFragment getMapFragment() {
+         return (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+     }
++
++    @Nullable
++    @Override
++    public Context getContext() {
++        return getActivity();
++    }
+ }
+\ No newline at end of file
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"CompilerConfiguration\">\n    <bytecodeTargetLevel target=\"11\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+--- a/.idea/compiler.xml	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/.idea/compiler.xml	(date 1642493267535)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="CompilerConfiguration">
+-    <bytecodeTargetLevel target="11" />
++    <bytecodeTargetLevel target="1.8" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: app/src/main/java/com/ecocustomerapp/ui/fragments/bookings/BookingsFragmentViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ecocustomerapp.ui.fragments.bookings;\n\nimport android.content.Context;\n\nimport com.ecocustomerapp.R;\nimport com.ecocustomerapp.data.manager.DataManager;\nimport com.ecocustomerapp.data.model.BaseModel;\nimport com.ecocustomerapp.data.model.api.PackageRequest;\nimport com.ecocustomerapp.databinding.FragmentBookingsBinding;\nimport com.ecocustomerapp.ui.base.BaseViewModel;\nimport com.ecocustomerapp.utils.rx.SchedulerProvider;\nimport com.google.android.material.tabs.TabLayout;\n\npublic class BookingsFragmentViewModel extends BaseViewModel<BookingsNavigator, FragmentBookingsBinding> {\n    public BookingsFragmentViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {\n        super(dataManager, schedulerProvider);\n    }\n\n\n    void setViewPager(BookingsPagerAdapter mPagerAdapter, Context context,LiveDataListener listener) {\n        getBookings();\n        mPagerAdapter.setCount(2);\n\n\n        getBinding().viewpager.setAdapter(mPagerAdapter);\n        mPagerAdapter.upcoming.setListener(listener);\n        mPagerAdapter.past.setListener(listener);\n\n        getBinding().tabs.addTab(getBinding().tabs.newTab().setText(context.getString(R.string.past)));\n        getBinding().tabs.addTab(getBinding().tabs.newTab().setText(context.getString(R.string.upcoming)));\n\n        getBinding().viewpager.setOffscreenPageLimit(getBinding().tabs.getTabCount());\n\n        getBinding().viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(getBinding().tabs));\n\n        getBinding().tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {\n            @Override\n            public void onTabReselected(TabLayout.Tab tab) {\n\n            }\n\n            @Override\n            public void onTabSelected(TabLayout.Tab tab) {\n                getBinding().viewpager.setCurrentItem(tab.getPosition());\n            }\n\n            @Override\n            public void onTabUnselected(TabLayout.Tab tab) {\n\n            }\n        });\n    }\n\n    public void getBookings() {\n        getCompositeDisposable().add(getDataManager()\n                .getBookings(new PackageRequest().setPassengerId(getDataManager().getPassengerId()).setPassengerType(getDataManager().getPassengerType()))\n                .doOnSuccess(BaseModel::getResponseStatus)\n                .subscribeOn(getSchedulerProvider().io())\n                .observeOn(getSchedulerProvider().ui())\n                .subscribe(listBookings -> {\n                    getNavigator().hideProgress();\n                    getNavigator().showToast(listBookings.getMessage());\n                    ((BookingsPagerAdapter) getBinding().viewpager.getAdapter()).past.setLiveData(listBookings.getComplete());\n                    ((BookingsPagerAdapter) getBinding().viewpager.getAdapter()).upcoming.setLiveData(listBookings.getUpcoming());\n                }, throwable -> {\n                    getNavigator().hideProgress();\n                    getNavigator().showToast(throwable.getMessage());\n                }));\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/ecocustomerapp/ui/fragments/bookings/BookingsFragmentViewModel.java b/app/src/main/java/com/ecocustomerapp/ui/fragments/bookings/BookingsFragmentViewModel.java
+--- a/app/src/main/java/com/ecocustomerapp/ui/fragments/bookings/BookingsFragmentViewModel.java	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/app/src/main/java/com/ecocustomerapp/ui/fragments/bookings/BookingsFragmentViewModel.java	(date 1641968480715)
+@@ -17,7 +17,7 @@
+     }
+ 
+ 
+-    void setViewPager(BookingsPagerAdapter mPagerAdapter, Context context,LiveDataListener listener) {
++    void setViewPager(BookingsPagerAdapter mPagerAdapter, Context context, LiveDataListener listener) {
+         getBookings();
+         mPagerAdapter.setCount(2);
+ 
+@@ -53,7 +53,7 @@
+ 
+     public void getBookings() {
+         getCompositeDisposable().add(getDataManager()
+-                .getBookings(new PackageRequest().setPassengerId(getDataManager().getPassengerId()).setPassengerType(getDataManager().getPassengerType()))
++                .getBookings(new PackageRequest().setPassengerId(getDataManager().getPassengerId().equals("0")?getDataManager().getBookerId():getDataManager().getPassengerId()).setPassengerType(getDataManager().getPassengerType()))
+                 .doOnSuccess(BaseModel::getResponseStatus)
+                 .subscribeOn(getSchedulerProvider().io())
+                 .observeOn(getSchedulerProvider().ui())
+Index: app/src/main/java/com/ecocustomerapp/ui/fragments/main/airport/AirportViewModel.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ecocustomerapp.ui.fragments.main.airport;\n\nimport static com.ecocustomerapp.utils.AppConstants.AIRPORT;\n\nimport android.content.Context;\nimport android.view.View;\nimport android.widget.AdapterView;\nimport android.widget.ArrayAdapter;\nimport android.widget.Spinner;\n\nimport androidx.databinding.ObservableField;\n\nimport com.ecocustomerapp.R;\nimport com.ecocustomerapp.data.manager.DataManager;\nimport com.ecocustomerapp.data.model.BaseModel;\nimport com.ecocustomerapp.data.model.api.TerminalData;\nimport com.ecocustomerapp.databinding.FragmentAirportBinding;\nimport com.ecocustomerapp.ui.base.BaseViewModel;\nimport com.ecocustomerapp.ui.fragments.car.CarFragment;\nimport com.ecocustomerapp.ui.fragments.main.TerminalAutoCompleteAdapter;\nimport com.ecocustomerapp.ui.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;\nimport com.ecocustomerapp.utils.rx.SchedulerProvider;\n\nimport java.util.Calendar;\nimport java.util.concurrent.TimeUnit;\n\npublic class AirportViewModel extends BaseViewModel<AirportNavigator, FragmentAirportBinding> implements TerminalAutoCompleteAdapter.OnEditingListener {\n\n    public ObservableField<String> drop = new ObservableField<>();\n\n    private int check = 0;\n    private String dateTime;\n\n    public AirportViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {\n        super(dataManager, schedulerProvider);\n\n    }\n\n    public void getEntity(Context context) {\n\n        getBinding().spinnerEntity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {\n            @Override\n            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {\n                String string = getBinding().spinnerEntity.getSelectedItem().toString();\n                getBinding().edtEntity.setText(string);\n                getBlockTime(string);\n            }\n\n            @Override\n            public void onNothingSelected(AdapterView<?> adapterView) {\n            }\n        });\n        getCompositeDisposable()\n                .add(getDataManager()\n                        .getAllEntity()\n                        .subscribeOn(getSchedulerProvider().io())\n                        .observeOn(getSchedulerProvider().ui())\n                        .subscribe(entities -> {\n                            Spinner spinner = getBinding().spinnerEntity;\n                            ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>\n                                    (context, R.layout.simple_spinner_layout, entities.getList()); //selected item will look like a spinner set from XML\n                            spinnerArrayAdapter.setDropDownViewResource(R.layout\n                                    .simple_spinner_dropdown_item);\n                            spinner.setAdapter(spinnerArrayAdapter);\n                        }, throwable -> {\n                            getNavigator().showToast(throwable.getMessage());\n                        }));\n\n\n    }\n\n    void setTripTypeSpinner() {\n        Spinner spinner = getBinding().spinnerTrip;\n        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getNavigator().getContext(), R.layout.simple_spinner_layout, getNavigator().getContext().getResources().getStringArray(R.array.trip_type)); //selected item will look like a spinner set from XML\n        spinnerArrayAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);\n        spinner.setAdapter(spinnerArrayAdapter);\n\n        getBinding().spinnerTrip.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {\n            @Override\n            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {\n                String string = getBinding().spinnerTrip.getSelectedItem().toString();\n                if (string.equals(\"Select Trip Type\") && getBinding().getBooking().getTripType() != null && !getBinding().getBooking().getTripType().isEmpty()) {\n                    getBinding().edtType.setText(getBinding().getBooking().getTripType());\n                } else {\n                    getBinding().edtType.setText(string);\n                    getBinding().getBooking().setTripType(string).setHourlyPackage(string);\n                }\n            }\n\n            @Override\n            public void onNothingSelected(AdapterView<?> adapterView) {\n\n            }\n\n        });\n    }\n\n    public void getTerminal() {\n        getNavigator().showProgress();\n        getCompositeDisposable().add(getDataManager()\n                .getTerminal()\n                .doOnSuccess(BaseModel::getResponseStatus)\n                .subscribeOn(getSchedulerProvider().io())\n                .observeOn(getSchedulerProvider().ui())\n                .subscribe(terminals -> {\n                    getNavigator().hideProgress();\n                    if (!getBinding().edtTerminal.getText().toString().trim().isEmpty()) {\n                        getBinding().imgClear.setVisibility(View.VISIBLE);\n                    } else {\n                        getBinding().imgClear.setVisibility(View.GONE);\n                    }\n                    getBinding().edtTerminal.setThreshold(1);\n                    getBinding().edtTerminal.setAdapter(new TerminalAutoCompleteAdapter(getNavigator().getContext(), R.layout.item_autocomplete, terminals.getTerminals(), this));\n                    getBinding().edtTerminal.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n                        @Override\n                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {\n                            TerminalData data = ((TerminalData) parent.getItemAtPosition(position));\n                            getBinding().edtTerminal.setSelection(0);\n                            getBinding().getBooking().setCity_terminal(getBinding().edtTerminal.getText().toString());\n                            getBinding().imgClear.setVisibility(View.VISIBLE);\n                        }\n                    });\n                    getBinding().edtTerminal.setOnFocusChangeListener(new View.OnFocusChangeListener() {\n                        @Override\n                        public void onFocusChange(View v, boolean hasFocus) {\n                            if (hasFocus) {\n                                getBinding().edtTerminal.showDropDown();\n                            }\n                        }\n                    });\n                }, throwable -> {\n                    getNavigator().hideProgress();\n                    getNavigator().showToast(throwable.getMessage());\n                }));\n    }\n\n    public void selectCar() {\n        if (validate()) {\n            getNavigator().replaceFragment(CarFragment.newInstance(getBinding().getBooking().setTabPosition(0)), CarFragment.class.getName());\n        }\n    }\n\n    public void dateTimePicker() {\n        long time = getBinding().getBooking().getCalendarTime()!=0?getBinding().getBooking().getCalendarTime():System.currentTimeMillis() + TimeUnit.HOURS.toMillis(Long.parseLong(getDataManager().getBlockTime()));\n        Calendar calendar = Calendar.getInstance();\n        calendar.setTimeInMillis(time);\n        SingleDateAndTimePickerDialog.Builder builder = new SingleDateAndTimePickerDialog.Builder(getBinding().getRoot().getContext());\n        builder.setTimeZone(Calendar.getInstance().getTimeZone());\n        builder.minutesStep(15);\n        builder.mainColor(getBinding().getRoot().getResources().getColor(R.color.colorPrimary));\n        builder.minDateRange(calendar.getTime());\n        builder.closeListener(new SingleDateAndTimePickerDialog.CloseListener() {\n            @Override\n            public void onClose() {\n\n            }\n        });\n        builder.title(\"Select date and time\");\n        builder.listener(new SingleDateAndTimePickerDialog.Listener() {\n            @Override\n            public void onDateSelected(String date, String time, String dateTime) {\n\n                AirportViewModel.this.dateTime = dateTime;\n                getBinding().edtDate.setText(date);\n                getBinding().edtTime.setText(time);\n                getBinding().getBooking().setCalendarTime(dateTime);\n            }\n        });\n        builder.display();\n    }\n\n    private boolean validate() {\n        if (getBinding().getBooking().getBookingType().equals(\"Booker\") && (getBinding().getBooking().getEntity() == null || getBinding().getBooking().getEntity().equals(\"Select entity\"))) {\n            getNavigator().showToast(\"Please select entity\");\n            return false;\n        }\n        if (getBinding().getBooking().getCity_terminal() == null) {\n            getNavigator().showToast(\"Please select city | terminal\");\n            return false;\n        }\n        if (getBinding().getBooking().getTripType() == null || getBinding().getBooking().getTripType().equals(\"From Airport / To Airport\")) {\n            getNavigator().showToast(\"Please select trip type\");\n            return false;\n        }\n        if (getBinding().getBooking().getDate() == null || getBinding().getBooking().getTime() == null) {\n            getNavigator().showToast(\"Please select date & time\");\n            return false;\n        } else {\n            String[] city_terminal = getBinding().getBooking().getCity_terminal().split(\"\\\\|\");\n            if (getBinding().getBooking().fromAirport()) {\n                getBinding().getBooking().setDropCity(city_terminal[0]);\n                getBinding().getBooking().setPickUpCity(city_terminal[1].trim());\n            } else {\n                getBinding().getBooking().setPickUpCity(city_terminal[0]);\n                getBinding().getBooking().setDropCity(city_terminal[1].trim());\n            }\n\n            if (dateTime == null || dateTime.isEmpty()) {\n                dateTime = getBinding().edtDate.getText().toString() + \" \" + getBinding().edtTime.getText().toString();\n            }\n            getBinding().getBooking().setCity(city_terminal[0].trim());\n            getBinding().getBooking().setPickUpDateTime(dateTime + \":00\");\n\n            getBinding().getBooking().setPackageType(AIRPORT);\n            getBinding().getBooking().setOriginAddress(\"\");\n            getBinding().getBooking().setDestination_address(\"\");\n        }\n        return true;\n    }\n\n    @Override\n    public void onEdit() {\n        getTerminal();\n    }\n\n    public void clearText() {\n        getBinding().edtTerminal.setText(\"\");\n        getBinding().imgClear.setVisibility(View.GONE);\n    }\n\n    public void setEntityVisibility(boolean check) {\n        if (check) {\n            getBinding().getBooking().setBookingType(getDataManager().getCustomerType());\n            if (getDataManager().getCustomerType().equals(\"Booker\")) {\n                getBinding().getRoot().getRootView().findViewById(R.id.card_entity).setVisibility(View.VISIBLE);\n            }\n        } else {\n            getBinding().getBooking().setBookingType(\"Individual\");\n            getBinding().getRoot().getRootView().findViewById(R.id.card_entity).setVisibility(View.GONE);\n        }\n        setBookingType(check);\n    }\n\n    void setBookingType(boolean check) {\n        if (check) {\n            getBinding().getBooking().setBookingType(getDataManager().getCustomerType());\n        } else {\n            getBinding().getBooking().setBookingType(\"Individual\");\n        }\n    }\n\n    void getBlockTime(String customerId) {\n        if (customerId.equals(\"Select entity\")) {\n            return;\n        }\n        getNavigator().showProgress();\n        getCompositeDisposable()\n                .add(getDataManager()\n                        .getBlockTime(customerId)\n                        .doOnSuccess(BaseModel::getResponseStatus)\n                        .subscribeOn(getSchedulerProvider().io())\n                        .observeOn(getSchedulerProvider().ui())\n                        .subscribe(baseModel -> {\n                            getNavigator().hideProgress();\n                            getDataManager().setBlockTime(baseModel.getBlockTime());\n                        }, throwable -> {\n                            getNavigator().hideProgress();\n                            getDataManager().setBlockTime(\"0\");\n                        }));\n\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/ecocustomerapp/ui/fragments/main/airport/AirportViewModel.java b/app/src/main/java/com/ecocustomerapp/ui/fragments/main/airport/AirportViewModel.java
+--- a/app/src/main/java/com/ecocustomerapp/ui/fragments/main/airport/AirportViewModel.java	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/app/src/main/java/com/ecocustomerapp/ui/fragments/main/airport/AirportViewModel.java	(date 1642060185274)
+@@ -178,7 +178,7 @@
+             getNavigator().showToast("Please select city | terminal");
+             return false;
+         }
+-        if (getBinding().getBooking().getTripType() == null || getBinding().getBooking().getTripType().equals("From Airport / To Airport")) {
++        if (getBinding().getBooking().getTripType() == null || getBinding().getBooking().getTripType().equals("Select Trip Type")) {
+             getNavigator().showToast("Please select trip type");
+             return false;
+         }
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\nbuildscript {\n    repositories {\n        google()\n        jcenter()\n    }\n    dependencies {\n        classpath 'com.android.tools.build:gradle:7.0.3'\n        classpath 'com.google.gms:google-services:4.3.10'\n        classpath \"org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31\"\n\n        // NOTE: Do not place your application dependencies here; they belong\n        // in the individual module build.gradle files\n    }\n}\n\nallprojects {\n    repositories {\n        google()\n        mavenCentral()\n        maven {\n            url 'https://maven.google.com/'\n        }\n\n    }\n}\n\ntask clean(type: Delete) {\n    delete rootProject.buildDir\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build.gradle b/build.gradle
+--- a/build.gradle	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/build.gradle	(date 1642493180174)
+@@ -5,7 +5,7 @@
+         jcenter()
+     }
+     dependencies {
+-        classpath 'com.android.tools.build:gradle:7.0.3'
++        classpath 'com.android.tools.build:gradle:7.0.4'
+         classpath 'com.google.gms:google-services:4.3.10'
+         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
+ 
+Index: app/src/main/res/layout/fragment_tracking.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<layout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\">\n\n    <data>\n\n        <import type=\"android.view.View\" />\n\n        <variable\n            name=\"viewModel\"\n            type=\"com.ecocustomerapp.ui.fragments.tracking.TrackingViewModel\" />\n    </data>\n\n    <RelativeLayout\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"match_parent\"\n        android:background=\"@color/white\"\n        android:clickable=\"true\"\n        android:focusable=\"true\"\n        android:focusableInTouchMode=\"true\">\n\n        <fragment\n            android:id=\"@+id/map\"\n            android:name=\"com.google.android.gms.maps.MapFragment\"\n            class=\"com.google.android.gms.maps.SupportMapFragment\"\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"match_parent\"\n            android:layout_above=\"@+id/crd_details\"\n            tools:context=\".ui.fragments.tracking.TrackingFragment\" />\n\n        <androidx.cardview.widget.CardView\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:layout_above=\"@id/crd_details\"\n            android:layout_alignParentEnd=\"true\"\n            android:layout_marginEnd=\"@dimen/dp_12\"\n            android:layout_marginBottom=\"-15dp\"\n            android:orientation=\"vertical\"\n            app:cardBackgroundColor=\"@color/white\"\n            app:cardCornerRadius=\"@dimen/dp_5\"\n            app:cardElevation=\"10dp\">\n\n            <TextView\n                android:id=\"@+id/txt_otp\"\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:lineSpacingExtra=\"6sp\"\n                android:paddingHorizontal=\"@dimen/dp_7\"\n                android:paddingVertical=\"@dimen/dp_2\"\n                android:text=\"OTP: 2354\"\n                android:textColor=\"#707070\"\n                android:textSize=\"18sp\"\n                android:textStyle=\"normal\"\n                app:font=\"@{`semi`}\" />\n\n        </androidx.cardview.widget.CardView>\n\n\n        <androidx.cardview.widget.CardView\n            android:id=\"@+id/crd_details\"\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:layout_alignParentBottom=\"true\"\n            app:cardBackgroundColor=\"@color/white\"\n            app:cardCornerRadius=\"@dimen/dp_10\"\n            app:cardElevation=\"4dp\">\n        <RelativeLayout\n            android:id=\"@+id/rl_details\"\n            android:layout_width=\"match_parent\"\n            android:layout_height=\"@dimen/dp_140\"\n            android:layout_alignParentBottom=\"true\">\n\n            <LinearLayout\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:layout_marginStart=\"@dimen/dp_16\"\n                android:layout_marginTop=\"@dimen/dp_28\"\n                android:gravity=\"center|start\"\n                android:orientation=\"vertical\">\n\n                <TextView\n                    android:id=\"@+id/txt_number\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:letterSpacing=\"0.02\"\n                    android:lineSpacingExtra=\"9sp\"\n                    android:textColor=\"#1c1c1e\"\n                    android:textSize=\"@dimen/sp_12\"\n                    android:textStyle=\"normal\"\n                    app:font=\"@{`semi`}\"\n                    tools:text=\"UP13BT6187\" />\n\n                <TextView\n                    android:id=\"@+id/txt_model\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"@dimen/dp_2\"\n                    android:letterSpacing=\"0.02\"\n                    android:lineSpacingExtra=\"6sp\"\n                    android:text=\"White Dzire Tour\"\n                    android:textColor=\"#1c1c1e\"\n                    android:textSize=\"@dimen/sp_9\"\n                    android:textStyle=\"normal\"\n                    app:font=\"@{`medium`}\" />\n\n                <TextView\n                    android:id=\"@+id/txt_name\"\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_marginTop=\"@dimen/dp_2\"\n                    android:letterSpacing=\"0.02\"\n                    android:lineSpacingExtra=\"6sp\"\n                    android:text=\"White Dzire Tour\"\n                    android:textColor=\"#b0b0b0\"\n                    android:textSize=\"@dimen/sp_9\"\n                    android:textStyle=\"normal\"\n                    app:font=\"@{`regular`}\" />\n            </LinearLayout>\n\n\n            <RelativeLayout\n                android:layout_width=\"wrap_content\"\n                android:layout_height=\"wrap_content\"\n                android:layout_alignParentEnd=\"true\"\n                android:layout_marginEnd=\"@dimen/dp_12\"\n                android:layout_marginTop=\"@dimen/dp_28\">\n\n\n\n                <ImageView\n                    android:src=\"@drawable/swift\"\n                    android:layout_width=\"@dimen/dp_80\"\n                    android:layout_height=\"@dimen/dp_31\"\n                    />\n\n                <com.ecocustomerapp.ui.custom.RoundedImageView\n                    android:id=\"@+id/img_driver\"\n                    android:layout_width=\"@dimen/dp_31\"\n                    android:layout_height=\"@dimen/dp_31\"\n                    android:src=\"@drawable/ic_driver\"\n                    android:background=\"@drawable/black_border_circle\" />\n            </RelativeLayout>\n\n            <androidx.cardview.widget.CardView\n                android:id=\"@+id/crd_call\"\n                android:layout_width=\"@dimen/dp_29\"\n                android:layout_height=\"@dimen/dp_29\"\n                android:layout_alignParentBottom=\"true\"\n                android:layout_marginStart=\"@dimen/dp_12\"\n                android:layout_marginBottom=\"@dimen/dp_20\"\n                android:background=\"#ffffff\"\n                app:cardBackgroundColor=\"@color/white\"\n                app:cardCornerRadius=\"@dimen/dp_5\"\n                app:cardElevation=\"4dp\">\n\n                <ImageView\n                    android:layout_width=\"wrap_content\"\n                    android:layout_height=\"wrap_content\"\n                    android:layout_gravity=\"center\"\n                    android:src=\"@drawable/ic_call\" />\n            </androidx.cardview.widget.CardView>\n\n            <androidx.cardview.widget.CardView\n                android:layout_width=\"match_parent\"\n                android:layout_height=\"@dimen/dp_29\"\n                android:layout_alignParentBottom=\"true\"\n                android:layout_marginHorizontal=\"@dimen/dp_12\"\n                android:layout_marginBottom=\"@dimen/dp_20\"\n                android:layout_toEndOf=\"@+id/crd_call\"\n                android:background=\"#ffffff\"\n                app:cardBackgroundColor=\"@color/white\"\n                app:cardCornerRadius=\"@dimen/dp_5\"\n                app:cardElevation=\"4dp\">\n\n                <LinearLayout\n                    android:layout_width=\"match_parent\"\n                    android:layout_height=\"match_parent\"\n                    android:layout_gravity=\"center\"\n                    android:gravity=\"center\"\n                    android:orientation=\"horizontal\">\n\n\n                    <ImageView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginHorizontal=\"@dimen/dp_8\"\n                        android:src=\"@drawable/ic_whatsapp\" />\n\n                    <TextView\n                        android:layout_width=\"0dp\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_gravity=\"center\"\n                        android:layout_weight=\"1\"\n                        android:drawablePadding=\"@dimen/dp_13\" />\n\n                    <ImageView\n                        android:layout_width=\"wrap_content\"\n                        android:layout_height=\"wrap_content\"\n                        android:layout_marginHorizontal=\"@dimen/dp_8\"\n                        android:src=\"@drawable/ic_paper_plane\" />\n                </LinearLayout>\n            </androidx.cardview.widget.CardView>\n\n        </RelativeLayout>\n        </androidx.cardview.widget.CardView>\n\n\n    </RelativeLayout>\n\n\n</layout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_tracking.xml b/app/src/main/res/layout/fragment_tracking.xml
+--- a/app/src/main/res/layout/fragment_tracking.xml	(revision 9bd873c9672c11e9ea7ead9bdf8bbcbe4b1edd74)
++++ b/app/src/main/res/layout/fragment_tracking.xml	(date 1642062631790)
+@@ -182,19 +182,24 @@
+ 
+ 
+                     <ImageView
++                        android:id="@+id/img_whatsapp"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginHorizontal="@dimen/dp_8"
+                         android:src="@drawable/ic_whatsapp" />
+ 
+-                    <TextView
++                    <EditText
++                        android:id="@+id/edt_msg"
+                         android:layout_width="0dp"
+                         android:layout_height="wrap_content"
+                         android:layout_gravity="center"
+                         android:layout_weight="1"
++                        android:background="@null"
++                        android:hint="@string/send_message_to_driver"
+                         android:drawablePadding="@dimen/dp_13" />
+ 
+                     <ImageView
++                        android:id="@+id/img_send"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_marginHorizontal="@dimen/dp_8"

@@ -17,7 +17,7 @@ public class BookingsFragmentViewModel extends BaseViewModel<BookingsNavigator, 
     }
 
 
-    void setViewPager(BookingsPagerAdapter mPagerAdapter, Context context,LiveDataListener listener) {
+    void setViewPager(BookingsPagerAdapter mPagerAdapter, Context context, LiveDataListener listener) {
         getBookings();
         mPagerAdapter.setCount(2);
 
@@ -53,7 +53,7 @@ public class BookingsFragmentViewModel extends BaseViewModel<BookingsNavigator, 
 
     public void getBookings() {
         getCompositeDisposable().add(getDataManager()
-                .getBookings(new PackageRequest().setPassengerId(getDataManager().getPassengerId()).setPassengerType(getDataManager().getPassengerType()))
+                .getBookings(new PackageRequest().setPassengerId(getDataManager().getPassengerId().equals("0")?getDataManager().getBookerId():getDataManager().getPassengerId()).setPassengerType(getDataManager().getPassengerType()))
                 .doOnSuccess(BaseModel::getResponseStatus)
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())

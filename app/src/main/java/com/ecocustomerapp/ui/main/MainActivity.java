@@ -38,6 +38,7 @@ import androidx.fragment.app.Fragment;
 import com.ecocustomerapp.BR;
 import com.ecocustomerapp.BuildConfig;
 import com.ecocustomerapp.R;
+import com.ecocustomerapp.data.model.api.Booking;
 import com.ecocustomerapp.data.model.api.BookingRequest;
 import com.ecocustomerapp.databinding.ActivityMainBinding;
 import com.ecocustomerapp.databinding.NavHeaderMainBinding;
@@ -49,6 +50,7 @@ import com.ecocustomerapp.ui.fragments.bookings.BookingsListFragment;
 import com.ecocustomerapp.ui.fragments.main.main.MainFragment;
 import com.ecocustomerapp.ui.fragments.mode.ModeFragment;
 import com.ecocustomerapp.ui.fragments.profile.ProfileFragment;
+import com.ecocustomerapp.ui.fragments.support.SupportFragmentFragment;
 import com.ecocustomerapp.ui.login.LoginActivity;
 import com.google.android.material.navigation.NavigationView;
 
@@ -299,7 +301,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 startActivity(sendIntent);
                 break;
             case R.id.nav_support:
-                startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:01140794079")));
+                replaceFragment(SupportFragmentFragment.newInstance(true,MainFragment.class.getSimpleName(),new Booking(),null,true), ProfileFragment.class.getSimpleName());
+                this.item = item;
                 break;
             case R.id.nav_about_us:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.ecorentacar.com/about-us/"));
