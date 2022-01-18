@@ -3,6 +3,8 @@ package com.ecocustomerapp.ui.fragments.tracking;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.telephony.PhoneNumberUtils;

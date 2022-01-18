@@ -138,8 +138,8 @@
                     android:id="@+id/img_driver"
                     android:layout_width="@dimen/dp_31"
                     android:layout_height="@dimen/dp_31"
-                    android:src="@drawable/ic_driver"
-                    android:background="@drawable/black_border_circle" />
+                    android:background="@drawable/black_border_circle"
+                    android:src="@drawable/ic_driver" />
             </RelativeLayout>
 
             <androidx.cardview.widget.CardView
@@ -182,19 +182,24 @@
 
 
                     <ImageView
+                        android:id="@+id/img_whatsapp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/dp_8"
                         android:src="@drawable/ic_whatsapp" />
 
-                    <TextView
+                    <EditText
+                        android:id="@+id/edt_msg"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="@string/send_message_to_driver"
                         android:drawablePadding="@dimen/dp_13" />
 
                     <ImageView
+                        android:id="@+id/img_send"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/dp_8"
