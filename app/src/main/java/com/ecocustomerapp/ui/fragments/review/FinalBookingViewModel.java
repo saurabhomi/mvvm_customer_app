@@ -43,7 +43,7 @@ public class FinalBookingViewModel extends BaseViewModel<FinalBookingNavigator, 
         list.addAll(getDataManager().getMod());
         Spinner spinner = getBinding().spinnerMod;
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>
-                (context, android.R.layout.simple_spinner_item, list); //selected item will look like a spinner set from XML
+                (context, R.layout.simple_spinner_layout, list); //selected item will look like a spinner set from XML
         spinnerArrayAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
 
@@ -51,6 +51,7 @@ public class FinalBookingViewModel extends BaseViewModel<FinalBookingNavigator, 
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 mod = getBinding().spinnerMod.getSelectedItem().toString();
+                getBinding().txtMop.setText(mod);
             }
 
             @Override

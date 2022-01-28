@@ -74,6 +74,7 @@ public class MainFragment extends BaseFragment<FragmentCallback, FragmentMainBin
         fragmentMainBinding = getViewDataBinding();
         mViewModel.setBinding(fragmentMainBinding);
         mViewModel.setViewPager(mPagerAdapter, getActivity());
+        fragmentMainBinding.txtTitle.setText(mViewModel.getDataManager().getTitle());
     }
 
     @Override

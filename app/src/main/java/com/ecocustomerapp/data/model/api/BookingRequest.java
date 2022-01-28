@@ -100,6 +100,33 @@ public class BookingRequest implements Serializable {
     @SerializedName("BookerId")
     private String BookerId;
 
+    public BookingRequest setSecondaryGuestEmail(String secondaryGuestEmail) {
+        this.secondaryGuestEmail = secondaryGuestEmail;
+        return this;
+    }
+
+    public BookingRequest setSecondaryGuestMobile(String secondaryGuestMobile) {
+        this.secondaryGuestMobile = secondaryGuestMobile;
+        return this;
+    }
+
+    public BookingRequest setSecondaryGuestName(String secondaryGuestName) {
+        this.secondaryGuestName = secondaryGuestName;
+        return this;
+    }
+
+    @Expose
+    @SerializedName("secondaryGuestEmail")
+    private String secondaryGuestEmail;
+
+    @Expose
+    @SerializedName("secondaryGuestMobile")
+    private String secondaryGuestMobile;
+
+    @Expose
+    @SerializedName("secondaryGuestName")
+    private String secondaryGuestName;
+
     public BookingRequest setHourlyPackage(String hourlyPackage) {
         this.hourlyPackage = hourlyPackage;
         return this;
@@ -119,7 +146,7 @@ public class BookingRequest implements Serializable {
     private String name;
 
     @Expose
-    @SerializedName("TripT0")
+    @SerializedName("TripTo")
     private String tripTo;
 
     public BookingRequest setTripTo(String tripTo) {
@@ -244,7 +271,7 @@ public class BookingRequest implements Serializable {
 
 
     public String getOrigin_point() {
-        return origin_point == null ? "" : origin_point+" ,";
+        return origin_point == null ? "" : origin_point;
     }
 
     public BookingRequest setOrigin_point(String origin_point) {
@@ -262,7 +289,7 @@ public class BookingRequest implements Serializable {
     }
 
     public String getDestination_point() {
-        return destination_point == null ? "" : destination_point+" ,";
+        return destination_point == null ? "" : destination_point;
     }
 
     public BookingRequest setDestination_point(String destination_point) {

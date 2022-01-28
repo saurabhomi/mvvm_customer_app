@@ -90,6 +90,8 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     private static final String PREF_KEY_BLOCK_TIME = "block_time";
 
+    private static final String PREF_KEY_TITLE = "PREF_KEY_TITLE";
+
 
     private final SharedPreferences preferences;
 
@@ -322,7 +324,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     @Override
     public boolean getShowCaseCode() {
-        return preferences.getString(PREF_KEY_SHOW_CODE, null).equals("Yes");
+        return preferences.getString(PREF_KEY_SHOW_CODE, "").equals("Yes");
     }
 
     @Override
@@ -343,6 +345,16 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public String getBlockTime() {
         return preferences.getString(PREF_KEY_BLOCK_TIME, "0");
+    }
+
+    @Override
+    public void setTitle(String title) {
+        preferences.edit().putString(PREF_KEY_TITLE, title).apply();
+    }
+
+    @Override
+    public String getTitle() {
+        return preferences.getString(PREF_KEY_TITLE, "Book Your Ride Worldwide");
     }
 
     @Override

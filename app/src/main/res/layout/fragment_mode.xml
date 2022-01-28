@@ -86,13 +86,14 @@
                 app:font="@{`bold`}" />
 
             <Button
+                android:id="@+id/btn_india"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_33"
                 android:layout_marginStart="@dimen/dp_26"
                 android:layout_marginTop="@dimen/dp_20"
                 android:layout_marginEnd="@dimen/dp_26"
                 android:background="@drawable/btn_bg_black_white"
-                android:onClick="@{()->viewModel.chauffeurDriver()}"
+                android:onClick="@{()->viewModel.chauffeurDriver(viewModel.getBinding().btnIndia.getText().toString())}"
                 android:padding="@dimen/dp_8"
                 android:text="@string/india_chauffeur_drive"
                 android:textColor="@color/btn_txt_selector"

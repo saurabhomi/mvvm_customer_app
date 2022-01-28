@@ -284,6 +284,16 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public void setTitle(String title) {
+        mPreferencesHelper.setTitle(title);
+    }
+
+    @Override
+    public String getTitle() {
+        return mPreferencesHelper.getTitle();
+    }
+
+    @Override
     public int getCurrentUserLoggedInMode() {
         return mPreferencesHelper.getCurrentUserLoggedInMode();
     }
@@ -379,8 +389,8 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
-    public Single<Verification> getEntity(String email, String mobile,String passengerType) {
-        return mApiHelper.getEntity(email, mobile,passengerType);
+    public Single<Verification> getEntity(String email, String mobile, String passengerType) {
+        return mApiHelper.getEntity(email, mobile, passengerType);
     }
 
     @Override
@@ -399,8 +409,8 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
-    public Single<LoginResponseData> getPassenger(String name,String email, String mobile) {
-        return mApiHelper.getPassenger(name,email, mobile);
+    public Single<LoginResponseData> getPassenger(String name, String email, String mobile) {
+        return mApiHelper.getPassenger(name, email, mobile);
     }
 
     @Override

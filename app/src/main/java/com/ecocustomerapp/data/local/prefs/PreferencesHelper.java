@@ -127,4 +127,8 @@ public interface PreferencesHelper {
 
     String getBlockTime();
 
+    void setTitle(String title);
+
+    String getTitle();
+
 }

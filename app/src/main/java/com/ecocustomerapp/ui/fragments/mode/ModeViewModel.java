@@ -25,7 +25,8 @@ public class ModeViewModel extends BaseViewModel<ModeNavigator, FragmentModeBind
         super(dataManager, schedulerProvider);
     }
 
-    public void chauffeurDriver() {
+    public void chauffeurDriver(String title) {
+        getDataManager().setTitle(title);
         getNavigator().replaceFragment(MainFragment.newInstance(new BookingRequest()), MainFragment.class.getName());
     }
 
